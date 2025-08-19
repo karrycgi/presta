@@ -1,0 +1,17 @@
+{
+  "name": "mypresta",
+  "version": "1.0.0",
+  "private": true,
+  "license": "MIT",
+  "scripts": {
+    "clean": "npm run clean:db && npm run clean:presta",
+    "clean:db": "rimraf dbdata",
+    "clean:presta": "rimraf psdata",
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "up": "docker compose up -d",
+    "down": "docker compose down"
+  },
+  "dependencies": {
+    "rimraf": "^6.0.1"
+  }
+}
