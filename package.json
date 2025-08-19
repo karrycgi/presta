@@ -4,9 +4,7 @@
   "private": true,
   "license": "MIT",
   "scripts": {
-    "clean": "npm run clean:db && npm run clean:presta",
-    "clean:db": "rimraf dbdata",
-    "clean:presta": "rimraf psdata",
+    "clean": "rimraf data",
     "up": "docker compose up -d",
     "down": "docker compose down",
     "logs": "docker compose logs -f"
