@@ -7,11 +7,12 @@ use PrestaShop\PrestaShop\Core\Payment\PaymentOption;
 
 class DemoPay extends PaymentModule {
     public function __construct() {
-        $this->name = 'DemoPay';
-        $this->tab = 'DemoPay';
+        $this->name = 'demopay';
+        $this->tab = 'demopay';
         $this->version = '1.0.0';
         $this->author = 'Martin Karry';
         $this->need_instance = 0;
+        $this->is_configurable = 1;
 
         parent::__construct();
 
