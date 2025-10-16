@@ -30,6 +30,7 @@ services:
       ADMIN_PASSWD: admin123
     volumes:
       - ./data/ps:/var/www/html
+      - ./demopay:/var/www/html/modules/demopay
     networks:
       - prestashop_network
 networks:
