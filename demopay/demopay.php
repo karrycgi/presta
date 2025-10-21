@@ -6,8 +6,14 @@ if (!defined('_PS_VERSION_')) {
 use PrestaShop\PrestaShop\Core\Payment\PaymentOption;
 
 class DemoPay extends PaymentModule {
-    const DEMO_PAY_NAME_KEY = "DEMO_PAY_NAME";
     const DEMO_PAY_NAME = "demopay";
+    const DEMO_PAY_NAME_KEY = "DEMO_PAY_NAME";
+    const DEMO_PAY_STORE_ID = "";
+    const DEMO_PAY_STORE_ID_KEY = "DEMO_PAY_STORE_ID";
+    const DEMO_PAY_API_KEY = "";
+    const DEMO_PAY_API_KEY_KEY = "DEMO_PAY_API_KEY";
+    const DEMO_PAY_SECRET ="";
+    const DEMO_PAY_SECRET_KEY = "DEMO_PAY_SECRET";
     public function __construct() {
         $this->name = DemoPay::DEMO_PAY_NAME;
         $this->tab = DemoPay::DEMO_PAY_NAME;
@@ -49,6 +55,9 @@ class DemoPay extends PaymentModule {
             parent::install() 
             && $this->registerHook('paymentOptions')
             && Configuration::updateValue(DemoPay::DEMO_PAY_NAME_KEY, DemoPay::DEMO_PAY_NAME)
+            && Configuration::updateValue(DemoPay::DEMO_PAY_STORE_ID_KEY, DemoPay::DEMO_PAY_STORE_ID)
+            && Configuration::updateValue(DemoPay::DEMO_PAY_API_KEY_KEY, DemoPay::DEMO_PAY_API_KEY)
+            && Configuration::updateValue(DemoPay::DEMO_PAY_SECRET_KEY, DemoPay::DEMO_PAY_SECRET)
         );
     }
 
@@ -57,6 +66,9 @@ class DemoPay extends PaymentModule {
             parent::uninstall()
             && $this->unregisterHook('paymentOptions')
             && Configuration::deleteByName(DemoPay::DEMO_PAY_NAME_KEY)
+            && Configuration::deleteByName(DemoPay::DEMO_PAY_STORE_ID_KEY)
+            && Configuration::deleteByName(DemoPay::DEMO_PAY_API_KEY_KEY)
+            && Configuration::deleteByName(DemoPay::DEMO_PAY_SECRET_KEY)
         );
     }
 }
