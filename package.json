@@ -7,8 +7,9 @@
     "clean": "rimraf data",
     "up": "docker compose up -d",
     "down": "docker compose down",
-    "logs": "docker compose logs -f",
-    "copy:pay": "cp -R pay data/ps/modules"
+    "logs": "docker compose logs -f prestashop",
+    "rm:pay": "rm -R data/ps/modules/demopay",
+    "copy:pay": "cp -R demopay data/ps/modules"
   },
   "dependencies": {
     "rimraf": "^6.0.1"
