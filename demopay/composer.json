@@ -19,6 +19,7 @@
     "autoload": {
         "classmap": [
             "controllers",
+            "src",
             "demopay.php"
         ]
     },
@@ -30,5 +31,8 @@
     "require-dev": {
         "prestashop/php-dev-tools": "~3.0"
     },
-    "author": "PrestaShop"
+    "author": "PrestaShop",
+    "require": {
+        "guzzlehttp/guzzle": "^7.10"
+    }
 }
