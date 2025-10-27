@@ -9,6 +9,19 @@ services:
     volumes:
       - ./data/db:/var/lib/mysql
     networks:
+      prestashop_network:
+          aliases:
+            - db
+  phpmyadmin:
+    image: phpmyadmin
+    restart: always
+    ports:
+      - 8081:80
+    depends_on:
+      - mysql
+    environment:
+      - PMA_ARBITRARY=1
+    networks:
       - prestashop_network
   prestashop:
     container_name: prestashop
@@ -35,3 +48,4 @@ services:
       - prestashop_network
 networks:
     prestashop_network:
+      driver: bridge
