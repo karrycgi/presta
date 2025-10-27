@@ -7,13 +7,13 @@ use PrestaShop\PrestaShop\Core\Payment\PaymentOption;
 
 class DemoPay extends PaymentModule {
     const DEMO_PAY_NAME = "demopay";
-    const DEMO_PAY_NAME_KEY = "DEMO_PAY_NAME";
+    public const DEMO_PAY_NAME_KEY = "DEMO_PAY_NAME";
     const DEMO_PAY_STORE_ID = "";
-    const DEMO_PAY_STORE_ID_KEY = "DEMO_PAY_STORE_ID";
+    public const DEMO_PAY_STORE_ID_KEY = "DEMO_PAY_STORE_ID";
     const DEMO_PAY_API_KEY = "";
-    const DEMO_PAY_API_KEY_KEY = "DEMO_PAY_API_KEY";
+    public const DEMO_PAY_API_KEY_KEY = "DEMO_PAY_API_KEY";
     const DEMO_PAY_SECRET ="";
-    const DEMO_PAY_SECRET_KEY = "DEMO_PAY_SECRET";
+    public const DEMO_PAY_SECRET_KEY = "DEMO_PAY_SECRET";
     public function __construct() {
         $this->name = DemoPay::DEMO_PAY_NAME;
         $this->tab = DemoPay::DEMO_PAY_NAME;
