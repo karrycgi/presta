@@ -5,7 +5,7 @@ class CheckoutRequestHandler extends RequestHandler
 {
     private function prepareCreateCheckoutRequestBody(Cart $cart, string $webHooksUrl, string $successUrl, string $failureUrl, string $clientRequestId): string
     {
-        ini_set( 'serialize_precision', -1 ); // if not there is a float error at some numbers
+        ini_set('serialize_precision', -1); // if not there is a float error at some numbers
 
         $total = $cart->getCartTotalPrice();
 
@@ -22,10 +22,10 @@ class CheckoutRequestHandler extends RequestHandler
                 ]
             ],
             "checkoutSettings" => [
-                "webHooksUrl" => $webHooksUrl . "?id=" . $cart->id . "&uuid=" . $clientRequestId,
+                "webHooksUrl" => $webHooksUrl . "?id=" . $cart->id,
                 "redirectBackUrls" => [
-                    "successUrl" => $successUrl . "?id=" . $cart->id . "&uuid=" . $clientRequestId,
-                    "failureUrl" => $failureUrl . "?id=" . $cart->id . "&uuid=" . $clientRequestId
+                    "successUrl" => $successUrl . "?id=" . $cart->id,
+                    "failureUrl" => $failureUrl . "?id=" . $cart->id
                 ]
             ]
         ]);
@@ -33,7 +33,7 @@ class CheckoutRequestHandler extends RequestHandler
         return $json;
     }
 
-    public function createCheckout(Cart $cart, string $webHooksUrl,string $successUrl, string $failureUrl)
+    public function createCheckout(Cart $cart, string $webHooksUrl, string $successUrl, string $failureUrl)
     {
         $time = intval(microtime(true) * 1000);
 
@@ -61,6 +61,24 @@ class CheckoutRequestHandler extends RequestHandler
 
     public function checkoutStatus(string $checkoutId)
     {
+        $time = intval(microtime(true) * 1000);
 
+        $clientRequestId = CheckoutRequestHandler::generateUuid();
+
+        $messageSignature = $this->sign($clientRequestId, $time);
+
+        $client = new \GuzzleHttp\Client();
+        $response = $client->request('GET', $this->getCheckoutUri().'/'.$checkoutId, [
+            'headers' => [
+                'accept' => 'application/json',
+                'content-type' => 'application/json',
+                'Api-Key' => $this->apiKey,
+                'Client-Request-Id' => $clientRequestId,
+                'Message-Signature' => $messageSignature,
+                'Timestamp' => $time
+            ],
+        ]);
+
+        return $response->getBody()->getContents();
     }
 }

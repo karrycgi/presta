@@ -13,7 +13,7 @@ class RequestHandler {
         return 'https://prod.emea.api.fiservapps.com/sandbox/exp/v1/checkouts';
     }
 
-    protected function sign(string $requestId, int $time, string $body)
+    protected function sign(string $requestId, int $time, string $body="")
     {
         $token = $this->apiKey . $requestId . $time . $body;
         return base64_encode(hash_hmac('sha256', $token, strval($this->secret), true));

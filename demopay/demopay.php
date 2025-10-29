@@ -155,10 +155,21 @@ class DemoPay extends PaymentModule
         return [$offlineOption];
     }
 
+    public function createTable() {
+        DB::getInstance()->execute('CREATE TABLE '._DB_PREFIX_.DemoPay::DEMO_PAY_NAME.'_transactions (cart_id INT(11) NOT NULL, transaction_id VARCHAR(255) NOT NULL) ENGINE='._MYSQL_ENGINE_.' DEFAULT CHARSET=utf8;');
+        return true;
+    }
+
+    public function dropTable() {
+        DB::getInstance()->execute('DROP TABLE IF EXISTS '._DB_PREFIX_.DemoPay::DEMO_PAY_NAME.'_transactions;');
+        return true;
+    }
+
     public function install()
     {
         return (
             parent::install()
+            && $this->createTable()
             && $this->registerHook('paymentOptions')
             && Configuration::updateValue(DemoPay::DEMO_PAY_NAME_KEY, DemoPay::DEMO_PAY_NAME)
             && Configuration::updateValue(DemoPay::DEMO_PAY_STORE_ID_KEY, DemoPay::DEMO_PAY_STORE_ID)
@@ -172,6 +183,7 @@ class DemoPay extends PaymentModule
     {
         return (
             parent::uninstall()
+            && $this->dropTable()
             && $this->unregisterHook('paymentOptions')
             && Configuration::deleteByName(DemoPay::DEMO_PAY_NAME_KEY)
             && Configuration::deleteByName(DemoPay::DEMO_PAY_STORE_ID_KEY)
