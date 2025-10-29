@@ -5,7 +5,7 @@ class CheckoutRequestHandler extends RequestHandler
 {
     private function prepareCreateCheckoutRequestBody(Cart $cart, string $successUrl, string $failureUrl, string $clientRequestId): string
     {
-        ini_set( 'serialize_precision', -1 );
+        ini_set( 'serialize_precision', -1 ); // if not there is a float error at some numbers
 
         $total = $cart->getCartTotalPrice();
 
