@@ -5,6 +5,7 @@ class DemoPayPayModuleFrontController extends ModuleFrontController {
         $handler = $this->getCheckoutRequestHandler();
         $result = $handler->createCheckout(
             $this->context->cart,
+            $this->context->link->getModuleLink($this->module->name, 'webhook'),
             $this->context->link->getModuleLink($this->module->name, 'success'),
             $this->context->link->getModuleLink($this->module->name, 'error')
         );

@@ -3,7 +3,7 @@
 require_once dirname(__FILE__) . '/../../vendor/autoload.php';
 class CheckoutRequestHandler extends RequestHandler
 {
-    private function prepareCreateCheckoutRequestBody(Cart $cart, string $successUrl, string $failureUrl, string $clientRequestId): string
+    private function prepareCreateCheckoutRequestBody(Cart $cart, string $webHooksUrl, string $successUrl, string $failureUrl, string $clientRequestId): string
     {
         ini_set( 'serialize_precision', -1 ); // if not there is a float error at some numbers
 
@@ -11,6 +11,7 @@ class CheckoutRequestHandler extends RequestHandler
 
         $json = json_encode([
             "storeId" => $this->storeId,
+            "merchantTransactionId" => (string) $cart->id,
             "transactionOrigin" => "ECOM",
             "transactionType" => "SALE",
             "transactionAmount" => [
@@ -21,6 +22,7 @@ class CheckoutRequestHandler extends RequestHandler
                 ]
             ],
             "checkoutSettings" => [
+                "webHooksUrl" => $webHooksUrl . "?id=" . $cart->id . "&uuid=" . $clientRequestId,
                 "redirectBackUrls" => [
                     "successUrl" => $successUrl . "?id=" . $cart->id . "&uuid=" . $clientRequestId,
                     "failureUrl" => $failureUrl . "?id=" . $cart->id . "&uuid=" . $clientRequestId
@@ -31,13 +33,13 @@ class CheckoutRequestHandler extends RequestHandler
         return $json;
     }
 
-    public function createCheckout(Cart $cart, string $successUrl, string $failureUrl)
+    public function createCheckout(Cart $cart, string $webHooksUrl,string $successUrl, string $failureUrl)
     {
         $time = intval(microtime(true) * 1000);
 
         $clientRequestId = CheckoutRequestHandler::generateUuid();
 
-        $requestBody = $this->prepareCreateCheckoutRequestBody($cart, $successUrl, $failureUrl, $clientRequestId);
+        $requestBody = $this->prepareCreateCheckoutRequestBody($cart, $webHooksUrl, $successUrl, $failureUrl, $clientRequestId);
 
         $messageSignature = $this->sign($clientRequestId, $time, $requestBody);
 
@@ -53,7 +55,6 @@ class CheckoutRequestHandler extends RequestHandler
                 'Timestamp' => $time
             ],
         ]);
-
 
         return $response->getBody()->getContents();
     }
