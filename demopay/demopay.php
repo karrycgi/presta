@@ -116,9 +116,7 @@ class DemoPay extends PaymentModule
     {
         $output = '';
 
-        // this part is executed only when the form is submitted
         if (Tools::isSubmit('submit' . $this->name)) {
-            // retrieve the value set by the user
             $storeId = (string) Tools::getValue(DemoPay::DEMO_PAY_STORE_ID_KEY);
             $apiKey = (string) Tools::getValue(DemoPay::DEMO_PAY_API_KEY_KEY);
             $secret = (string) Tools::getValue(DemoPay::DEMO_PAY_SECRET_KEY);
@@ -126,29 +124,19 @@ class DemoPay extends PaymentModule
 
             $this->displayError($this->l('Invalid Configuration value'));
 
-            // check that the value is valid
             if (empty($storeId) || empty($apiKey) || empty($secret) || empty($sandbox)) {
-                // invalid value, show an error
                 $output = $this->displayError($this->l('Invalid Configuration value'));
             } else {
-                // value is ok, update it and display a confirmation message
-                Configuration::updateValue(DemoPay::DEMO_PAY_STORE_ID_KEY, $storeId);
-                Configuration::updateValue(DemoPay::DEMO_PAY_API_KEY_KEY, $apiKey);
-                Configuration::updateValue(DemoPay::DEMO_PAY_SECRET_KEY, $secret);
+                Configuration::updateValue(DemoPay::DEMO_PAY_STORE_ID_KEY, trim($storeId));
+                Configuration::updateValue(DemoPay::DEMO_PAY_API_KEY_KEY, trim($apiKey));
+                Configuration::updateValue(DemoPay::DEMO_PAY_SECRET_KEY, trim($secret));
                 Configuration::updateValue(DemoPay::DEMO_PAY_SANDBOX_KEY, $sandbox);
 
                 $output = $this->displayConfirmation($this->l('Settings updated'));
             }
         }
 
-        // display any message, then the form
         return $output . $this->displayForm();
-        /*
-        if(!$this->active) {
-            return "<div>Inactive</div>";
-        }
-        return '<div>Hello World!!!(Const: '.DemoPay::DEMO_PAY_NAME_KEY.')(Const value: '.DemoPay::DEMO_PAY_NAME.')(Const key: '.Configuration::get(DemoPay::DEMO_PAY_NAME_KEY).')</div>'; // TODO Implement configuration form
-        */
     }
 
     public function hookPaymentOptions($params)

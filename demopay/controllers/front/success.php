@@ -17,11 +17,17 @@ class DemoPaySuccessModuleFrontController extends ModuleFrontController {
 
         $customer = new Customer($this->context->cart->id_customer);
 
+        dump($customer);
+        
         $this->module->validateOrder(
             (int) $this->context->cart->id,
             (int) Configuration::get("PS_OS_PAYMENT"),
             (float) $this->context->cart->getOrderTotal(true, Cart::BOTH),
-            "DemoPay Test!!!"
+            "DemoPay Test!!!",
+            null,
+            [
+                "transaction_id" => Tools::getValue('uuid')
+            ]
         );
         
         Tools::redirect($this->context->link->getPageLink(
@@ -33,7 +39,8 @@ class DemoPaySuccessModuleFrontController extends ModuleFrontController {
                 'id_module' => (int) $this->module->id,
                 'id_order' => (int) $this->module->currentOrder,
                 'key' => $customer->secure_key,
-            ]
-        ));
+                ]
+            ));
+        
     }
 }
