@@ -16,8 +16,6 @@ class DemoPaySuccessModuleFrontController extends ModuleFrontController {
         parent::initContent();
 
         $customer = new Customer($this->context->cart->id_customer);
-
-        dump($customer);
         
         $this->module->validateOrder(
             (int) $this->context->cart->id,
