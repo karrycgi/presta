@@ -2,12 +2,15 @@
 require_once dirname(__FILE__) . '/../../vendor/autoload.php';
 class DemoPayWebhookModuleFrontController extends ModuleFrontController
 {
-    public function postProcess() {
+    public function postProcess()
+    {
         parent::postProcess();
-        dump('Hello PostProcess!!!');
     }
-    public function initContent() {
+    public function initContent()
+    {
         parent::initContent();
-        dump("Hello World!!!");
+        $id = Tools::getValue('id');
+        $status = CheckoutRequestHandler::getInstance()->checkoutStatus($id);
+        dump($status); die;
     }
 }
