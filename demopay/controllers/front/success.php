@@ -18,6 +18,14 @@ class DemoPaySuccessModuleFrontController extends ModuleFrontController
     {
         parent::initContent();
 
+        $cart_id = (int) Tools::getValue('id');
+
+        if ((int) $cart_id != (int) $this->context->cart->id) {
+            dump($cart_id . '---' . $this->context->cart->id);
+            dump("A problem occured. Ids are not matching");
+            die;
+        }
+
         $customer = new Customer($this->context->cart->id_customer);
 
         $transaction_id = DB::getInstance()->getRow('SELECT transaction_id FROM ' . _DB_PREFIX_ . DemoPay::DEMO_PAY_NAME . '_transactions WHERE cart_id = ' . (int) $this->context->cart->id)["transaction_id"];
@@ -25,11 +33,11 @@ class DemoPaySuccessModuleFrontController extends ModuleFrontController
         $status = json_decode($this->handler->checkoutStatus($transaction_id), true);
 
         $amount = $status['approvedAmount']['total'];
-        
+
         // $amountCurrency = $status['approvedAmount']['currency'];
 
         $this->module->validateOrder(
-            (int) $this->context->cart->id,
+            (int) $cart_id,
             (int) Configuration::get("PS_OS_PAYMENT"),
             (float) $amount,
             "DemoPay Test!!!",
@@ -39,12 +47,18 @@ class DemoPaySuccessModuleFrontController extends ModuleFrontController
             ]
         );
 
+        try {
+            DB::getInstance()->delete(DemoPay::DEMO_PAY_NAME . '_transactions', 'cart_id = ' . (int) $cart_id);
+        } catch (Exception $e) {
+            dump($e->getMessage()); die;
+        }
+
         Tools::redirect($this->context->link->getPageLink(
             'order-confirmation',
             false,
             (int) $this->context->language->id,
             [
-                'id_cart' => (int) $this->context->cart->id,
+                'id_cart' => (int) $cart_id,
                 'id_module' => (int) $this->module->id,
                 'id_order' => (int) $this->module->currentOrder,
                 'key' => $customer->secure_key,
