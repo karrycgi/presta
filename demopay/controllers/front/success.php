@@ -26,31 +26,34 @@ class DemoPaySuccessModuleFrontController extends ModuleFrontController
             die;
         }
 
-        $customer = new Customer($this->context->cart->id_customer);
+        if (!$this->context->cart->orderExists()) {
+            $customer = new Customer($this->context->cart->id_customer);
 
-        $transaction_id = DB::getInstance()->getRow('SELECT transaction_id FROM ' . _DB_PREFIX_ . DemoPay::DEMO_PAY_NAME . '_transactions WHERE cart_id = ' . (int) $this->context->cart->id)["transaction_id"];
+            $transaction_id = DB::getInstance()->getRow('SELECT transaction_id FROM ' . _DB_PREFIX_ . DemoPay::DEMO_PAY_NAME . '_transactions WHERE cart_id = ' . (int) $this->context->cart->id)["transaction_id"];
 
-        $status = json_decode($this->handler->checkoutStatus($transaction_id), true);
+            $status = json_decode($this->handler->checkoutStatus($transaction_id), true);
 
-        $amount = $status['approvedAmount']['total'];
+            $amount = $status['approvedAmount']['total'];
 
-        // $amountCurrency = $status['approvedAmount']['currency'];
+            // $amountCurrency = $status['approvedAmount']['currency'];
 
-        $this->module->validateOrder(
-            (int) $cart_id,
-            (int) Configuration::get("PS_OS_PAYMENT"),
-            (float) $amount,
-            "DemoPay Test!!!",
-            null,
-            [
-                "transaction_id" => $transaction_id
-            ]
-        );
+            $this->module->validateOrder(
+                (int) $cart_id,
+                (int) Configuration::get("PS_OS_PAYMENT"),
+                (float) $amount,
+                "DemoPay Test!!!",
+                null,
+                [
+                    "transaction_id" => $transaction_id
+                ]
+            );
 
-        try {
-            DB::getInstance()->delete(DemoPay::DEMO_PAY_NAME . '_transactions', 'cart_id = ' . (int) $cart_id);
-        } catch (Exception $e) {
-            dump($e->getMessage()); die;
+            try {
+                DB::getInstance()->delete(DemoPay::DEMO_PAY_NAME . '_transactions', 'cart_id = ' . (int) $cart_id);
+            } catch (Exception $e) {
+                dump($e->getMessage());
+                die;
+            }
         }
 
         Tools::redirect($this->context->link->getPageLink(
