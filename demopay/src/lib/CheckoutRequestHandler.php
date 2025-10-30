@@ -3,6 +3,14 @@
 require_once dirname(__FILE__) . '/../../vendor/autoload.php';
 class CheckoutRequestHandler extends RequestHandler
 {
+    public static function getInstance(): CheckoutRequestHandler
+    {
+        return new CheckoutRequestHandler(
+            Configuration::get(DemoPay::DEMO_PAY_STORE_ID_KEY),
+            Configuration::get(DemoPay::DEMO_PAY_API_KEY_KEY),
+            Configuration::get(DemoPay::DEMO_PAY_SECRET_KEY)
+        );
+    }
     private function prepareCreateCheckoutRequestBody(Cart $cart, string $webHooksUrl, string $successUrl, string $failureUrl, string $clientRequestId): string
     {
         ini_set('serialize_precision', -1); // if not there is a float error at some numbers
@@ -68,7 +76,7 @@ class CheckoutRequestHandler extends RequestHandler
         $messageSignature = $this->sign($clientRequestId, $time);
 
         $client = new \GuzzleHttp\Client();
-        $response = $client->request('GET', $this->getCheckoutUri().'/'.$checkoutId, [
+        $response = $client->request('GET', $this->getCheckoutUri() . '/' . $checkoutId, [
             'headers' => [
                 'accept' => 'application/json',
                 'content-type' => 'application/json',
