@@ -17,6 +17,11 @@ class DemoPay extends PaymentModule
     public const DEMO_PAY_SANDBOX_KEY = "DEMO_PAY_SANDBOX";
     const DEMO_PAY_SANDBOX = true;
     public const DEMO_PAY_SECRET_KEY = "DEMO_PAY_SECRET";
+
+    const DEMO_PAY_GATEWAY_NAME_KEY = "DEMO_PAY_GATEWAY_NAME";
+    public const DEMO_PAY_GATEWAY_NAME_DEFAULT = "Generic Payment";
+    const DEMO_PAY_GATEWAY_DESCRIPTION_KEY = "DEMO_PAY_GATEWAY_DESCRIPTION";
+    public const DEMO_PAY_GATEWAY_DESCRIPTION_DEFAULT = "Generic Payment";
     public function __construct()
     {
         $this->name = DemoPay::DEMO_PAY_NAME;
@@ -82,6 +87,20 @@ class DemoPay extends PaymentModule
                         'name' => DemoPay::DEMO_PAY_SECRET_KEY,
                         'size' => 20,
                         'required' => true
+                    ],
+                    [
+                        'type' => 'text',
+                        'label' => $this->l('Gateway name'),
+                        'name' => DemoPay::DEMO_PAY_GATEWAY_NAME_KEY,
+                        'size' => 20,
+                        'required' => true
+                    ],
+                    [
+                        'type' => 'text',
+                        'label' => $this->l('Gateway description'),
+                        'name' => DemoPay::DEMO_PAY_GATEWAY_DESCRIPTION_KEY,
+                        'size' => 20,
+                        'required' => true
                     ]
                 ],
                 'submit' => [
@@ -108,6 +127,8 @@ class DemoPay extends PaymentModule
         $helper->fields_value[DemoPay::DEMO_PAY_API_KEY_KEY] = Tools::getValue(DemoPay::DEMO_PAY_API_KEY_KEY, Configuration::get(DemoPay::DEMO_PAY_API_KEY_KEY));
         $helper->fields_value[DemoPay::DEMO_PAY_SECRET_KEY] = Tools::getValue(DemoPay::DEMO_PAY_SECRET_KEY, Configuration::get(DemoPay::DEMO_PAY_SECRET_KEY));
         $helper->fields_value[DemoPay::DEMO_PAY_SANDBOX_KEY] = Tools::getValue(DemoPay::DEMO_PAY_SANDBOX_KEY, Configuration::get(DemoPay::DEMO_PAY_SANDBOX_KEY));
+        $helper->fields_value[DemoPay::DEMO_PAY_GATEWAY_NAME_KEY] = Tools::getValue(DemoPay::DEMO_PAY_GATEWAY_NAME_KEY, Configuration::get(DemoPay::DEMO_PAY_GATEWAY_NAME_KEY));
+        $helper->fields_value[DemoPay::DEMO_PAY_GATEWAY_DESCRIPTION_KEY] = Tools::getValue(DemoPay::DEMO_PAY_GATEWAY_DESCRIPTION_KEY, Configuration::get(DemoPay::DEMO_PAY_GATEWAY_DESCRIPTION_KEY));
 
         return $helper->generateForm([$form]);
     }
@@ -121,6 +142,8 @@ class DemoPay extends PaymentModule
             $apiKey = (string) Tools::getValue(DemoPay::DEMO_PAY_API_KEY_KEY);
             $secret = (string) Tools::getValue(DemoPay::DEMO_PAY_SECRET_KEY);
             $sandbox = (string) Tools::getValue(DemoPay::DEMO_PAY_SANDBOX_KEY);
+            $gatewayName = (string) Tools::getValue(DemoPay::DEMO_PAY_GATEWAY_NAME_KEY);
+            $gatewayDescription = (string) Tools::getValue(DemoPay::DEMO_PAY_GATEWAY_DESCRIPTION_KEY);
 
             $this->displayError($this->l('Invalid Configuration value'));
 
@@ -131,6 +154,8 @@ class DemoPay extends PaymentModule
                 Configuration::updateValue(DemoPay::DEMO_PAY_API_KEY_KEY, trim($apiKey));
                 Configuration::updateValue(DemoPay::DEMO_PAY_SECRET_KEY, trim($secret));
                 Configuration::updateValue(DemoPay::DEMO_PAY_SANDBOX_KEY, $sandbox);
+                Configuration::updateValue(DemoPay::DEMO_PAY_GATEWAY_NAME_KEY, $gatewayName);
+                Configuration::updateValue(DemoPay::DEMO_PAY_GATEWAY_DESCRIPTION_KEY, $gatewayDescription);
 
                 $output = $this->displayConfirmation($this->l('Settings updated'));
             }
@@ -147,7 +172,7 @@ class DemoPay extends PaymentModule
         // create a PaymentOption of type Offline
         $genericOption = new PaymentOption();
         $genericOption->setModuleName($this->name);
-        $genericOption->setCallToActionText($this->l('DemoPay - Generic Checkout'));
+        $genericOption->setCallToActionText($this->l('DemoPay - '.Configuration::get(DemoPay::DEMO_PAY_GATEWAY_NAME_KEY).'('.Configuration::get(DemoPay::DEMO_PAY_GATEWAY_DESCRIPTION_KEY).')'));
         $genericOption->setAction($this->context->link->getModuleLink($this->name, 'pay', ['option' => 'generic']));
         $genericOption->setAdditionalInformation($this->context->smarty->fetch('module:demopay/views/templates/front/paymentOptions.tpl'));
         $genericOption->setLogo(Media::getMediaPath(_PS_MODULE_DIR_ . $this->name . '/views/img/option/logo.png'));
@@ -204,6 +229,8 @@ class DemoPay extends PaymentModule
             && Configuration::updateValue(DemoPay::DEMO_PAY_API_KEY_KEY, DemoPay::DEMO_PAY_API_KEY)
             && Configuration::updateValue(DemoPay::DEMO_PAY_SECRET_KEY, DemoPay::DEMO_PAY_SECRET)
             && Configuration::updateValue(DemoPay::DEMO_PAY_SANDBOX_KEY, DemoPay::DEMO_PAY_SANDBOX)
+            && Configuration::updateValue(DemoPay::DEMO_PAY_GATEWAY_NAME_KEY, DemoPay::DEMO_PAY_GATEWAY_NAME_DEFAULT)
+            && Configuration::updateValue(DemoPay::DEMO_PAY_GATEWAY_DESCRIPTION_KEY, DemoPay::DEMO_PAY_GATEWAY_NAME_DEFAULT)
         );
     }
 
@@ -218,6 +245,8 @@ class DemoPay extends PaymentModule
             && Configuration::deleteByName(DemoPay::DEMO_PAY_API_KEY_KEY)
             && Configuration::deleteByName(DemoPay::DEMO_PAY_SECRET_KEY)
             && Configuration::deleteByName(DemoPay::DEMO_PAY_SANDBOX_KEY)
+            && Configuration::deleteByName(DemoPay::DEMO_PAY_GATEWAY_NAME_KEY)
+            && Configuration::deleteByName(DemoPay::DEMO_PAY_GATEWAY_DESCRIPTION_KEY)
         );
     }
 }
