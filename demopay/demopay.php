@@ -145,14 +145,42 @@ class DemoPay extends PaymentModule
             return;
         }
         // create a PaymentOption of type Offline
-        $offlineOption = new PaymentOption();
-        $offlineOption->setModuleName($this->name);
-        $offlineOption->setCallToActionText($this->l('DemoPay test'));
-        $offlineOption->setAction($this->context->link->getModuleLink($this->name, 'pay', ['option' => 'offline']));
-        $offlineOption->setAdditionalInformation($this->context->smarty->fetch('module:demopay/views/templates/front/paymentOptions.tpl'));
-        $offlineOption->setLogo(Media::getMediaPath(_PS_MODULE_DIR_ . $this->name . '/views/img/option/logo.png'));
+        $genericOption = new PaymentOption();
+        $genericOption->setModuleName($this->name);
+        $genericOption->setCallToActionText($this->l('DemoPay - Generic Checkout'));
+        $genericOption->setAction($this->context->link->getModuleLink($this->name, 'pay', ['option' => 'generic']));
+        $genericOption->setAdditionalInformation($this->context->smarty->fetch('module:demopay/views/templates/front/paymentOptions.tpl'));
+        $genericOption->setLogo(Media::getMediaPath(_PS_MODULE_DIR_ . $this->name . '/views/img/option/logo.png'));
 
-        return [$offlineOption];
+        $debitOption = new PaymentOption();
+        $debitOption->setModuleName($this->name);
+        $debitOption->setCallToActionText($this->l('DemoPay - Credit / Debit'));
+        $debitOption->setAction($this->context->link->getModuleLink($this->name, 'pay', ['option' => 'debit']));
+        $debitOption->setAdditionalInformation($this->context->smarty->fetch('module:demopay/views/templates/front/paymentOptions.tpl'));
+        $debitOption->setLogo(Media::getMediaPath(_PS_MODULE_DIR_ . $this->name . '/views/img/option/logo.png'));
+
+        $appleOption = new PaymentOption();
+        $appleOption->setModuleName($this->name);
+        $appleOption->setCallToActionText($this->l('DemoPay - Apple Pay'));
+        $appleOption->setAction($this->context->link->getModuleLink($this->name, 'pay', ['option' => 'apple']));
+        $appleOption->setAdditionalInformation($this->context->smarty->fetch('module:demopay/views/templates/front/paymentOptions.tpl'));
+        $appleOption->setLogo(Media::getMediaPath(_PS_MODULE_DIR_ . $this->name . '/views/img/option/logo.png'));
+
+        $googleOption = new PaymentOption();
+        $googleOption->setModuleName($this->name);
+        $googleOption->setCallToActionText($this->l('DemoPay - Google Pay'));
+        $googleOption->setAction($this->context->link->getModuleLink($this->name, 'pay', ['option' => 'google']));
+        $googleOption->setAdditionalInformation($this->context->smarty->fetch('module:demopay/views/templates/front/paymentOptions.tpl'));
+        $googleOption->setLogo(Media::getMediaPath(_PS_MODULE_DIR_ . $this->name . '/views/img/option/logo.png'));
+
+        $bizumOption = new PaymentOption();
+        $bizumOption->setModuleName($this->name);
+        $bizumOption->setCallToActionText($this->l('DemoPay - Bizum'));
+        $bizumOption->setAction($this->context->link->getModuleLink($this->name, 'pay', ['option' => 'bizum']));
+        $bizumOption->setAdditionalInformation($this->context->smarty->fetch('module:demopay/views/templates/front/paymentOptions.tpl'));
+        $bizumOption->setLogo(Media::getMediaPath(_PS_MODULE_DIR_ . $this->name . '/views/img/option/logo.png'));
+
+        return [$genericOption, $debitOption, $appleOption, $googleOption, $bizumOption];
     }
 
     public function createTable() {
