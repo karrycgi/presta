@@ -154,8 +154,8 @@ class DemoPay extends PaymentModule
                 Configuration::updateValue(DemoPay::DEMO_PAY_API_KEY_KEY, trim($apiKey));
                 Configuration::updateValue(DemoPay::DEMO_PAY_SECRET_KEY, trim($secret));
                 Configuration::updateValue(DemoPay::DEMO_PAY_SANDBOX_KEY, $sandbox);
-                Configuration::updateValue(DemoPay::DEMO_PAY_GATEWAY_NAME_KEY, $gatewayName);
-                Configuration::updateValue(DemoPay::DEMO_PAY_GATEWAY_DESCRIPTION_KEY, $gatewayDescription);
+                Configuration::updateValue(DemoPay::DEMO_PAY_GATEWAY_NAME_KEY, trim($gatewayName));
+                Configuration::updateValue(DemoPay::DEMO_PAY_GATEWAY_DESCRIPTION_KEY, trim($gatewayDescription));
 
                 $output = $this->displayConfirmation($this->l('Settings updated'));
             }
