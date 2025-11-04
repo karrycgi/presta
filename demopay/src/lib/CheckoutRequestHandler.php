@@ -11,13 +11,23 @@ class CheckoutRequestHandler extends RequestHandler
             Configuration::get(DemoPay::DEMO_PAY_SECRET_KEY)
         );
     }
-    private function prepareCreateCheckoutRequestBody(Cart $cart, string $webHooksUrl, string $successUrl, string $failureUrl, string $clientRequestId): string
+
+    private function toPaymentMethode(string $name): string {
+        switch(trim($name)) {
+            case "applepay": return "applepay";
+            case "googlepay": return "googlepay";
+            case "cards": return "cards";
+            case "bizum": return "bizum";
+            default: return "generic";
+        }
+    }
+    private function prepareCreateCheckoutRequestBody(Cart $cart, string $webHooksUrl, string $successUrl, string $failureUrl, string $paymentMethode): string
     {
         ini_set('serialize_precision', -1); // if not there is a float error at some numbers
 
         $total = $cart->getCartTotalPrice();
 
-        $json = json_encode([
+        $obj = [
             "storeId" => $this->storeId,
             "merchantTransactionId" => (string) $cart->id,
             "transactionOrigin" => "ECOM",
@@ -30,24 +40,27 @@ class CheckoutRequestHandler extends RequestHandler
                 ]
             ],
             "checkoutSettings" => [
+                "preSelectedPaymentMethod" => $paymentMethode == "generic"?null:$paymentMethode,
                 "webHooksUrl" => $webHooksUrl . "?id=" . $cart->id,
                 "redirectBackUrls" => [
                     "successUrl" => $successUrl . "?id=" . $cart->id,
                     "failureUrl" => $failureUrl . "?id=" . $cart->id
                 ]
             ]
-        ]);
+        ];
+
+        $json = json_encode($obj);
 
         return $json;
     }
 
-    public function createCheckout(Cart $cart, string $webHooksUrl, string $successUrl, string $failureUrl)
+    public function createCheckout(Cart $cart, string $webHooksUrl, string $successUrl, string $failureUrl, string $paymentMethode)
     {
         $time = intval(microtime(true) * 1000);
 
         $clientRequestId = CheckoutRequestHandler::generateUuid();
 
-        $requestBody = $this->prepareCreateCheckoutRequestBody($cart, $webHooksUrl, $successUrl, $failureUrl, $clientRequestId);
+        $requestBody = $this->prepareCreateCheckoutRequestBody($cart, $webHooksUrl, $successUrl, $failureUrl, $this->toPaymentMethode($paymentMethode));
 
         $messageSignature = $this->sign($clientRequestId, $time, $requestBody);
 

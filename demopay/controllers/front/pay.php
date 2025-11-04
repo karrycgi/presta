@@ -2,14 +2,15 @@
 require_once dirname(__FILE__) . '/../../vendor/autoload.php';
 class DemoPayPayModuleFrontController extends ModuleFrontController
 {
-    private function preparePaymentLink(Cart $cart)
+    private function preparePaymentLink(Cart $cart, string $paymentMethode)
     {
         $handler = $this->getCheckoutRequestHandler();
         $result = $handler->createCheckout(
             $this->context->cart,
             $this->context->link->getModuleLink($this->module->name, 'webhook'),
             $this->context->link->getModuleLink($this->module->name, 'success'),
-            $this->context->link->getModuleLink($this->module->name, 'error')
+            $this->context->link->getModuleLink($this->module->name, 'error'),
+            $paymentMethode
         );
         $obj = json_decode($result, true);
 
@@ -31,7 +32,8 @@ class DemoPayPayModuleFrontController extends ModuleFrontController
     public function initContent()
     {
         parent::initContent();
-        $link = $this->preparePaymentLink($this->context->cart);
+        $option = Tools::getValue('option');
+        $link = $this->preparePaymentLink($this->context->cart, $option);
         DB::getInstance()->insert(
             DemoPay::DEMO_PAY_NAME . '_transactions',
             [
