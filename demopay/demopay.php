@@ -160,10 +160,19 @@ class DemoPay extends PaymentModule
                 Configuration::updateValue(DemoPay::DEMO_PAY_GATEWAY_DESCRIPTION_KEY, trim($gatewayDescription));
 
                 $output = $this->displayConfirmation($this->l('Settings updated'));
+                
+                if(!$this->validateCredentials()) {
+                    $output .= $this->displayError($this->l('Provided credentials are not valid'));
+                }
             }
         }
 
         return $output . $this->displayForm();
+    }
+
+    private function validateCredentials():bool {
+        // TBD
+        return true;
     }
 
     public function hookPaymentOptions($params)
