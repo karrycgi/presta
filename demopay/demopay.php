@@ -49,24 +49,24 @@ class DemoPay extends PaymentModule
                 ],
                 'input' => [
                     [
-                        'type' => 'select',                              
-                        'label' => $this->l('Mode'),         
-                        'desc' => $this->l('Sandbox is for testing purposes.'),  
-                        'name' => DemoPay::DEMO_PAY_SANDBOX_KEY,                     
-                        'required' => true,                              
+                        'type' => 'select',
+                        'label' => $this->l('Mode'),
+                        'desc' => $this->l('Sandbox is for testing purposes.'),
+                        'name' => DemoPay::DEMO_PAY_SANDBOX_KEY,
+                        'required' => true,
                         'options' => array(
                             'query' => [
                                 [
-                                    'id_option' => 'TRUE',       
-                                    'name' => 'Sandbox'   
+                                    'id_option' => 'TRUE',
+                                    'name' => 'Sandbox'
                                 ],
                                 [
                                     'id_option' => 'FALSE',
                                     'name' => 'Production'
                                 ],
                             ],
-                            'id' => 'id_option',                        
-                            'name' => 'name'                            
+                            'id' => 'id_option',
+                            'name' => 'name'
                         )
                     ],
                     [
@@ -160,8 +160,8 @@ class DemoPay extends PaymentModule
                 Configuration::updateValue(DemoPay::DEMO_PAY_GATEWAY_DESCRIPTION_KEY, trim($gatewayDescription));
 
                 $output = $this->displayConfirmation($this->l('Settings updated'));
-                
-                if(!$this->validateCredentials()) {
+
+                if (!$this->validateCredentials($sandbox, $storeId, $apiKey, $secret)) {
                     $output .= $this->displayError($this->l('Provided credentials are not valid'));
                 }
             }
@@ -170,7 +170,8 @@ class DemoPay extends PaymentModule
         return $output . $this->displayForm();
     }
 
-    private function validateCredentials():bool {
+    private function validateCredentials(string $sandbox, string $storeId, string $apiKey, string $secret): bool
+    {
         // TBD
         return true;
     }
@@ -183,7 +184,7 @@ class DemoPay extends PaymentModule
         // create a PaymentOption of type Offline
         $genericOption = new PaymentOption();
         $genericOption->setModuleName($this->name);
-        $genericOption->setCallToActionText($this->l('DemoPay - '.Configuration::get(DemoPay::DEMO_PAY_GATEWAY_NAME_KEY).'('.Configuration::get(DemoPay::DEMO_PAY_GATEWAY_DESCRIPTION_KEY).')'));
+        $genericOption->setCallToActionText($this->l('DemoPay - ' . Configuration::get(DemoPay::DEMO_PAY_GATEWAY_NAME_KEY) . '(' . Configuration::get(DemoPay::DEMO_PAY_GATEWAY_DESCRIPTION_KEY) . ')'));
         $genericOption->setAction($this->context->link->getModuleLink($this->name, 'pay', ['option' => "generic"]));
         $genericOption->setAdditionalInformation($this->context->smarty->fetch('module:demopay/views/templates/front/paymentOptions.tpl'));
         $genericOption->setLogo(Media::getMediaPath(_PS_MODULE_DIR_ . $this->name . '/views/img/option/logo.png'));
@@ -219,13 +220,15 @@ class DemoPay extends PaymentModule
         return [$genericOption, $debitOption, $appleOption, $googleOption, $bizumOption];
     }
 
-    public function createTable() {
-        DB::getInstance()->execute('CREATE TABLE '._DB_PREFIX_.DemoPay::DEMO_PAY_NAME.'_transactions (cart_id INT(11) NOT NULL, transaction_id VARCHAR(255) NOT NULL) ENGINE='._MYSQL_ENGINE_.' DEFAULT CHARSET=utf8;');
+    public function createTable()
+    {
+        DB::getInstance()->execute('CREATE TABLE ' . _DB_PREFIX_ . DemoPay::DEMO_PAY_NAME . '_transactions (cart_id INT(11) NOT NULL, transaction_id VARCHAR(255) NOT NULL) ENGINE=' . _MYSQL_ENGINE_ . ' DEFAULT CHARSET=utf8;');
         return true;
     }
 
-    public function dropTable() {
-        DB::getInstance()->execute('DROP TABLE IF EXISTS '._DB_PREFIX_.DemoPay::DEMO_PAY_NAME.'_transactions;');
+    public function dropTable()
+    {
+        DB::getInstance()->execute('DROP TABLE IF EXISTS ' . _DB_PREFIX_ . DemoPay::DEMO_PAY_NAME . '_transactions;');
         return true;
     }
 
