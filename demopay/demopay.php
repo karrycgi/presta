@@ -186,7 +186,7 @@ class DemoPay extends PaymentModule
         $genericOption->setModuleName($this->name);
         $genericOption->setCallToActionText($this->l('DemoPay - ' . Configuration::get(DemoPay::DEMO_PAY_GATEWAY_NAME_KEY) . '(' . Configuration::get(DemoPay::DEMO_PAY_GATEWAY_DESCRIPTION_KEY) . ')'));
         $genericOption->setAction($this->context->link->getModuleLink($this->name, 'pay', ['option' => "generic"]));
-        $genericOption->setAdditionalInformation($this->additionalInformation());
+        $genericOption->setAdditionalInformation($this->additionalInformationGeneric());
         $genericOption->setLogo(Media::getMediaPath(_PS_MODULE_DIR_ . $this->name . '/views/img/option/fiserv-gateway-generic.svg'));
 
         $debitOption = new PaymentOption();
@@ -221,7 +221,11 @@ class DemoPay extends PaymentModule
     }
 
     private function additionalInformation() {
-        return '<p>'.$this->l('You will be redirected to a payment page.').'</p>';
+        return '<p>'.$this->l('You will be redirected to an external checkout page.').'</p>';
+    }
+
+    private function additionalInformationGeneric() {
+        return '<p>'.$this->l('You will be redirected to an external checkout page where you will be able to select the other payment methods.').'</p>';
     }
 
     public function createTable()
