@@ -171,8 +171,7 @@ class DemoPay extends PaymentModule
 
     private function validateCredentials(string $sandbox, string $storeId, string $apiKey, string $secret): bool
     {
-        // TBD
-        return true;
+        return ValidateRequest::getInstance()->validateCredentials();
     }
 
     public function hookPaymentOptions($params)
