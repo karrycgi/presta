@@ -41,7 +41,6 @@ class DemoPay extends PaymentModule
 
     public function displayForm()
     {
-        // Init Fields form array
         $form = [
             'form' => [
                 'legend' => [
