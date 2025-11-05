@@ -35,8 +35,8 @@ class DemoPay extends PaymentModule
 
         parent::__construct();
 
-        $this->displayName = $this->l('DemoPay');
-        $this->description = $this->l('DemoPay by Martin Karry');
+        $this->displayName = $this->trans('DemoPay', [], 'Modules.Demopay.Admin');
+        $this->description = $this->trans('DemoPay by Martin Karry', [], 'Modules.Demopay.Admin');
     }
 
     public function displayForm()
@@ -45,24 +45,24 @@ class DemoPay extends PaymentModule
         $form = [
             'form' => [
                 'legend' => [
-                    'title' => $this->l('Settings ' . DemoPay::DEMO_PAY_STORE_ID),
+                    'title' => $this->trans('Settings', [], 'Modules.Demopay.Admin'),
                 ],
                 'input' => [
                     [
                         'type' => 'select',
-                        'label' => $this->l('Mode'),
-                        'desc' => $this->l('Sandbox is for testing purposes.'),
+                        'label' => $this->trans('Mode', [], 'Modules.Demopay.Admin'),
+                        'desc' => $this->trans('Sandbox is for testing purposes.', [], 'Modules.Demopay.Admin'),
                         'name' => DemoPay::DEMO_PAY_SANDBOX_KEY,
                         'required' => true,
                         'options' => array(
                             'query' => [
                                 [
                                     'id_option' => 'TRUE',
-                                    'name' => 'Sandbox'
+                                    'name' => $this->trans('Sandbox', [], 'Modules.Demopay.Admin')
                                 ],
                                 [
                                     'id_option' => 'FALSE',
-                                    'name' => 'Production'
+                                    'name' => $this->trans('Production', [], 'Modules.Demopay.Admin')
                                 ],
                             ],
                             'id' => 'id_option',
@@ -71,42 +71,42 @@ class DemoPay extends PaymentModule
                     ],
                     [
                         'type' => 'text',
-                        'label' => $this->l('Store ID'),
+                        'label' => $this->trans('Store ID', [], 'Modules.Demopay.Admin'),
                         'name' => DemoPay::DEMO_PAY_STORE_ID_KEY,
                         'size' => 20,
                         'required' => true
                     ],
                     [
                         'type' => 'text',
-                        'label' => $this->l('API key'),
+                        'label' => $this->trans('API key', [], 'Modules.Demopay.Admin'),
                         'name' => DemoPay::DEMO_PAY_API_KEY_KEY,
                         'size' => 20,
                         'required' => true
                     ],
                     [
                         'type' => 'text',
-                        'label' => $this->l('API secret'),
+                        'label' => $this->trans('API secret', [], 'Modules.Demopay.Admin'),
                         'name' => DemoPay::DEMO_PAY_SECRET_KEY,
                         'size' => 20,
                         'required' => true
                     ],
                     [
                         'type' => 'text',
-                        'label' => $this->l('Gateway name'),
-                        'name' => DemoPay::DEMO_PAY_GATEWAY_NAME_KEY,
+                        'label' => $this->trans('Gateway name', [], 'Modules.Demopay.Admin'),
+                        'name' => $this->trans(DemoPay::DEMO_PAY_GATEWAY_NAME_KEY),
                         'size' => 20,
                         'required' => true
                     ],
                     [
                         'type' => 'text',
-                        'label' => $this->l('Gateway description'),
-                        'name' => DemoPay::DEMO_PAY_GATEWAY_DESCRIPTION_KEY,
+                        'label' => $this->trans('Gateway description', [], 'Modules.Demopay.Admin'),
+                        'name' => $this->trans(DemoPay::DEMO_PAY_GATEWAY_DESCRIPTION_KEY),
                         'size' => 20,
                         'required' => true
                     ]
                 ],
                 'submit' => [
-                    'title' => $this->l('Save'),
+                    'title' => $this->trans('Save', [], 'Modules.Demopay.Admin'),
                     'class' => 'btn btn-default pull-right',
                 ],
             ],
@@ -147,10 +147,10 @@ class DemoPay extends PaymentModule
             $gatewayName = (string) Tools::getValue(DemoPay::DEMO_PAY_GATEWAY_NAME_KEY);
             $gatewayDescription = (string) Tools::getValue(DemoPay::DEMO_PAY_GATEWAY_DESCRIPTION_KEY);
 
-            $this->displayError($this->l('Invalid Configuration value'));
+            $this->displayError($this->trans('Invalid Configuration value', [], 'Modules.Demopay.Admin'));
 
             if (empty($storeId) || empty($apiKey) || empty($secret) || empty($sandbox)) {
-                $output = $this->displayError($this->l('Invalid Configuration value'));
+                $output = $this->displayError($this->trans('Invalid Configuration value', [], 'Modules.Demopay.Admin'));
             } else {
                 Configuration::updateValue(DemoPay::DEMO_PAY_STORE_ID_KEY, trim($storeId));
                 Configuration::updateValue(DemoPay::DEMO_PAY_API_KEY_KEY, trim($apiKey));
@@ -159,10 +159,10 @@ class DemoPay extends PaymentModule
                 Configuration::updateValue(DemoPay::DEMO_PAY_GATEWAY_NAME_KEY, trim($gatewayName));
                 Configuration::updateValue(DemoPay::DEMO_PAY_GATEWAY_DESCRIPTION_KEY, trim($gatewayDescription));
 
-                $output = $this->displayConfirmation($this->l('Settings updated'));
+                $output = $this->displayConfirmation($this->trans('Settings updated', [], 'Modules.Demopay.Admin'));
 
                 if (!$this->validateCredentials($sandbox, $storeId, $apiKey, $secret)) {
-                    $output .= $this->displayError($this->l('Provided credentials are not valid'));
+                    $output .= $this->displayError($this->trans('Provided credentials are not valid', [], 'Modules.Demopay.Admin'));
                 }
             }
         }
@@ -184,35 +184,35 @@ class DemoPay extends PaymentModule
         // create a PaymentOption of type Offline
         $genericOption = new PaymentOption();
         $genericOption->setModuleName($this->name);
-        $genericOption->setCallToActionText($this->l('DemoPay - ' . Configuration::get(DemoPay::DEMO_PAY_GATEWAY_NAME_KEY) . '(' . Configuration::get(DemoPay::DEMO_PAY_GATEWAY_DESCRIPTION_KEY) . ')'));
+        $genericOption->setCallToActionText($this->trans('DemoPay - ' . Configuration::get(DemoPay::DEMO_PAY_GATEWAY_NAME_KEY) . '(' . Configuration::get(DemoPay::DEMO_PAY_GATEWAY_DESCRIPTION_KEY) . ')', [], 'Modules.Demopay.Front'));
         $genericOption->setAction($this->context->link->getModuleLink($this->name, 'pay', ['option' => "generic"]));
         $genericOption->setAdditionalInformation($this->additionalInformationGeneric());
         $genericOption->setLogo(Media::getMediaPath(_PS_MODULE_DIR_ . $this->name . '/views/img/option/fiserv-gateway-generic.svg'));
 
         $debitOption = new PaymentOption();
         $debitOption->setModuleName($this->name);
-        $debitOption->setCallToActionText($this->l('DemoPay - Credit / Debit'));
+        $debitOption->setCallToActionText($this->trans('DemoPay - Credit / Debit', [], 'Modules.Demopay.Front'));
         $debitOption->setAction($this->context->link->getModuleLink($this->name, 'pay', ['option' => "cards"]));
         $debitOption->setAdditionalInformation($this->additionalInformation());
         $debitOption->setLogo(Media::getMediaPath(_PS_MODULE_DIR_ . $this->name . '/views/img/option/fiserv-credit-card.svg'));
 
         $appleOption = new PaymentOption();
         $appleOption->setModuleName($this->name);
-        $appleOption->setCallToActionText($this->l('DemoPay - Apple Pay'));
+        $appleOption->setCallToActionText($this->trans('DemoPay - Apple Pay', [], 'Modules.Demopay.Front'));
         $appleOption->setAction($this->context->link->getModuleLink($this->name, 'pay', ['option' => "applepay"]));
         $appleOption->setAdditionalInformation($this->additionalInformation());
         $appleOption->setLogo(Media::getMediaPath(_PS_MODULE_DIR_ . $this->name . '/views/img/option/fiserv-apple-pay.svg'));
 
         $googleOption = new PaymentOption();
         $googleOption->setModuleName($this->name);
-        $googleOption->setCallToActionText($this->l('DemoPay - Google Pay'));
+        $googleOption->setCallToActionText($this->trans('DemoPay - Google Pay', [], 'Modules.Demopay.Front'));
         $googleOption->setAction($this->context->link->getModuleLink($this->name, 'pay', ['option' => "googlepay"]));
         $googleOption->setAdditionalInformation($this->additionalInformation());
         $googleOption->setLogo(Media::getMediaPath(_PS_MODULE_DIR_ . $this->name . '/views/img/option/fiserv-google-pay.svg'));
 
         $bizumOption = new PaymentOption();
         $bizumOption->setModuleName($this->name);
-        $bizumOption->setCallToActionText($this->l('DemoPay - Bizum'));
+        $bizumOption->setCallToActionText($this->trans('DemoPay - Bizum', [], 'Modules.Demopay.Front'));
         $bizumOption->setAction($this->context->link->getModuleLink($this->name, 'pay', ['option' => "bizum"]));
         $bizumOption->setAdditionalInformation($this->additionalInformation());
         $bizumOption->setLogo(Media::getMediaPath(_PS_MODULE_DIR_ . $this->name . '/views/img/option/fiserv-bizum-pay.png'));
@@ -220,12 +220,19 @@ class DemoPay extends PaymentModule
         return [$genericOption, $debitOption, $appleOption, $googleOption, $bizumOption];
     }
 
-    private function additionalInformation() {
-        return '<p>'.$this->l('You will be redirected to an external checkout page.').'</p>';
+    private function additionalInformation()
+    {
+        return '<p>' . $this->trans('You will be redirected to an external checkout page.', [], 'Modules.Demopay.Front') . '</p>';
     }
 
-    private function additionalInformationGeneric() {
-        return '<p>'.$this->l('You will be redirected to an external checkout page where you will be able to select the other payment methods.').'</p>';
+    private function additionalInformationGeneric()
+    {
+        return '<p>' . $this->trans('You will be redirected to an external checkout page where you will be able to select the other payment methods.', [], 'Modules.Demopay.Front') . '</p>';
+    }
+
+    public function isUsingNewTranslationSystem()
+    {
+        return true;
     }
 
     public function createTable()

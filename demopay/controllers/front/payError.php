@@ -7,10 +7,9 @@ class DemoPayPayErrorModuleFrontController extends ModuleFrontController
         parent::initContent();
 
         $this->context->smarty->assign([
-            "title" => $this->l("Error during payment"),
-            "text" => $this->l("An error in payment process. Please try later again.")
+            "title" => $this->trans("Error during payment", [], 'Modules.Demopay.Front'),
+            "text" => $this->trans("An error in payment process. Please try later again.", [], 'Modules.Demopay.Front')
         ]);
-
         $this->setTemplate('module:demopay/views/templates/front/payError.tpl');
     }
 }
