@@ -31,16 +31,22 @@ class DemoPayPayModuleFrontController extends ModuleFrontController
 
     public function initContent()
     {
-        parent::initContent();
-        $option = Tools::getValue('option');
-        $link = $this->preparePaymentLink($this->context->cart, $option);
-        DB::getInstance()->insert(
-            DemoPay::DEMO_PAY_NAME . '_transactions',
-            [
-                'cart_id' => (int) $this->context->cart->id,
-                'transaction_id' => pSQL($link['transaction_id'])
-            ]
-        );
-        Tools::redirect($link['link']);
+        try {
+            parent::initContent();
+            $option = Tools::getValue('option');
+            DB::getInstance()->delete(DemoPay::DEMO_PAY_NAME . '_transactions', 'cart_id = ' . (int) $this->context->cart->id);
+            $link = $this->preparePaymentLink($this->context->cart, $option);
+            DB::getInstance()->insert(
+                DemoPay::DEMO_PAY_NAME . '_transactions',
+                [
+                    'cart_id' => (int) $this->context->cart->id,
+                    'transaction_id' => pSQL($link['transaction_id'])
+                ]
+            );
+            Tools::redirect($link['link']);
+        } catch(Exception $e) {
+            PrestaShopLogger::addLog($e->getMessage(), 3);
+            Tools::redirect($this->context->link->getPageLink('cart'));
+        }
     }
 }
