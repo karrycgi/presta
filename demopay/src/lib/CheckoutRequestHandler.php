@@ -3,6 +3,7 @@
 require_once dirname(__FILE__) . '/../../vendor/autoload.php';
 class CheckoutRequestHandler extends RequestHandler
 {
+    const USER_AGENT = 'Demopay/1.0 Prestashop/9.0.0';
     public static function getInstance(): CheckoutRequestHandler
     {
         return new CheckoutRequestHandler(
@@ -73,7 +74,8 @@ class CheckoutRequestHandler extends RequestHandler
                 'Api-Key' => $this->apiKey,
                 'Client-Request-Id' => $clientRequestId,
                 'Message-Signature' => $messageSignature,
-                'Timestamp' => $time
+                'Timestamp' => $time,
+                'User-Agent' => CheckoutRequestHandler::USER_AGENT
             ],
         ]);
 
@@ -96,7 +98,8 @@ class CheckoutRequestHandler extends RequestHandler
                 'Api-Key' => $this->apiKey,
                 'Client-Request-Id' => $clientRequestId,
                 'Message-Signature' => $messageSignature,
-                'Timestamp' => $time
+                'Timestamp' => $time,
+                'User-Agent' => CheckoutRequestHandler::USER_AGENT
             ],
         ]);
 
