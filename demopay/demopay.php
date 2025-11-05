@@ -215,7 +215,7 @@ class DemoPay extends PaymentModule
         $bizumOption->setCallToActionText($this->l('DemoPay - Bizum'));
         $bizumOption->setAction($this->context->link->getModuleLink($this->name, 'pay', ['option' => "bizum"]));
         $bizumOption->setAdditionalInformation($this->additionalInformation());
-        //$bizumOption->setLogo(Media::getMediaPath(_PS_MODULE_DIR_ . $this->name . '/views/img/option/logo.png'));
+        $bizumOption->setLogo(Media::getMediaPath(_PS_MODULE_DIR_ . $this->name . '/views/img/option/fiserv-bizum-pay.png'));
 
         return [$genericOption, $debitOption, $appleOption, $googleOption, $bizumOption];
     }

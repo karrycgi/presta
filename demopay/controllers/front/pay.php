@@ -46,7 +46,7 @@ class DemoPayPayModuleFrontController extends ModuleFrontController
             Tools::redirect($link['link']);
         } catch(Exception $e) {
             PrestaShopLogger::addLog($e->getMessage(), 3);
-            Tools::redirect($this->context->link->getPageLink('cart'));
+            Tools::redirect($this->context->link->getModuleLink(DemoPay::DEMO_PAY_NAME, 'payError'));
         }
     }
 }
