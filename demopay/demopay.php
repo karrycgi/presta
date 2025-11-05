@@ -186,38 +186,42 @@ class DemoPay extends PaymentModule
         $genericOption->setModuleName($this->name);
         $genericOption->setCallToActionText($this->l('DemoPay - ' . Configuration::get(DemoPay::DEMO_PAY_GATEWAY_NAME_KEY) . '(' . Configuration::get(DemoPay::DEMO_PAY_GATEWAY_DESCRIPTION_KEY) . ')'));
         $genericOption->setAction($this->context->link->getModuleLink($this->name, 'pay', ['option' => "generic"]));
-        $genericOption->setAdditionalInformation($this->context->smarty->fetch('module:demopay/views/templates/front/paymentOptions.tpl'));
-        $genericOption->setLogo(Media::getMediaPath(_PS_MODULE_DIR_ . $this->name . '/views/img/option/logo.png'));
+        $genericOption->setAdditionalInformation($this->additionalInformation());
+        $genericOption->setLogo(Media::getMediaPath(_PS_MODULE_DIR_ . $this->name . '/views/img/option/fiserv-gateway-generic.svg'));
 
         $debitOption = new PaymentOption();
         $debitOption->setModuleName($this->name);
         $debitOption->setCallToActionText($this->l('DemoPay - Credit / Debit'));
         $debitOption->setAction($this->context->link->getModuleLink($this->name, 'pay', ['option' => "cards"]));
-        $debitOption->setAdditionalInformation($this->context->smarty->fetch('module:demopay/views/templates/front/paymentOptions.tpl'));
-        $debitOption->setLogo(Media::getMediaPath(_PS_MODULE_DIR_ . $this->name . '/views/img/option/logo.png'));
+        $debitOption->setAdditionalInformation($this->additionalInformation());
+        $debitOption->setLogo(Media::getMediaPath(_PS_MODULE_DIR_ . $this->name . '/views/img/option/fiserv-credit-card.svg'));
 
         $appleOption = new PaymentOption();
         $appleOption->setModuleName($this->name);
         $appleOption->setCallToActionText($this->l('DemoPay - Apple Pay'));
         $appleOption->setAction($this->context->link->getModuleLink($this->name, 'pay', ['option' => "applepay"]));
-        $appleOption->setAdditionalInformation($this->context->smarty->fetch('module:demopay/views/templates/front/paymentOptions.tpl'));
-        $appleOption->setLogo(Media::getMediaPath(_PS_MODULE_DIR_ . $this->name . '/views/img/option/logo.png'));
+        $appleOption->setAdditionalInformation($this->additionalInformation());
+        $appleOption->setLogo(Media::getMediaPath(_PS_MODULE_DIR_ . $this->name . '/views/img/option/fiserv-apple-pay.svg'));
 
         $googleOption = new PaymentOption();
         $googleOption->setModuleName($this->name);
         $googleOption->setCallToActionText($this->l('DemoPay - Google Pay'));
         $googleOption->setAction($this->context->link->getModuleLink($this->name, 'pay', ['option' => "googlepay"]));
-        $googleOption->setAdditionalInformation($this->context->smarty->fetch('module:demopay/views/templates/front/paymentOptions.tpl'));
-        $googleOption->setLogo(Media::getMediaPath(_PS_MODULE_DIR_ . $this->name . '/views/img/option/logo.png'));
+        $googleOption->setAdditionalInformation($this->additionalInformation());
+        $googleOption->setLogo(Media::getMediaPath(_PS_MODULE_DIR_ . $this->name . '/views/img/option/fiserv-google-pay.svg'));
 
         $bizumOption = new PaymentOption();
         $bizumOption->setModuleName($this->name);
         $bizumOption->setCallToActionText($this->l('DemoPay - Bizum'));
         $bizumOption->setAction($this->context->link->getModuleLink($this->name, 'pay', ['option' => "bizum"]));
-        $bizumOption->setAdditionalInformation($this->context->smarty->fetch('module:demopay/views/templates/front/paymentOptions.tpl'));
-        $bizumOption->setLogo(Media::getMediaPath(_PS_MODULE_DIR_ . $this->name . '/views/img/option/logo.png'));
+        $bizumOption->setAdditionalInformation($this->additionalInformation());
+        //$bizumOption->setLogo(Media::getMediaPath(_PS_MODULE_DIR_ . $this->name . '/views/img/option/logo.png'));
 
         return [$genericOption, $debitOption, $appleOption, $googleOption, $bizumOption];
+    }
+
+    private function additionalInformation() {
+        return '<p>'.$this->l('You will be redirected to a payment page.').'</p>';
     }
 
     public function createTable()
