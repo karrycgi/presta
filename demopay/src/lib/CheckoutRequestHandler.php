@@ -28,6 +28,8 @@ class CheckoutRequestHandler extends RequestHandler
 
         $total = $cart->getCartTotalPrice();
 
+        $currency = new Currency((int) $cart->id_currency)->iso_code;
+
         $obj = [
             "storeId" => $this->storeId,
             "merchantTransactionId" => (string) $cart->id,
@@ -35,7 +37,7 @@ class CheckoutRequestHandler extends RequestHandler
             "transactionType" => "SALE",
             "transactionAmount" => [
                 "total" => $total,
-                "currency" => "EUR",
+                "currency" => $currency,
                 "components" => [
                     "subtotal" => $total
                 ]
