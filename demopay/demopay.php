@@ -19,11 +19,6 @@ class DemoPay extends PaymentModule
     public const DEMO_PAY_SANDBOX_KEY = "DEMO_PAY_SANDBOX";
     const DEMO_PAY_SANDBOX = true;
     public const DEMO_PAY_SECRET_KEY = "DEMO_PAY_SECRET";
-
-    const DEMO_PAY_GATEWAY_NAME_KEY = "DEMO_PAY_GATEWAY_NAME";
-    public const DEMO_PAY_GATEWAY_NAME_DEFAULT = "Generic Payment";
-    const DEMO_PAY_GATEWAY_DESCRIPTION_KEY = "DEMO_PAY_GATEWAY_DESCRIPTION";
-    public const DEMO_PAY_GATEWAY_DESCRIPTION_DEFAULT = "Generic Payment";
     public function __construct()
     {
         $this->name = DemoPay::DEMO_PAY_NAME;
@@ -88,20 +83,6 @@ class DemoPay extends PaymentModule
                         'name' => DemoPay::DEMO_PAY_SECRET_KEY,
                         'size' => 20,
                         'required' => true
-                    ],
-                    [
-                        'type' => 'text',
-                        'label' => $this->trans('Gateway name', [], 'Modules.Demopay.Admin'),
-                        'name' => $this->trans(DemoPay::DEMO_PAY_GATEWAY_NAME_KEY),
-                        'size' => 20,
-                        'required' => true
-                    ],
-                    [
-                        'type' => 'text',
-                        'label' => $this->trans('Gateway description', [], 'Modules.Demopay.Admin'),
-                        'name' => $this->trans(DemoPay::DEMO_PAY_GATEWAY_DESCRIPTION_KEY),
-                        'size' => 20,
-                        'required' => true
                     ]
                 ],
                 'submit' => [
@@ -128,8 +109,6 @@ class DemoPay extends PaymentModule
         $helper->fields_value[DemoPay::DEMO_PAY_API_KEY_KEY] = Tools::getValue(DemoPay::DEMO_PAY_API_KEY_KEY, Configuration::get(DemoPay::DEMO_PAY_API_KEY_KEY));
         $helper->fields_value[DemoPay::DEMO_PAY_SECRET_KEY] = Tools::getValue(DemoPay::DEMO_PAY_SECRET_KEY, Configuration::get(DemoPay::DEMO_PAY_SECRET_KEY));
         $helper->fields_value[DemoPay::DEMO_PAY_SANDBOX_KEY] = Tools::getValue(DemoPay::DEMO_PAY_SANDBOX_KEY, Configuration::get(DemoPay::DEMO_PAY_SANDBOX_KEY));
-        $helper->fields_value[DemoPay::DEMO_PAY_GATEWAY_NAME_KEY] = Tools::getValue(DemoPay::DEMO_PAY_GATEWAY_NAME_KEY, Configuration::get(DemoPay::DEMO_PAY_GATEWAY_NAME_KEY));
-        $helper->fields_value[DemoPay::DEMO_PAY_GATEWAY_DESCRIPTION_KEY] = Tools::getValue(DemoPay::DEMO_PAY_GATEWAY_DESCRIPTION_KEY, Configuration::get(DemoPay::DEMO_PAY_GATEWAY_DESCRIPTION_KEY));
 
         return $helper->generateForm([$form]);
     }
@@ -143,8 +122,6 @@ class DemoPay extends PaymentModule
             $apiKey = (string) Tools::getValue(DemoPay::DEMO_PAY_API_KEY_KEY);
             $secret = (string) Tools::getValue(DemoPay::DEMO_PAY_SECRET_KEY);
             $sandbox = (string) Tools::getValue(DemoPay::DEMO_PAY_SANDBOX_KEY);
-            $gatewayName = (string) Tools::getValue(DemoPay::DEMO_PAY_GATEWAY_NAME_KEY);
-            $gatewayDescription = (string) Tools::getValue(DemoPay::DEMO_PAY_GATEWAY_DESCRIPTION_KEY);
 
             $this->displayError($this->trans('Invalid Configuration value', [], 'Modules.Demopay.Admin'));
 
@@ -155,8 +132,6 @@ class DemoPay extends PaymentModule
                 Configuration::updateValue(DemoPay::DEMO_PAY_API_KEY_KEY, trim($apiKey));
                 Configuration::updateValue(DemoPay::DEMO_PAY_SECRET_KEY, trim($secret));
                 Configuration::updateValue(DemoPay::DEMO_PAY_SANDBOX_KEY, $sandbox);
-                Configuration::updateValue(DemoPay::DEMO_PAY_GATEWAY_NAME_KEY, trim($gatewayName));
-                Configuration::updateValue(DemoPay::DEMO_PAY_GATEWAY_DESCRIPTION_KEY, trim($gatewayDescription));
 
                 $output = $this->displayConfirmation($this->trans('Settings updated', [], 'Modules.Demopay.Admin'));
 
@@ -182,41 +157,38 @@ class DemoPay extends PaymentModule
         // create a PaymentOption of type Offline
         $genericOption = new PaymentOption();
         $genericOption->setModuleName($this->name);
-        $genericOption->setCallToActionText($this->trans('DemoPay - %name% (%decription%)',[ 
-            '%name%' => Configuration::get(DemoPay::DEMO_PAY_GATEWAY_NAME_KEY) , 
-            '%decription%' => Configuration::get(DemoPay::DEMO_PAY_GATEWAY_DESCRIPTION_KEY)
-        ], 'Modules.Demopay.Front'));
+        $genericOption->setCallToActionText($this->trans('DemoPay - Generic',[], 'Modules.Demopay.Front'));
         $genericOption->setAction($this->context->link->getModuleLink($this->name, 'pay', ['option' => "generic"]));
         $genericOption->setAdditionalInformation($this->additionalInformationGeneric());
-        $genericOption->setLogo(Media::getMediaPath(_PS_MODULE_DIR_ . $this->name . '/views/img/option/fiserv-gateway-generic.svg'));
+        //$genericOption->setLogo(Media::getMediaPath(_PS_MODULE_DIR_ . $this->name . '/views/img/option/fiserv-gateway-generic.svg'));
 
         $debitOption = new PaymentOption();
         $debitOption->setModuleName($this->name);
         $debitOption->setCallToActionText($this->trans('DemoPay - Credit / Debit', [], 'Modules.Demopay.Front'));
         $debitOption->setAction($this->context->link->getModuleLink($this->name, 'pay', ['option' => "cards"]));
         $debitOption->setAdditionalInformation($this->additionalInformation());
-        $debitOption->setLogo(Media::getMediaPath(_PS_MODULE_DIR_ . $this->name . '/views/img/option/fiserv-credit-card.svg'));
+        //$debitOption->setLogo(Media::getMediaPath(_PS_MODULE_DIR_ . $this->name . '/views/img/option/fiserv-credit-card.svg'));
 
         $appleOption = new PaymentOption();
         $appleOption->setModuleName($this->name);
         $appleOption->setCallToActionText($this->trans('DemoPay - Apple Pay', [], 'Modules.Demopay.Front'));
         $appleOption->setAction($this->context->link->getModuleLink($this->name, 'pay', ['option' => "applepay"]));
         $appleOption->setAdditionalInformation($this->additionalInformation());
-        $appleOption->setLogo(Media::getMediaPath(_PS_MODULE_DIR_ . $this->name . '/views/img/option/fiserv-apple-pay.svg'));
+        //$appleOption->setLogo(Media::getMediaPath(_PS_MODULE_DIR_ . $this->name . '/views/img/option/fiserv-apple-pay.svg'));
 
         $googleOption = new PaymentOption();
         $googleOption->setModuleName($this->name);
         $googleOption->setCallToActionText($this->trans('DemoPay - Google Pay', [], 'Modules.Demopay.Front'));
         $googleOption->setAction($this->context->link->getModuleLink($this->name, 'pay', ['option' => "googlepay"]));
         $googleOption->setAdditionalInformation($this->additionalInformation());
-        $googleOption->setLogo(Media::getMediaPath(_PS_MODULE_DIR_ . $this->name . '/views/img/option/fiserv-google-pay.svg'));
+        //$googleOption->setLogo(Media::getMediaPath(_PS_MODULE_DIR_ . $this->name . '/views/img/option/fiserv-google-pay.svg'));
 
         $bizumOption = new PaymentOption();
         $bizumOption->setModuleName($this->name);
         $bizumOption->setCallToActionText($this->trans('DemoPay - Bizum', [], 'Modules.Demopay.Front'));
         $bizumOption->setAction($this->context->link->getModuleLink($this->name, 'pay', ['option' => "bizum"]));
         $bizumOption->setAdditionalInformation($this->additionalInformation());
-        $bizumOption->setLogo(Media::getMediaPath(_PS_MODULE_DIR_ . $this->name . '/views/img/option/fiserv-bizum-pay.png'));
+        //$bizumOption->setLogo(Media::getMediaPath(_PS_MODULE_DIR_ . $this->name . '/views/img/option/fiserv-bizum-pay.png'));
 
         return [$genericOption, $debitOption, $appleOption, $googleOption, $bizumOption];
     }
@@ -259,8 +231,6 @@ class DemoPay extends PaymentModule
             && Configuration::updateValue(DemoPay::DEMO_PAY_API_KEY_KEY, DemoPay::DEMO_PAY_API_KEY)
             && Configuration::updateValue(DemoPay::DEMO_PAY_SECRET_KEY, DemoPay::DEMO_PAY_SECRET)
             && Configuration::updateValue(DemoPay::DEMO_PAY_SANDBOX_KEY, DemoPay::DEMO_PAY_SANDBOX)
-            && Configuration::updateValue(DemoPay::DEMO_PAY_GATEWAY_NAME_KEY, DemoPay::DEMO_PAY_GATEWAY_NAME_DEFAULT)
-            && Configuration::updateValue(DemoPay::DEMO_PAY_GATEWAY_DESCRIPTION_KEY, DemoPay::DEMO_PAY_GATEWAY_NAME_DEFAULT)
         );
     }
 
@@ -275,8 +245,6 @@ class DemoPay extends PaymentModule
             && Configuration::deleteByName(DemoPay::DEMO_PAY_API_KEY_KEY)
             && Configuration::deleteByName(DemoPay::DEMO_PAY_SECRET_KEY)
             && Configuration::deleteByName(DemoPay::DEMO_PAY_SANDBOX_KEY)
-            && Configuration::deleteByName(DemoPay::DEMO_PAY_GATEWAY_NAME_KEY)
-            && Configuration::deleteByName(DemoPay::DEMO_PAY_GATEWAY_DESCRIPTION_KEY)
         );
     }
 }
