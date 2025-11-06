@@ -45,7 +45,7 @@ class DemoPay extends PaymentModule
                     [
                         'type' => 'select',
                         'label' => $this->trans('Mode', [], 'Modules.Demopay.Admin'),
-                        'desc' => $this->trans('Sandbox is for testing purposes.', [], 'Modules.Demopay.Admin'),
+                        'desc' => $this->trans('Use Live (Production) Mode or Test (Sandbox) Mode', [], 'Modules.Demopay.Admin'),
                         'name' => DemoPay::DEMO_PAY_SANDBOX_KEY,
                         'required' => true,
                         'options' => array(
@@ -56,7 +56,7 @@ class DemoPay extends PaymentModule
                                 ],
                                 [
                                     'id_option' => 'FALSE',
-                                    'name' => $this->trans('Production', [], 'Modules.Demopay.Admin')
+                                    'name' => $this->trans('Live', [], 'Modules.Demopay.Admin')
                                 ],
                             ],
                             'id' => 'id_option',
@@ -136,7 +136,7 @@ class DemoPay extends PaymentModule
                 $output = $this->displayConfirmation($this->trans('Settings updated', [], 'Modules.Demopay.Admin'));
 
                 if (!$this->validateCredentials($sandbox, $storeId, $apiKey, $secret)) {
-                    $output .= $this->displayError($this->trans('Provided credentials are not valid', [], 'Modules.Demopay.Admin'));
+                    $output .= $this->displayError($this->trans('Payment method failed. Please check on settings page if API credentials are set correctly.', [], 'Modules.Demopay.Admin'));
                 }
             }
         }
@@ -157,35 +157,35 @@ class DemoPay extends PaymentModule
         // create a PaymentOption of type Offline
         $genericOption = new PaymentOption();
         $genericOption->setModuleName($this->name);
-        $genericOption->setCallToActionText($this->trans('DemoPay - Generic',[], 'Modules.Demopay.Front'));
+        $genericOption->setCallToActionText($this->trans('Generic option shows all supported methods on redirect page.',[], 'Modules.Demopay.Front'));
         $genericOption->setAction($this->context->link->getModuleLink($this->name, 'pay', ['option' => "generic"]));
         $genericOption->setAdditionalInformation($this->additionalInformationGeneric());
         //$genericOption->setLogo(Media::getMediaPath(_PS_MODULE_DIR_ . $this->name . '/views/img/option/fiserv-gateway-generic.svg'));
 
         $debitOption = new PaymentOption();
         $debitOption->setModuleName($this->name);
-        $debitOption->setCallToActionText($this->trans('DemoPay - Credit / Debit', [], 'Modules.Demopay.Front'));
+        $debitOption->setCallToActionText($this->trans('Pay with Credit / Debit Card', [], 'Modules.Demopay.Front'));
         $debitOption->setAction($this->context->link->getModuleLink($this->name, 'pay', ['option' => "cards"]));
         $debitOption->setAdditionalInformation($this->additionalInformation());
         //$debitOption->setLogo(Media::getMediaPath(_PS_MODULE_DIR_ . $this->name . '/views/img/option/fiserv-credit-card.svg'));
 
         $appleOption = new PaymentOption();
         $appleOption->setModuleName($this->name);
-        $appleOption->setCallToActionText($this->trans('DemoPay - Apple Pay', [], 'Modules.Demopay.Front'));
+        $appleOption->setCallToActionText($this->trans('Pay with Apple Pay', [], 'Modules.Demopay.Front'));
         $appleOption->setAction($this->context->link->getModuleLink($this->name, 'pay', ['option' => "applepay"]));
         $appleOption->setAdditionalInformation($this->additionalInformation());
         //$appleOption->setLogo(Media::getMediaPath(_PS_MODULE_DIR_ . $this->name . '/views/img/option/fiserv-apple-pay.svg'));
 
         $googleOption = new PaymentOption();
         $googleOption->setModuleName($this->name);
-        $googleOption->setCallToActionText($this->trans('DemoPay - Google Pay', [], 'Modules.Demopay.Front'));
+        $googleOption->setCallToActionText($this->trans('Pay with Google Pay', [], 'Modules.Demopay.Front'));
         $googleOption->setAction($this->context->link->getModuleLink($this->name, 'pay', ['option' => "googlepay"]));
         $googleOption->setAdditionalInformation($this->additionalInformation());
         //$googleOption->setLogo(Media::getMediaPath(_PS_MODULE_DIR_ . $this->name . '/views/img/option/fiserv-google-pay.svg'));
 
         $bizumOption = new PaymentOption();
         $bizumOption->setModuleName($this->name);
-        $bizumOption->setCallToActionText($this->trans('DemoPay - Bizum', [], 'Modules.Demopay.Front'));
+        $bizumOption->setCallToActionText($this->trans('Pay with Bizum', [], 'Modules.Demopay.Front'));
         $bizumOption->setAction($this->context->link->getModuleLink($this->name, 'pay', ['option' => "bizum"]));
         $bizumOption->setAdditionalInformation($this->additionalInformation());
         //$bizumOption->setLogo(Media::getMediaPath(_PS_MODULE_DIR_ . $this->name . '/views/img/option/fiserv-bizum-pay.png'));
