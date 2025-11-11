@@ -41,7 +41,7 @@ class DemoPaySuccessModuleFrontController extends ModuleFrontController
                 (int) $cart_id,
                 (int) Configuration::get("PS_OS_PAYMENT"),
                 (float) $amount,
-                "DemoPay Test!!!",
+                DemoPay::PAYMENT_MATHOD_NAME,
                 null,
                 [
                     "transaction_id" => $transaction_id

@@ -1,5 +1,7 @@
 <?php
 
+use GuzzleHttp\Exception\ClientException;
+
 if (!defined('_PS_VERSION_')) {
     exit;
 }
@@ -20,6 +22,7 @@ class DemoPay extends PaymentModule
     public const DEMO_PAY_SANDBOX_KEY = "DEMO_PAY_SANDBOX";
     const DEMO_PAY_SANDBOX = true;
     public const DEMO_PAY_SECRET_KEY = "DEMO_PAY_SECRET";
+    public const PAYMENT_MATHOD_NAME = "DemoPay";
     public function __construct()
     {
         $this->name = DemoPay::DEMO_PAY_NAME;
@@ -232,11 +235,32 @@ class DemoPay extends PaymentModule
             $refundedAmount = $refundedResponse['transactionAmount']['total'];
             $refundedCurrency = $refundedResponse['transactionAmount']['currency'];
             RefundRequestHandler::writeMessage($order, "Refunded " . $refundedAmount . ' ' . $refundedCurrency);
-        } catch (Exception $e) {
+        } catch (ClientException $e) {
             //RefundRequestHandler::writeMessage($order, "Refunding of " . $amount . ' ' . new Currency($order->id_currency)->iso_code . ' faild. Please check manually.');
-            RefundRequestHandler::writeMessage($order, "Refunding faild: " . $amount );
+            RefundRequestHandler::writeMessage($order, "Refunding faild: " . $amount);
             PrestaShopLogger::addLog($e->getMessage(), 3);
         }
+    }
+
+    public function hookDisplayAdminOrderSideBottom($params)
+    {
+        $order = new Order($params['id_order']);
+        if(count($order->getOrderPayments()) <= 0) {
+            return;
+        }
+        if($order->getOrderPayments()[0]) {
+            $payment = new OrderPayment($order->getOrderPayments()[0]->id);
+            if($payment->payment_method !== DemoPay::PAYMENT_MATHOD_NAME) {
+                return;
+            }
+        }
+        $checkout_id = $order->getOrderPayments()[0]->transaction_id;
+        $status = json_decode(CheckoutRequestHandler::getInstance()->checkoutStatus($checkout_id), true);
+        $this->context->smarty->assign([
+            'checkout_id' => $checkout_id,
+            'trace_id' => $status['ipgTransactionDetails']['apiTraceId']
+        ]);
+        return $this->display(__FILE__, 'views/templates/admin/orderSide.tpl');
     }
 
     public function install()
@@ -246,6 +270,7 @@ class DemoPay extends PaymentModule
             && $this->createTable()
             && $this->registerHook('paymentOptions')
             && $this->registerHook('actionOrderSlipAdd')
+            && $this->registerHook('displayAdminOrderSideBottom')
             && Configuration::updateValue(DemoPay::DEMO_PAY_NAME_KEY, DemoPay::DEMO_PAY_NAME)
             && Configuration::updateValue(DemoPay::DEMO_PAY_STORE_ID_KEY, DemoPay::DEMO_PAY_STORE_ID)
             && Configuration::updateValue(DemoPay::DEMO_PAY_API_KEY_KEY, DemoPay::DEMO_PAY_API_KEY)
@@ -261,6 +286,7 @@ class DemoPay extends PaymentModule
             && $this->dropTable()
             && $this->unregisterHook('paymentOptions')
             && $this->unregisterHook('actionOrderSlipAdd')
+            && $this->registerHook('displayAdminOrderSideBottom')
             && Configuration::deleteByName(DemoPay::DEMO_PAY_NAME_KEY)
             && Configuration::deleteByName(DemoPay::DEMO_PAY_STORE_ID_KEY)
             && Configuration::deleteByName(DemoPay::DEMO_PAY_API_KEY_KEY)
