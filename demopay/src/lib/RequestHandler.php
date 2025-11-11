@@ -1,17 +1,10 @@
 <?php
 
-class RequestHandler {
+abstract class RequestHandler {
     public function __construct(protected string $storeId, protected string $apiKey, protected string $secret)
     {
     }
-    protected function getCheckoutUri()
-    {
-        if (Configuration::get(DemoPay::DEMO_PAY_SANDBOX_KEY) === 'FALSE') {
-            return 'https://prod.emea.api.fiservapps.com/exp/v1/checkouts';
-        }
-
-        return 'https://prod.emea.api.fiservapps.com/sandbox/exp/v1/checkouts';
-    }
+    protected abstract function getCheckoutUri();
 
     protected function sign(string $requestId, int $time, string $body="")
     {

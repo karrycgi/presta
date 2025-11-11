@@ -1,4 +1,5 @@
 <?php
+
 if (!defined('_PS_VERSION_')) {
     exit;
 }
@@ -157,7 +158,7 @@ class DemoPay extends PaymentModule
         // create a PaymentOption of type Offline
         $genericOption = new PaymentOption();
         $genericOption->setModuleName($this->name);
-        $genericOption->setCallToActionText($this->trans('Generic option shows all supported methods on redirect page.',[], 'Modules.Demopay.Front'));
+        $genericOption->setCallToActionText($this->trans('Generic option shows all supported methods on redirect page.', [], 'Modules.Demopay.Front'));
         $genericOption->setAction($this->context->link->getModuleLink($this->name, 'pay', ['option' => "generic"]));
         $genericOption->setAdditionalInformation($this->additionalInformationGeneric());
         //$genericOption->setLogo(Media::getMediaPath(_PS_MODULE_DIR_ . $this->name . '/views/img/option/fiserv-gateway-generic.svg'));
@@ -220,12 +221,31 @@ class DemoPay extends PaymentModule
         return true;
     }
 
+
+    public function hookActionOrderSlipAdd($params)
+    {
+        $order = new Order($params['order']->id);
+        $amount = $params['orderSlipCreated']->amount;
+        try {
+            $transaction_id = CheckoutRequestHandler::getInstance()->getTransactionId($order->getOrderPayments()[0]->transaction_id);
+            $refundedResponse = json_decode(RefundRequestHandler::getInstance()->request($order, $transaction_id, $amount), true);
+            $refundedAmount = $refundedResponse['transactionAmount']['total'];
+            $refundedCurrency = $refundedResponse['transactionAmount']['currency'];
+            RefundRequestHandler::writeMessage($order, "Refunded " . $refundedAmount . ' ' . $refundedCurrency);
+        } catch (Exception $e) {
+            //RefundRequestHandler::writeMessage($order, "Refunding of " . $amount . ' ' . new Currency($order->id_currency)->iso_code . ' faild. Please check manually.');
+            RefundRequestHandler::writeMessage($order, "Refunding faild: " . $amount );
+            PrestaShopLogger::addLog($e->getMessage(), 3);
+        }
+    }
+
     public function install()
     {
         return (
             parent::install()
             && $this->createTable()
             && $this->registerHook('paymentOptions')
+            && $this->registerHook('actionOrderSlipAdd')
             && Configuration::updateValue(DemoPay::DEMO_PAY_NAME_KEY, DemoPay::DEMO_PAY_NAME)
             && Configuration::updateValue(DemoPay::DEMO_PAY_STORE_ID_KEY, DemoPay::DEMO_PAY_STORE_ID)
             && Configuration::updateValue(DemoPay::DEMO_PAY_API_KEY_KEY, DemoPay::DEMO_PAY_API_KEY)
@@ -240,6 +260,7 @@ class DemoPay extends PaymentModule
             parent::uninstall()
             && $this->dropTable()
             && $this->unregisterHook('paymentOptions')
+            && $this->unregisterHook('actionOrderSlipAdd')
             && Configuration::deleteByName(DemoPay::DEMO_PAY_NAME_KEY)
             && Configuration::deleteByName(DemoPay::DEMO_PAY_STORE_ID_KEY)
             && Configuration::deleteByName(DemoPay::DEMO_PAY_API_KEY_KEY)

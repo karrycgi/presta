@@ -13,6 +13,15 @@ class CheckoutRequestHandler extends RequestHandler
         );
     }
 
+    protected function getCheckoutUri()
+    {
+        if (Configuration::get(DemoPay::DEMO_PAY_SANDBOX_KEY) === 'FALSE') {
+            return 'https://prod.emea.api.fiservapps.com/exp/v1/checkouts';
+        }
+
+        return 'https://prod.emea.api.fiservapps.com/sandbox/exp/v1/checkouts';
+    }
+
     private function toPaymentMethode(string $name): string {
         switch(trim($name)) {
             case "applepay": return "applepay";
@@ -106,5 +115,10 @@ class CheckoutRequestHandler extends RequestHandler
         ]);
 
         return $response->getBody()->getContents();
+    }
+
+    public function getTransactionId($checkoutId) {
+        $status = json_decode(CheckoutRequestHandler::getInstance()->checkoutStatus($checkoutId), true);
+        return $status['ipgTransactionDetails']['ipgTransactionId'];
     }
 }
