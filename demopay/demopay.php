@@ -227,16 +227,18 @@ class DemoPay extends PaymentModule
 
     public function hookActionOrderSlipAdd($params)
     {
+        PrestaShopLogger::addLog(var_export($params, true), 1);
         $order = new Order($params['order']->id);
-        $amount = $params['orderSlipCreated']->amount;
+        $orderSlip = new OrderSlip($params['orderSlipCreated']->id);
+        $amount = $orderSlip->amount + $orderSlip->shipping_cost_amount;
 
-        if(count($order->getOrderPayments()) <= 0) {
+        if (count($order->getOrderPayments()) <= 0) {
             return;
         }
 
-        if($order->getOrderPayments()[0]) {
+        if ($order->getOrderPayments()[0]) {
             $payment = new OrderPayment($order->getOrderPayments()[0]->id);
-            if($payment->payment_method !== DemoPay::PAYMENT_MATHOD_NAME) {
+            if ($payment->payment_method !== DemoPay::PAYMENT_MATHOD_NAME) {
                 return;
             }
         }
@@ -247,22 +249,37 @@ class DemoPay extends PaymentModule
             $refundedResponse = json_decode(RefundRequestHandler::getInstance()->request($order, $transaction_id, $amount), true);
             $refundedAmount = $refundedResponse['transactionAmount']['total'];
             $refundedCurrency = $refundedResponse['transactionAmount']['currency'];
-            RefundRequestHandler::writeMessage($order, "Refunded " . $refundedAmount . ' ' . $refundedCurrency);
+            RefundRequestHandler::writeMessage($order, "Refunded " . $refundedAmount . ' ' . $refundedCurrency . ' for Credit Slip Number' . $orderSlip->id);
         } catch (ClientException $e) {
             PrestaShopLogger::addLog(var_export($e->getMessage(), true), 3);
-            RefundRequestHandler::writeMessage($order, "Refunding faild: " . $amount);
+            RefundRequestHandler::writeMessage($order, "Refunding failed: " . $amount);
+            $orderSlip->delete();
+            $_SESSION['hook_order_slip_error'] = 'Refund failed';
+        } catch (Exception $e) {
+            PrestaShopLogger::addLog(var_export($e, true), 3);
+            RefundRequestHandler::writeMessage($order, "Refunding failed: " . $amount);
+            $orderSlip->delete();
+            $_SESSION['hook_order_slip_error'] = 'Refund failed';
+        }
+    }
+
+    public function hookDisplayAdminOrderTop($params)
+    {
+        if (isset($_SESSION['hook_order_slip_error'])) {
+            unset($_SESSION['hook_order_slip_error']);
+            return $this->displayError($this->trans("Refund failed! Created Credit Slip was removed. Manual treatment mighty be necessary!"));
         }
     }
 
     public function hookDisplayAdminOrderSideBottom($params)
     {
         $order = new Order($params['id_order']);
-        if(count($order->getOrderPayments()) <= 0) {
+        if (count($order->getOrderPayments()) <= 0) {
             return;
         }
-        if($order->getOrderPayments()[0]) {
+        if ($order->getOrderPayments()[0]) {
             $payment = new OrderPayment($order->getOrderPayments()[0]->id);
-            if($payment->payment_method !== DemoPay::PAYMENT_MATHOD_NAME) {
+            if ($payment->payment_method !== DemoPay::PAYMENT_MATHOD_NAME) {
                 return;
             }
         }
@@ -283,6 +300,7 @@ class DemoPay extends PaymentModule
             && $this->registerHook('paymentOptions')
             && $this->registerHook('actionOrderSlipAdd')
             && $this->registerHook('displayAdminOrderSideBottom')
+            && $this->registerHook('displayAdminOrderTop')
             && Configuration::updateValue(DemoPay::DEMO_PAY_NAME_KEY, DemoPay::DEMO_PAY_NAME)
             && Configuration::updateValue(DemoPay::DEMO_PAY_STORE_ID_KEY, DemoPay::DEMO_PAY_STORE_ID)
             && Configuration::updateValue(DemoPay::DEMO_PAY_API_KEY_KEY, DemoPay::DEMO_PAY_API_KEY)
@@ -298,7 +316,8 @@ class DemoPay extends PaymentModule
             && $this->dropTable()
             && $this->unregisterHook('paymentOptions')
             && $this->unregisterHook('actionOrderSlipAdd')
-            && $this->registerHook('displayAdminOrderSideBottom')
+            && $this->unregisterHook('displayAdminOrderSideBottom')
+            && $this->unregisterHook('displayAdminOrderTop')
             && Configuration::deleteByName(DemoPay::DEMO_PAY_NAME_KEY)
             && Configuration::deleteByName(DemoPay::DEMO_PAY_STORE_ID_KEY)
             && Configuration::deleteByName(DemoPay::DEMO_PAY_API_KEY_KEY)
