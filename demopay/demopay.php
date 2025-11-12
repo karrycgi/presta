@@ -227,7 +227,6 @@ class DemoPay extends PaymentModule
 
     public function hookActionOrderSlipAdd($params)
     {
-        PrestaShopLogger::addLog(var_export($params, true), 1);
         $order = new Order($params['order']->id);
         $orderSlip = new OrderSlip($params['orderSlipCreated']->id);
         $amount = $orderSlip->amount + $orderSlip->shipping_cost_amount;
@@ -251,12 +250,18 @@ class DemoPay extends PaymentModule
             $refundedCurrency = $refundedResponse['transactionAmount']['currency'];
             RefundRequestHandler::writeMessage($order, "Refunded " . $refundedAmount . ' ' . $refundedCurrency . ' for Credit Slip Number' . $orderSlip->id);
         } catch (ClientException $e) {
-            PrestaShopLogger::addLog(var_export($e->getMessage(), true), 3);
+            PrestaShopLogger::addLog('Order ('.$order->id.') slip total amount (calculated): ' . $amount, 1, 0 , DemoPay::DEMO_PAY_NAME, $order->id);
+            PrestaShopLogger::addLog('Order ('.$order->id.') slip amount (provided by PrestaShop): ' . $orderSlip->amount, 1, 0 , DemoPay::DEMO_PAY_NAME, $order->id);
+            PrestaShopLogger::addLog('Order ('.$order->id.') slip shipping cost amount (provided by PrestaShop): ' . $orderSlip->shipping_cost_amount, 1, 0 , DemoPay::DEMO_PAY_NAME, $order->id);
+            PrestaShopLogger::addLog(var_export($e->getMessage(), true), 3, 0, DemoPay::DEMO_PAY_NAME );
             RefundRequestHandler::writeMessage($order, "Refunding failed: " . $amount);
             $orderSlip->delete();
             $_SESSION['hook_order_slip_error'] = 'Refund failed';
         } catch (Exception $e) {
-            PrestaShopLogger::addLog(var_export($e, true), 3);
+            PrestaShopLogger::addLog('Order ('.$order->id.') slip total amount (calculated): ' . $amount, 1, 0 , DemoPay::DEMO_PAY_NAME, $order->id);
+            PrestaShopLogger::addLog('Order ('.$order->id.') slip amount (provided by PrestaShop): ' . $orderSlip->amount, 1, 0 , DemoPay::DEMO_PAY_NAME, $order->id);
+            PrestaShopLogger::addLog('Order ('.$order->id.') slip shipping cost amount (provided by PrestaShop): ' . $orderSlip->shipping_cost_amount, 1, 0 , DemoPay::DEMO_PAY_NAME, $order->id);
+            PrestaShopLogger::addLog(var_export($e, true), 3, 0, DemoPay::DEMO_PAY_NAME);
             RefundRequestHandler::writeMessage($order, "Refunding failed: " . $amount);
             $orderSlip->delete();
             $_SESSION['hook_order_slip_error'] = 'Refund failed';

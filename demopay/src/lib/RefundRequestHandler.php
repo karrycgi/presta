@@ -20,8 +20,9 @@ class RefundRequestHandler extends RequestHandler
         return 'https://prod.emea.api.fiservapps.com/sandbox/ipp/payments-gateway/v2/payments';
     }
 
-    protected function getRefundUriWithTransactionId($id) {
-        return $this->getCheckoutUri().'/'.$id;
+    protected function getRefundUriWithTransactionId($id)
+    {
+        return $this->getCheckoutUri() . '/' . $id;
     }
     public static function &getCustomerThread(int $customer_id, int $order_id): CustomerThread
     {
@@ -48,9 +49,10 @@ class RefundRequestHandler extends RequestHandler
         return $customer_thread;
     }
 
-    public function request(Order &$order, int $transaction_id, float $amount) {
+    public function request(Order &$order, int $transaction_id, float $amount)
+    {
         ini_set('serialize_precision', -1); // if not there is a float error at some numbers
-        
+
         $time = intval(microtime(true) * 1000);
 
         $clientRequestId = CheckoutRequestHandler::generateUuid();
@@ -63,6 +65,8 @@ class RefundRequestHandler extends RequestHandler
                 'currency' => new Currency((int) $order->id_currency)->iso_code
             ]
         ]);
+
+        PrestaShopLogger::addLog($requestBody, 1, 0, DemoPay::DEMO_PAY_NAME);
 
         $messageSignature = $this->sign($clientRequestId, $time, $requestBody);
 
