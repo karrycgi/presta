@@ -229,16 +229,28 @@ class DemoPay extends PaymentModule
     {
         $order = new Order($params['order']->id);
         $amount = $params['orderSlipCreated']->amount;
+
+        if(count($order->getOrderPayments()) <= 0) {
+            return;
+        }
+
+        if($order->getOrderPayments()[0]) {
+            $payment = new OrderPayment($order->getOrderPayments()[0]->id);
+            if($payment->payment_method !== DemoPay::PAYMENT_MATHOD_NAME) {
+                return;
+            }
+        }
+
         try {
-            $transaction_id = CheckoutRequestHandler::getInstance()->getTransactionId($order->getOrderPayments()[0]->transaction_id);
+            $checkout_id = $order->getOrderPayments()[0]->transaction_id;
+            $transaction_id = CheckoutRequestHandler::getInstance()->getTransactionId($checkout_id);
             $refundedResponse = json_decode(RefundRequestHandler::getInstance()->request($order, $transaction_id, $amount), true);
             $refundedAmount = $refundedResponse['transactionAmount']['total'];
             $refundedCurrency = $refundedResponse['transactionAmount']['currency'];
             RefundRequestHandler::writeMessage($order, "Refunded " . $refundedAmount . ' ' . $refundedCurrency);
         } catch (ClientException $e) {
-            //RefundRequestHandler::writeMessage($order, "Refunding of " . $amount . ' ' . new Currency($order->id_currency)->iso_code . ' faild. Please check manually.');
+            PrestaShopLogger::addLog(var_export($e->getMessage(), true), 3);
             RefundRequestHandler::writeMessage($order, "Refunding faild: " . $amount);
-            PrestaShopLogger::addLog($e->getMessage(), 3);
         }
     }
 

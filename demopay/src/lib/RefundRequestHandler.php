@@ -48,7 +48,9 @@ class RefundRequestHandler extends RequestHandler
         return $customer_thread;
     }
 
-    public function request(Order $order, int $transaction_id, float $amount) {
+    public function request(Order &$order, int $transaction_id, float $amount) {
+        ini_set('serialize_precision', -1); // if not there is a float error at some numbers
+        
         $time = intval(microtime(true) * 1000);
 
         $clientRequestId = CheckoutRequestHandler::generateUuid();
@@ -61,6 +63,8 @@ class RefundRequestHandler extends RequestHandler
                 'currency' => new Currency((int) $order->id_currency)->iso_code
             ]
         ]);
+        PrestaShopLogger::addLog(var_export('Request Amount: '.$amount, true), 1);
+        PrestaShopLogger::addLog(var_export('Request body: '.$requestBody, true), 1);
 
         $messageSignature = $this->sign($clientRequestId, $time, $requestBody);
 
@@ -92,10 +96,5 @@ class RefundRequestHandler extends RequestHandler
         $customer_message->private = 1;
 
         return $customer_message->add();
-    }
-
-    public function refund(Order $order, float $amount)
-    {
-        $this->writeMessage($order, "Hello World!!! (CGI Style)");   
     }
 }
