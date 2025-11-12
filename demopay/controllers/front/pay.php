@@ -9,7 +9,7 @@ class DemoPayPayModuleFrontController extends ModuleFrontController
             $this->context->cart,
             $this->context->link->getModuleLink($this->module->name, 'webhook'),
             $this->context->link->getModuleLink($this->module->name, 'success'),
-            $this->context->link->getModuleLink($this->module->name, 'error'),
+            $this->context->link->getModuleLink($this->module->name, 'payError'),
             $paymentMethode
         );
         $obj = json_decode($result, true);
