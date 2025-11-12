@@ -63,8 +63,6 @@ class RefundRequestHandler extends RequestHandler
                 'currency' => new Currency((int) $order->id_currency)->iso_code
             ]
         ]);
-        PrestaShopLogger::addLog(var_export('Request Amount: '.$amount, true), 1);
-        PrestaShopLogger::addLog(var_export('Request body: '.$requestBody, true), 1);
 
         $messageSignature = $this->sign($clientRequestId, $time, $requestBody);
 
