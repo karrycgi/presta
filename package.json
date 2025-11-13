@@ -4,12 +4,10 @@
   "private": true,
   "license": "MIT",
   "scripts": {
-    "clean": "rimraf data",
     "up": "docker compose up -d",
     "down": "docker compose down",
     "logs": "docker compose logs -f prestashop",
-    "rm:pay": "rm -R data/ps/modules/demopay",
-    "copy:pay": "cp -R demopay data/ps/modules"
+    "rm:install": "docker compose exec prestashop rm -R /var/www/html/install"
   },
   "dependencies": {
     "rimraf": "^6.0.1"

@@ -43,7 +43,7 @@ services:
       ADMIN_PASSWD: admin123
     volumes:
       - ./data/ps:/var/www/html
-      - ./demopay:/var/www/html/modules/demopay
+      - ./ipgcheckout:/var/www/html/modules/ipgcheckout
     networks:
       - prestashop_network
 networks:
