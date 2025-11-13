@@ -23,7 +23,6 @@ class IPGCheckout extends PaymentModule
     const SANDBOX = true;
     public const SECRET_KEY = "IPG_CHECKOUT_SECRET";
     public const PAYMENT_MATHOD_NAME = "IPG Checkout";
-
     public const GENERIC_CHECKOUT_ACTIVE_KEY = "IPG_CHECKOUT_GENERIC_CHECKOUT_ACTIVE";
     public const DEBIT_CHECKOUT_ACTIVE_KEY = "IPG_CHECKOUT_DEBIT_CHECKOUT_ACTIVE";
     public const APPLE_CHECKOUT_ACTIVE_KEY = "IPG_CHECKOUT_APPLE_CHECKOUT_ACTIVE";
@@ -436,10 +435,14 @@ class IPGCheckout extends PaymentModule
             }
         }
         $checkout_id = $order->getOrderPayments()[0]->transaction_id;
-        $status = json_decode(CheckoutRequestHandler::getInstance()->checkoutStatus($checkout_id), true);
+        $response = CheckoutRequestHandler::getInstance()->checkoutStatus($checkout_id);
+        $status = json_decode($response, true);
         $this->context->smarty->assign([
             'checkout_id' => $checkout_id,
-            'trace_id' => $status['ipgTransactionDetails']['apiTraceId']
+            'trace_id' => $status['ipgTransactionDetails']['apiTraceId'],
+            'paymentMethodType' => $status['paymentMethodUsed']['paymentMethodType'],
+            'status' => $status,
+            'response' => $response
         ]);
         return $this->display(__FILE__, 'views/templates/admin/orderSide.tpl');
     }
