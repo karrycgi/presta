@@ -228,7 +228,11 @@ class DemoPay extends PaymentModule
 
     public function getContent()
     {
-        $output = '<div>';
+        $output = '<div>
+            <div style="margin-top: 5px; margin-bottom: 15px"><img src="'.Media::getMediaPath(_PS_MODULE_DIR_ . $this->name . '/views/img/fiserv-logo.svg').'" /></div>
+            <p>'.$this->trans('Pay securely with Fiserv Checkout. Acquire API credetials on our portal.', [], 'Modules.Demopay.Admin').'</p>
+            <p>'.$this->trans('Visit', [], 'Modules.Demopay.Admin').' <a href="'.$this->trans('https://developer.fiserv.com',[], 'Modules.Demopay.Admin').'">'.$this->trans('developer.fiserv.com',[], 'Modules.Demopay.Admin').'</a><p/>
+        </div>';
 
         if (Tools::isSubmit('submit' . $this->name)) {
             $storeId = (string) Tools::getValue(DemoPay::DEMO_PAY_STORE_ID_KEY);
