@@ -42,8 +42,8 @@ class IPGCheckout extends PaymentModule
 
         parent::__construct();
 
-        $this->displayName = $this->trans('IPGCheckout', [], 'Modules.IpgCheckout.Admin');
-        $this->description = $this->trans('IPGCheckout by Fiserv', [], 'Modules.IpgCheckout.Admin');
+        $this->displayName = $this->trans('IPGCheckout', [], 'Modules.Ipgcheckout.Admin');
+        $this->description = $this->trans('IPGCheckout by Fiserv', [], 'Modules.Ipgcheckout.Admin');
     }
 
     public function displayForm()
@@ -51,24 +51,24 @@ class IPGCheckout extends PaymentModule
         $form = [
             'form' => [
                 'legend' => [
-                    'title' => $this->trans('Settings', [], 'Modules.IpgCheckout.Admin'),
+                    'title' => $this->trans('Settings', [], 'Modules.Ipgcheckout.Admin'),
                 ],
                 'input' => [
                     [
                         'type' => 'select',
-                        'label' => $this->trans('Mode', [], 'Modules.IpgCheckout.Admin'),
-                        'desc' => $this->trans('Use Live (Production) Mode or Test (Sandbox) Mode', [], 'Modules.IpgCheckout.Admin'),
+                        'label' => $this->trans('Mode', [], 'Modules.Ipgcheckout.Admin'),
+                        'desc' => $this->trans('Use Live (Production) Mode or Test (Sandbox) Mode', [], 'Modules.Ipgcheckout.Admin'),
                         'name' => IPGCheckout::SANDBOX_KEY,
                         'required' => true,
                         'options' => array(
                             'query' => [
                                 [
                                     'id_option' => 'TRUE',
-                                    'name' => $this->trans('Sandbox', [], 'Modules.IpgCheckout.Admin')
+                                    'name' => $this->trans('Sandbox', [], 'Modules.Ipgcheckout.Admin')
                                 ],
                                 [
                                     'id_option' => 'FALSE',
-                                    'name' => $this->trans('Live', [], 'Modules.IpgCheckout.Admin')
+                                    'name' => $this->trans('Live', [], 'Modules.Ipgcheckout.Admin')
                                 ],
                             ],
                             'id' => 'id_option',
@@ -77,39 +77,39 @@ class IPGCheckout extends PaymentModule
                     ],
                     [
                         'type' => 'text',
-                        'label' => $this->trans('Store ID', [], 'Modules.IpgCheckout.Admin'),
+                        'label' => $this->trans('Store ID', [], 'Modules.Ipgcheckout.Admin'),
                         'name' => IPGCheckout::STORE_ID_KEY,
                         'size' => 20,
                         'required' => true
                     ],
                     [
                         'type' => 'text',
-                        'label' => $this->trans('API Key', [], 'Modules.IpgCheckout.Admin'),
+                        'label' => $this->trans('API Key', [], 'Modules.Ipgcheckout.Admin'),
                         'name' => IPGCheckout::API_KEY_KEY,
                         'size' => 20,
                         'required' => true
                     ],
                     [
                         'type' => 'text',
-                        'label' => $this->trans('API Secret', [], 'Modules.IpgCheckout.Admin'),
+                        'label' => $this->trans('API Secret', [], 'Modules.Ipgcheckout.Admin'),
                         'name' => IPGCheckout::SECRET_KEY,
                         'size' => 20,
                         'required' => true
                     ],
                     [
                         'type' => 'select',
-                        'label' => $this->trans('Generic Checkout', [], 'Modules.IpgCheckout.Admin'),
+                        'label' => $this->trans('Generic Checkout', [], 'Modules.Ipgcheckout.Admin'),
                         'name' => IPGCheckout::GENERIC_CHECKOUT_ACTIVE_KEY,
                         'required' => true,
                         'options' => array(
                             'query' => [
                                 [
                                     'id_option' => 'TRUE',
-                                    'name' => $this->trans('Active', [], 'Modules.IpgCheckout.Admin')
+                                    'name' => $this->trans('Active', [], 'Modules.Ipgcheckout.Admin')
                                 ],
                                 [
                                     'id_option' => 'FALSE',
-                                    'name' => $this->trans('Deactivated', [], 'Modules.IpgCheckout.Admin')
+                                    'name' => $this->trans('Deactivated', [], 'Modules.Ipgcheckout.Admin')
                                 ],
                             ],
                             'id' => 'id_option',
@@ -118,18 +118,18 @@ class IPGCheckout extends PaymentModule
                     ],
                     [
                         'type' => 'select',
-                        'label' => $this->trans('Credit / Debit Card', [], 'Modules.IpgCheckout.Admin'),
+                        'label' => $this->trans('Credit / Debit Card', [], 'Modules.Ipgcheckout.Admin'),
                         'name' => IPGCheckout::DEBIT_CHECKOUT_ACTIVE_KEY,
                         'required' => true,
                         'options' => array(
                             'query' => [
                                 [
                                     'id_option' => 'TRUE',
-                                    'name' => $this->trans('Active', [], 'Modules.IpgCheckout.Admin')
+                                    'name' => $this->trans('Active', [], 'Modules.Ipgcheckout.Admin')
                                 ],
                                 [
                                     'id_option' => 'FALSE',
-                                    'name' => $this->trans('Deactivated', [], 'Modules.IpgCheckout.Admin')
+                                    'name' => $this->trans('Deactivated', [], 'Modules.Ipgcheckout.Admin')
                                 ],
                             ],
                             'id' => 'id_option',
@@ -138,18 +138,18 @@ class IPGCheckout extends PaymentModule
                     ],
                     [
                         'type' => 'select',
-                        'label' => $this->trans('Apple Pay', [], 'Modules.IpgCheckout.Admin'),
+                        'label' => $this->trans('Apple Pay', [], 'Modules.Ipgcheckout.Admin'),
                         'name' => IPGCheckout::APPLE_CHECKOUT_ACTIVE_KEY,
                         'required' => true,
                         'options' => array(
                             'query' => [
                                 [
                                     'id_option' => 'TRUE',
-                                    'name' => $this->trans('Active', [], 'Modules.IpgCheckout.Admin')
+                                    'name' => $this->trans('Active', [], 'Modules.Ipgcheckout.Admin')
                                 ],
                                 [
                                     'id_option' => 'FALSE',
-                                    'name' => $this->trans('Deactivated', [], 'Modules.IpgCheckout.Admin')
+                                    'name' => $this->trans('Deactivated', [], 'Modules.Ipgcheckout.Admin')
                                 ],
                             ],
                             'id' => 'id_option',
@@ -158,18 +158,18 @@ class IPGCheckout extends PaymentModule
                     ],
                     [
                         'type' => 'select',
-                        'label' => $this->trans('Google Pay', [], 'Modules.IpgCheckout.Admin'),
+                        'label' => $this->trans('Google Pay', [], 'Modules.Ipgcheckout.Admin'),
                         'name' => IPGCheckout::GOOGLE_CHECKOUT_ACTIVE_KEY,
                         'required' => true,
                         'options' => array(
                             'query' => [
                                 [
                                     'id_option' => 'TRUE',
-                                    'name' => $this->trans('Active', [], 'Modules.IpgCheckout.Admin')
+                                    'name' => $this->trans('Active', [], 'Modules.Ipgcheckout.Admin')
                                 ],
                                 [
                                     'id_option' => 'FALSE',
-                                    'name' => $this->trans('Deactivated', [], 'Modules.IpgCheckout.Admin')
+                                    'name' => $this->trans('Deactivated', [], 'Modules.Ipgcheckout.Admin')
                                 ],
                             ],
                             'id' => 'id_option',
@@ -178,18 +178,18 @@ class IPGCheckout extends PaymentModule
                     ],
                     [
                         'type' => 'select',
-                        'label' => $this->trans('Bizum', [], 'Modules.IpgCheckout.Admin'),
+                        'label' => $this->trans('Bizum', [], 'Modules.Ipgcheckout.Admin'),
                         'name' => IPGCheckout::BIZUM_CHECKOUT_ACTIVE_KEY,
                         'required' => true,
                         'options' => array(
                             'query' => [
                                 [
                                     'id_option' => 'TRUE',
-                                    'name' => $this->trans('Active', [], 'Modules.IpgCheckout.Admin')
+                                    'name' => $this->trans('Active', [], 'Modules.Ipgcheckout.Admin')
                                 ],
                                 [
                                     'id_option' => 'FALSE',
-                                    'name' => $this->trans('Deactivated', [], 'Modules.IpgCheckout.Admin')
+                                    'name' => $this->trans('Deactivated', [], 'Modules.Ipgcheckout.Admin')
                                 ],
                             ],
                             'id' => 'id_option',
@@ -198,7 +198,7 @@ class IPGCheckout extends PaymentModule
                     ]
                 ],
                 'submit' => [
-                    'title' => $this->trans('Save', [], 'Modules.IpgCheckout.Admin'),
+                    'title' => $this->trans('Save', [], 'Modules.Ipgcheckout.Admin'),
                     'class' => 'btn btn-default pull-right',
                 ],
             ],
@@ -247,10 +247,10 @@ class IPGCheckout extends PaymentModule
             $googleCheckout = (string) Tools::getValue(IPGCheckout::GOOGLE_CHECKOUT_ACTIVE_KEY);
             $bizumCheckout = (string) Tools::getValue(IPGCheckout::BIZUM_CHECKOUT_ACTIVE_KEY);
 
-            $this->displayError($this->trans('Invalid Configuration value', [], 'Modules.IpgCheckout.Admin'));
+            $this->displayError($this->trans('Invalid Configuration value', [], 'Modules.Ipgcheckout.Admin'));
 
             if (empty($storeId) || empty($apiKey) || empty($secret) || empty($sandbox) || empty($genericCheckout) || empty($debitCheckout) || empty($appleCheckout) || empty($googleCheckout) || empty($bizumCheckout)) {
-                $output = $this->displayError($this->trans('Invalid Configuration value', [], 'Modules.IpgCheckout.Admin'));
+                $output = $this->displayError($this->trans('Invalid Configuration value', [], 'Modules.Ipgcheckout.Admin'));
             } else {
                 Configuration::updateValue(IPGCheckout::STORE_ID_KEY, trim($storeId));
                 Configuration::updateValue(IPGCheckout::API_KEY_KEY, trim($apiKey));
@@ -263,18 +263,18 @@ class IPGCheckout extends PaymentModule
                 Configuration::updateValue(IPGCheckout::GOOGLE_CHECKOUT_ACTIVE_KEY, $googleCheckout);
                 Configuration::updateValue(IPGCheckout::BIZUM_CHECKOUT_ACTIVE_KEY, $bizumCheckout);
 
-                $output = $this->displayConfirmation($this->trans('Settings updated', [], 'Modules.IpgCheckout.Admin'));
+                $output = $this->displayConfirmation($this->trans('Settings updated', [], 'Modules.Ipgcheckout.Admin'));
 
                 if (!$this->validateCredentials($sandbox, $storeId, $apiKey, $secret)) {
-                    $output .= $this->displayError($this->trans('Payment method failed. Please check on settings page if API credentials are set correctly.', [], 'Modules.IpgCheckout.Admin'));
+                    $output .= $this->displayError($this->trans('Payment method failed. Please check on settings page if API credentials are set correctly.', [], 'Modules.Ipgcheckout.Admin'));
                 }
             }
         }
 
         return $output . '<div>
             <div style="margin-top: 5px; margin-bottom: 15px"><img src="' . Media::getMediaPath(_PS_MODULE_DIR_ . $this->name . '/views/img/fiserv-logo.svg') . '" /></div>
-            <p>' . $this->trans('Pay securely with Fiserv Checkout. Acquire API credetials on our portal.', [], 'Modules.IpgCheckout.Admin') . '</p>
-            <p>' . $this->trans('Visit', [], 'Modules.IpgCheckout.Admin') . ' <a href="' . $this->trans('https://developer.fiserv.com', [], 'Modules.IpgCheckout.Admin') . '">' . $this->trans('developer.fiserv.com', [], 'Modules.IpgCheckout.Admin') . '</a><p/>
+            <p>' . $this->trans('Pay securely with Fiserv Checkout. Acquire API credetials on our portal.', [], 'Modules.Ipgcheckout.Admin') . '</p>
+            <p>' . $this->trans('Visit', [], 'Modules.Ipgcheckout.Admin') . ' <a href="' . $this->trans('https://developer.fiserv.com', [], 'Modules.Ipgcheckout.Admin') . '">' . $this->trans('developer.fiserv.com', [], 'Modules.Ipgcheckout.Admin') . '</a><p/>
         </div>' . $this->displayForm();
     }
 
@@ -294,7 +294,7 @@ class IPGCheckout extends PaymentModule
             // create a PaymentOption of type Offline
             $genericOption = new PaymentOption();
             $genericOption->setModuleName($this->name);
-            $genericOption->setCallToActionText($this->trans('Generic Checkout', [], 'Modules.IpgCheckout.Front'));
+            $genericOption->setCallToActionText($this->trans('Generic Checkout', [], 'Modules.Ipgcheckout.Front'));
             $genericOption->setAction($this->context->link->getModuleLink($this->name, 'pay', ['option' => "generic"]));
             $genericOption->setAdditionalInformation($this->additionalInformationGeneric());
             //$genericOption->setLogo(Media::getMediaPath(_PS_MODULE_DIR_ . $this->name . '/views/img/option/fiserv-gateway-generic.svg'));
@@ -304,7 +304,7 @@ class IPGCheckout extends PaymentModule
         if (Configuration::get(IPGCheckout::DEBIT_CHECKOUT_ACTIVE_KEY) === IPGCheckout::TRUE) {
             $debitOption = new PaymentOption();
             $debitOption->setModuleName($this->name);
-            $debitOption->setCallToActionText($this->trans('Credit / Debit Card', [], 'Modules.IpgCheckout.Front'));
+            $debitOption->setCallToActionText($this->trans('Credit / Debit Card', [], 'Modules.Ipgcheckout.Front'));
             $debitOption->setAction($this->context->link->getModuleLink($this->name, 'pay', ['option' => "cards"]));
             $debitOption->setAdditionalInformation($this->additionalInformation());
             //$debitOption->setLogo(Media::getMediaPath(_PS_MODULE_DIR_ . $this->name . '/views/img/option/fiserv-credit-card.svg'));
@@ -314,7 +314,7 @@ class IPGCheckout extends PaymentModule
         if (Configuration::get(IPGCheckout::APPLE_CHECKOUT_ACTIVE_KEY) === IPGCheckout::TRUE) {
             $appleOption = new PaymentOption();
             $appleOption->setModuleName($this->name);
-            $appleOption->setCallToActionText($this->trans('Apple Pay', [], 'Modules.IpgCheckout.Front'));
+            $appleOption->setCallToActionText($this->trans('Apple Pay', [], 'Modules.Ipgcheckout.Front'));
             $appleOption->setAction($this->context->link->getModuleLink($this->name, 'pay', ['option' => "applepay"]));
             $appleOption->setAdditionalInformation($this->additionalInformation());
             //$appleOption->setLogo(Media::getMediaPath(_PS_MODULE_DIR_ . $this->name . '/views/img/option/fiserv-apple-pay.svg'));
@@ -324,7 +324,7 @@ class IPGCheckout extends PaymentModule
         if (Configuration::get(IPGCheckout::GOOGLE_CHECKOUT_ACTIVE_KEY) === IPGCheckout::TRUE) {
             $googleOption = new PaymentOption();
             $googleOption->setModuleName($this->name);
-            $googleOption->setCallToActionText($this->trans('Google Pay', [], 'Modules.IpgCheckout.Front'));
+            $googleOption->setCallToActionText($this->trans('Google Pay', [], 'Modules.Ipgcheckout.Front'));
             $googleOption->setAction($this->context->link->getModuleLink($this->name, 'pay', ['option' => "googlepay"]));
             $googleOption->setAdditionalInformation($this->additionalInformation());
             //$googleOption->setLogo(Media::getMediaPath(_PS_MODULE_DIR_ . $this->name . '/views/img/option/fiserv-google-pay.svg'));
@@ -334,7 +334,7 @@ class IPGCheckout extends PaymentModule
         if (Configuration::get(IPGCheckout::BIZUM_CHECKOUT_ACTIVE_KEY) === IPGCheckout::TRUE) {
             $bizumOption = new PaymentOption();
             $bizumOption->setModuleName($this->name);
-            $bizumOption->setCallToActionText($this->trans('Bizum', [], 'Modules.IpgCheckout.Front'));
+            $bizumOption->setCallToActionText($this->trans('Bizum', [], 'Modules.Ipgcheckout.Front'));
             $bizumOption->setAction($this->context->link->getModuleLink($this->name, 'pay', ['option' => "bizum"]));
             $bizumOption->setAdditionalInformation($this->additionalInformation());
             //$bizumOption->setLogo(Media::getMediaPath(_PS_MODULE_DIR_ . $this->name . '/views/img/option/fiserv-bizum-pay.png'));
@@ -346,12 +346,12 @@ class IPGCheckout extends PaymentModule
 
     private function additionalInformation()
     {
-        return '<p>' . $this->trans('You will be redirected to an external checkout page.', [], 'Modules.IpgCheckout.Front') . '</p>';
+        return '<p>' . $this->trans('You will be redirected to an external checkout page.', [], 'Modules.Ipgcheckout.Front') . '</p>';
     }
 
     private function additionalInformationGeneric()
     {
-        return '<p>' . $this->trans('You will be redirected to an external checkout page where you will be able to select the other payment methods.', [], 'Modules.IpgCheckout.Front') . '</p>';
+        return '<p>' . $this->trans('You will be redirected to an external checkout page where you will be able to select the other payment methods.', [], 'Modules.Ipgcheckout.Front') . '</p>';
     }
 
     public function isUsingNewTranslationSystem()
@@ -419,7 +419,7 @@ class IPGCheckout extends PaymentModule
     {
         if (isset($_SESSION['hook_order_slip_error'])) {
             unset($_SESSION['hook_order_slip_error']);
-            return $this->displayError($this->trans("Refund failed! Created Credit Slip was removed. Manual treatment mighty be necessary!", [], 'Modules.IpgCheckout.Admin'));
+            return $this->displayError($this->trans("Refund failed! Created Credit Slip was removed. Manual treatment mighty be necessary!", [], 'Modules.Ipgcheckout.Admin'));
         }
     }
 
