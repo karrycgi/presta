@@ -84,14 +84,14 @@ class DemoPay extends PaymentModule
                     ],
                     [
                         'type' => 'text',
-                        'label' => $this->trans('API key', [], 'Modules.Demopay.Admin'),
+                        'label' => $this->trans('API Key', [], 'Modules.Demopay.Admin'),
                         'name' => DemoPay::DEMO_PAY_API_KEY_KEY,
                         'size' => 20,
                         'required' => true
                     ],
                     [
                         'type' => 'text',
-                        'label' => $this->trans('API secret', [], 'Modules.Demopay.Admin'),
+                        'label' => $this->trans('API Secret', [], 'Modules.Demopay.Admin'),
                         'name' => DemoPay::DEMO_PAY_SECRET_KEY,
                         'size' => 20,
                         'required' => true
@@ -228,7 +228,7 @@ class DemoPay extends PaymentModule
 
     public function getContent()
     {
-        $output = '';
+        $output = '<div>';
 
         if (Tools::isSubmit('submit' . $this->name)) {
             $storeId = (string) Tools::getValue(DemoPay::DEMO_PAY_STORE_ID_KEY);
