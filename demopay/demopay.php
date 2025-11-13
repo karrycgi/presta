@@ -23,6 +23,14 @@ class DemoPay extends PaymentModule
     const DEMO_PAY_SANDBOX = true;
     public const DEMO_PAY_SECRET_KEY = "DEMO_PAY_SECRET";
     public const PAYMENT_MATHOD_NAME = "DemoPay";
+
+    public const GENERIC_CHECKOUT_ACTIVE_KEY = "DEMO_PAY_GENERIC_CHECKOUT_ACTIVE";
+    public const DEBIT_CHECKOUT_ACTIVE_KEY = "DEMO_PAY_DEBIT_CHECKOUT_ACTIVE";
+    public const APPLE_CHECKOUT_ACTIVE_KEY = "DEMO_PAY_APPLE_CHECKOUT_ACTIVE";
+    public const GOOGLE_CHECKOUT_ACTIVE_KEY = "DEMO_PAY_GOOGLE_CHECKOUT_ACTIVE";
+    public const BIZUM_CHECKOUT_ACTIVE_KEY = "DEMO_PAY_BIZUM_ACTIVE";
+    public const TRUE = 'TRUE';
+    public const FALSE = 'FALSE';
     public function __construct()
     {
         $this->name = DemoPay::DEMO_PAY_NAME;
@@ -87,6 +95,101 @@ class DemoPay extends PaymentModule
                         'name' => DemoPay::DEMO_PAY_SECRET_KEY,
                         'size' => 20,
                         'required' => true
+                    ],[
+                        'type' => 'select',
+                        'label' => $this->trans('Generic Checkout', [], 'Modules.Demopay.Admin'),
+                        'name' => DemoPay::GENERIC_CHECKOUT_ACTIVE_KEY,
+                        'required' => true,
+                        'options' => array(
+                            'query' => [
+                                [
+                                    'id_option' => 'TRUE',
+                                    'name' => $this->trans('Active', [], 'Modules.Demopay.Admin')
+                                ],
+                                [
+                                    'id_option' => 'FALSE',
+                                    'name' => $this->trans('Deactivated', [], 'Modules.Demopay.Admin')
+                                ],
+                            ],
+                            'id' => 'id_option',
+                            'name' => 'name'
+                        )
+                    ],[
+                        'type' => 'select',
+                        'label' => $this->trans('Credit / Debit Card', [], 'Modules.Demopay.Admin'),
+                        'name' => DemoPay::DEBIT_CHECKOUT_ACTIVE_KEY,
+                        'required' => true,
+                        'options' => array(
+                            'query' => [
+                                [
+                                    'id_option' => 'TRUE',
+                                    'name' => $this->trans('Active', [], 'Modules.Demopay.Admin')
+                                ],
+                                [
+                                    'id_option' => 'FALSE',
+                                    'name' => $this->trans('Deactivated', [], 'Modules.Demopay.Admin')
+                                ],
+                            ],
+                            'id' => 'id_option',
+                            'name' => 'name'
+                        )
+                    ],[
+                        'type' => 'select',
+                        'label' => $this->trans('Apple Pay', [], 'Modules.Demopay.Admin'),
+                        'name' => DemoPay::APPLE_CHECKOUT_ACTIVE_KEY,
+                        'required' => true,
+                        'options' => array(
+                            'query' => [
+                                [
+                                    'id_option' => 'TRUE',
+                                    'name' => $this->trans('Active', [], 'Modules.Demopay.Admin')
+                                ],
+                                [
+                                    'id_option' => 'FALSE',
+                                    'name' => $this->trans('Deactivated', [], 'Modules.Demopay.Admin')
+                                ],
+                            ],
+                            'id' => 'id_option',
+                            'name' => 'name'
+                        )
+                    ],[
+                        'type' => 'select',
+                        'label' => $this->trans('Google Pay', [], 'Modules.Demopay.Admin'),
+                        'name' => DemoPay::GOOGLE_CHECKOUT_ACTIVE_KEY,
+                        'required' => true,
+                        'options' => array(
+                            'query' => [
+                                [
+                                    'id_option' => 'TRUE',
+                                    'name' => $this->trans('Active', [], 'Modules.Demopay.Admin')
+                                ],
+                                [
+                                    'id_option' => 'FALSE',
+                                    'name' => $this->trans('Deactivated', [], 'Modules.Demopay.Admin')
+                                ],
+                            ],
+                            'id' => 'id_option',
+                            'name' => 'name'
+                        )
+                    ],[
+                        'type' => 'select',
+                        'label' => $this->trans('Bizum', [], 'Modules.Demopay.Admin'),
+                        'name' => DemoPay::BIZUM_CHECKOUT_ACTIVE_KEY,
+                        'required' => true,
+                        'options' => array(
+                            'query' => [
+                                [
+                                    'id_option' => 'TRUE',
+                                    'name' => $this->trans('Active', [], 'Modules.Demopay.Admin')
+                                ],
+                                [
+                                    'id_option' => 'FALSE',
+                                    'name' => $this->trans('Deactivated', [], 'Modules.Demopay.Admin')
+                                ],
+                            ],
+                            'id' => 'id_option',
+                            'name' => 'name'
+                        )
                     ]
                 ],
                 'submit' => [
@@ -114,6 +217,12 @@ class DemoPay extends PaymentModule
         $helper->fields_value[DemoPay::DEMO_PAY_SECRET_KEY] = Tools::getValue(DemoPay::DEMO_PAY_SECRET_KEY, Configuration::get(DemoPay::DEMO_PAY_SECRET_KEY));
         $helper->fields_value[DemoPay::DEMO_PAY_SANDBOX_KEY] = Tools::getValue(DemoPay::DEMO_PAY_SANDBOX_KEY, Configuration::get(DemoPay::DEMO_PAY_SANDBOX_KEY));
 
+        $helper->fields_value[DemoPay::GENERIC_CHECKOUT_ACTIVE_KEY] = Tools::getValue(DemoPay::GENERIC_CHECKOUT_ACTIVE_KEY, Configuration::get(DemoPay::GENERIC_CHECKOUT_ACTIVE_KEY));
+        $helper->fields_value[DemoPay::DEBIT_CHECKOUT_ACTIVE_KEY] = Tools::getValue(DemoPay::DEBIT_CHECKOUT_ACTIVE_KEY, Configuration::get(DemoPay::DEBIT_CHECKOUT_ACTIVE_KEY));
+        $helper->fields_value[DemoPay::APPLE_CHECKOUT_ACTIVE_KEY] = Tools::getValue(DemoPay::APPLE_CHECKOUT_ACTIVE_KEY, Configuration::get(DemoPay::APPLE_CHECKOUT_ACTIVE_KEY));
+        $helper->fields_value[DemoPay::GOOGLE_CHECKOUT_ACTIVE_KEY] = Tools::getValue(DemoPay::GOOGLE_CHECKOUT_ACTIVE_KEY, Configuration::get(DemoPay::GOOGLE_CHECKOUT_ACTIVE_KEY));
+        $helper->fields_value[DemoPay::BIZUM_CHECKOUT_ACTIVE_KEY] = Tools::getValue(DemoPay::BIZUM_CHECKOUT_ACTIVE_KEY, Configuration::get(DemoPay::BIZUM_CHECKOUT_ACTIVE_KEY));
+
         return $helper->generateForm([$form]);
     }
 
@@ -127,15 +236,27 @@ class DemoPay extends PaymentModule
             $secret = (string) Tools::getValue(DemoPay::DEMO_PAY_SECRET_KEY);
             $sandbox = (string) Tools::getValue(DemoPay::DEMO_PAY_SANDBOX_KEY);
 
+            $genericCheckout = (string) Tools::getValue(DemoPay::GENERIC_CHECKOUT_ACTIVE_KEY);
+            $debitCheckout = (string) Tools::getValue(DemoPay::DEBIT_CHECKOUT_ACTIVE_KEY);
+            $appleCheckout = (string) Tools::getValue(DemoPay::APPLE_CHECKOUT_ACTIVE_KEY);
+            $googleCheckout = (string) Tools::getValue(DemoPay::GOOGLE_CHECKOUT_ACTIVE_KEY);
+            $bizumCheckout = (string) Tools::getValue(DemoPay::BIZUM_CHECKOUT_ACTIVE_KEY);
+
             $this->displayError($this->trans('Invalid Configuration value', [], 'Modules.Demopay.Admin'));
 
-            if (empty($storeId) || empty($apiKey) || empty($secret) || empty($sandbox)) {
+            if (empty($storeId) || empty($apiKey) || empty($secret) || empty($sandbox) || empty($genericCheckout) || empty($debitCheckout) || empty($appleCheckout) || empty($googleCheckout) || empty($bizumCheckout)) {
                 $output = $this->displayError($this->trans('Invalid Configuration value', [], 'Modules.Demopay.Admin'));
             } else {
                 Configuration::updateValue(DemoPay::DEMO_PAY_STORE_ID_KEY, trim($storeId));
                 Configuration::updateValue(DemoPay::DEMO_PAY_API_KEY_KEY, trim($apiKey));
                 Configuration::updateValue(DemoPay::DEMO_PAY_SECRET_KEY, trim($secret));
                 Configuration::updateValue(DemoPay::DEMO_PAY_SANDBOX_KEY, $sandbox);
+
+                Configuration::updateValue(DemoPay::GENERIC_CHECKOUT_ACTIVE_KEY, $genericCheckout);
+                Configuration::updateValue(DemoPay::DEBIT_CHECKOUT_ACTIVE_KEY, $debitCheckout);
+                Configuration::updateValue(DemoPay::APPLE_CHECKOUT_ACTIVE_KEY, $appleCheckout);
+                Configuration::updateValue(DemoPay::GOOGLE_CHECKOUT_ACTIVE_KEY, $googleCheckout);
+                Configuration::updateValue(DemoPay::BIZUM_CHECKOUT_ACTIVE_KEY, $bizumCheckout);
 
                 $output = $this->displayConfirmation($this->trans('Settings updated', [], 'Modules.Demopay.Admin'));
 
@@ -158,43 +279,60 @@ class DemoPay extends PaymentModule
         if (!$this->active) {
             return;
         }
-        // create a PaymentOption of type Offline
-        $genericOption = new PaymentOption();
-        $genericOption->setModuleName($this->name);
-        $genericOption->setCallToActionText($this->trans('Generic Checkout', [], 'Modules.Demopay.Front'));
-        $genericOption->setAction($this->context->link->getModuleLink($this->name, 'pay', ['option' => "generic"]));
-        $genericOption->setAdditionalInformation($this->additionalInformationGeneric());
-        //$genericOption->setLogo(Media::getMediaPath(_PS_MODULE_DIR_ . $this->name . '/views/img/option/fiserv-gateway-generic.svg'));
 
-        $debitOption = new PaymentOption();
-        $debitOption->setModuleName($this->name);
-        $debitOption->setCallToActionText($this->trans('Pay with Credit / Debit Card', [], 'Modules.Demopay.Front'));
-        $debitOption->setAction($this->context->link->getModuleLink($this->name, 'pay', ['option' => "cards"]));
-        $debitOption->setAdditionalInformation($this->additionalInformation());
-        //$debitOption->setLogo(Media::getMediaPath(_PS_MODULE_DIR_ . $this->name . '/views/img/option/fiserv-credit-card.svg'));
+        $paymentOptions = [];
+        if (Configuration::get(DemoPay::GENERIC_CHECKOUT_ACTIVE_KEY) === DemoPay::TRUE) {
+            // create a PaymentOption of type Offline
+            $genericOption = new PaymentOption();
+            $genericOption->setModuleName($this->name);
+            $genericOption->setCallToActionText($this->trans('Generic Checkout', [], 'Modules.Demopay.Front'));
+            $genericOption->setAction($this->context->link->getModuleLink($this->name, 'pay', ['option' => "generic"]));
+            $genericOption->setAdditionalInformation($this->additionalInformationGeneric());
+            //$genericOption->setLogo(Media::getMediaPath(_PS_MODULE_DIR_ . $this->name . '/views/img/option/fiserv-gateway-generic.svg'));
+            $paymentOptions[] = $genericOption;
+        }
 
-        $appleOption = new PaymentOption();
-        $appleOption->setModuleName($this->name);
-        $appleOption->setCallToActionText($this->trans('Pay with Apple Pay', [], 'Modules.Demopay.Front'));
-        $appleOption->setAction($this->context->link->getModuleLink($this->name, 'pay', ['option' => "applepay"]));
-        $appleOption->setAdditionalInformation($this->additionalInformation());
-        //$appleOption->setLogo(Media::getMediaPath(_PS_MODULE_DIR_ . $this->name . '/views/img/option/fiserv-apple-pay.svg'));
+        if (Configuration::get(DemoPay::DEBIT_CHECKOUT_ACTIVE_KEY) === DemoPay::TRUE) {
+            $debitOption = new PaymentOption();
+            $debitOption->setModuleName($this->name);
+            $debitOption->setCallToActionText($this->trans('Pay with Credit / Debit Card', [], 'Modules.Demopay.Front'));
+            $debitOption->setAction($this->context->link->getModuleLink($this->name, 'pay', ['option' => "cards"]));
+            $debitOption->setAdditionalInformation($this->additionalInformation());
+            //$debitOption->setLogo(Media::getMediaPath(_PS_MODULE_DIR_ . $this->name . '/views/img/option/fiserv-credit-card.svg'));
+            $paymentOptions[] = $debitOption;
+        }
 
-        $googleOption = new PaymentOption();
-        $googleOption->setModuleName($this->name);
-        $googleOption->setCallToActionText($this->trans('Pay with Google Pay', [], 'Modules.Demopay.Front'));
-        $googleOption->setAction($this->context->link->getModuleLink($this->name, 'pay', ['option' => "googlepay"]));
-        $googleOption->setAdditionalInformation($this->additionalInformation());
-        //$googleOption->setLogo(Media::getMediaPath(_PS_MODULE_DIR_ . $this->name . '/views/img/option/fiserv-google-pay.svg'));
+        if (Configuration::get(DemoPay::APPLE_CHECKOUT_ACTIVE_KEY) === DemoPay::TRUE) {
+            $appleOption = new PaymentOption();
+            $appleOption->setModuleName($this->name);
+            $appleOption->setCallToActionText($this->trans('Pay with Apple Pay', [], 'Modules.Demopay.Front'));
+            $appleOption->setAction($this->context->link->getModuleLink($this->name, 'pay', ['option' => "applepay"]));
+            $appleOption->setAdditionalInformation($this->additionalInformation());
+            //$appleOption->setLogo(Media::getMediaPath(_PS_MODULE_DIR_ . $this->name . '/views/img/option/fiserv-apple-pay.svg'));
+            $paymentOptions[] = $appleOption;
+        }
 
-        $bizumOption = new PaymentOption();
-        $bizumOption->setModuleName($this->name);
-        $bizumOption->setCallToActionText($this->trans('Pay with Bizum', [], 'Modules.Demopay.Front'));
-        $bizumOption->setAction($this->context->link->getModuleLink($this->name, 'pay', ['option' => "bizum"]));
-        $bizumOption->setAdditionalInformation($this->additionalInformation());
-        //$bizumOption->setLogo(Media::getMediaPath(_PS_MODULE_DIR_ . $this->name . '/views/img/option/fiserv-bizum-pay.png'));
+        if (Configuration::get(DemoPay::GOOGLE_CHECKOUT_ACTIVE_KEY) === DemoPay::TRUE) {
+            $googleOption = new PaymentOption();
+            $googleOption->setModuleName($this->name);
+            $googleOption->setCallToActionText($this->trans('Pay with Google Pay', [], 'Modules.Demopay.Front'));
+            $googleOption->setAction($this->context->link->getModuleLink($this->name, 'pay', ['option' => "googlepay"]));
+            $googleOption->setAdditionalInformation($this->additionalInformation());
+            //$googleOption->setLogo(Media::getMediaPath(_PS_MODULE_DIR_ . $this->name . '/views/img/option/fiserv-google-pay.svg'));
+            $paymentOptions[] = $googleOption;
+        }
 
-        return [$genericOption, $debitOption, $appleOption, $googleOption, $bizumOption];
+        if (Configuration::get(DemoPay::BIZUM_CHECKOUT_ACTIVE_KEY) === DemoPay::TRUE) {
+            $bizumOption = new PaymentOption();
+            $bizumOption->setModuleName($this->name);
+            $bizumOption->setCallToActionText($this->trans('Pay with Bizum', [], 'Modules.Demopay.Front'));
+            $bizumOption->setAction($this->context->link->getModuleLink($this->name, 'pay', ['option' => "bizum"]));
+            $bizumOption->setAdditionalInformation($this->additionalInformation());
+            //$bizumOption->setLogo(Media::getMediaPath(_PS_MODULE_DIR_ . $this->name . '/views/img/option/fiserv-bizum-pay.png'));
+            $paymentOptions[] = $bizumOption;
+        }
+
+        return $paymentOptions;
     }
 
     private function additionalInformation()
@@ -250,17 +388,17 @@ class DemoPay extends PaymentModule
             $refundedCurrency = $refundedResponse['transactionAmount']['currency'];
             RefundRequestHandler::writeMessage($order, "Refunded " . $refundedAmount . ' ' . $refundedCurrency . ' for Credit Slip Number' . $orderSlip->id);
         } catch (ClientException $e) {
-            PrestaShopLogger::addLog('Order ('.$order->id.') slip total amount (calculated): ' . $amount, 1, 0 , DemoPay::DEMO_PAY_NAME, $order->id);
-            PrestaShopLogger::addLog('Order ('.$order->id.') slip amount (provided by PrestaShop): ' . $orderSlip->amount, 1, 0 , DemoPay::DEMO_PAY_NAME, $order->id);
-            PrestaShopLogger::addLog('Order ('.$order->id.') slip shipping cost amount (provided by PrestaShop): ' . $orderSlip->shipping_cost_amount, 1, 0 , DemoPay::DEMO_PAY_NAME, $order->id);
-            PrestaShopLogger::addLog(var_export($e->getMessage(), true), 3, 0, DemoPay::DEMO_PAY_NAME );
+            PrestaShopLogger::addLog('Order (' . $order->id . ') slip total amount (calculated): ' . $amount, 1, 0, DemoPay::DEMO_PAY_NAME, $order->id);
+            PrestaShopLogger::addLog('Order (' . $order->id . ') slip amount (provided by PrestaShop): ' . $orderSlip->amount, 1, 0, DemoPay::DEMO_PAY_NAME, $order->id);
+            PrestaShopLogger::addLog('Order (' . $order->id . ') slip shipping cost amount (provided by PrestaShop): ' . $orderSlip->shipping_cost_amount, 1, 0, DemoPay::DEMO_PAY_NAME, $order->id);
+            PrestaShopLogger::addLog(var_export($e->getMessage(), true), 3, 0, DemoPay::DEMO_PAY_NAME);
             RefundRequestHandler::writeMessage($order, "Refunding failed: " . $amount);
             $orderSlip->delete();
             $_SESSION['hook_order_slip_error'] = 'Refund failed';
         } catch (Exception $e) {
-            PrestaShopLogger::addLog('Order ('.$order->id.') slip total amount (calculated): ' . $amount, 1, 0 , DemoPay::DEMO_PAY_NAME, $order->id);
-            PrestaShopLogger::addLog('Order ('.$order->id.') slip amount (provided by PrestaShop): ' . $orderSlip->amount, 1, 0 , DemoPay::DEMO_PAY_NAME, $order->id);
-            PrestaShopLogger::addLog('Order ('.$order->id.') slip shipping cost amount (provided by PrestaShop): ' . $orderSlip->shipping_cost_amount, 1, 0 , DemoPay::DEMO_PAY_NAME, $order->id);
+            PrestaShopLogger::addLog('Order (' . $order->id . ') slip total amount (calculated): ' . $amount, 1, 0, DemoPay::DEMO_PAY_NAME, $order->id);
+            PrestaShopLogger::addLog('Order (' . $order->id . ') slip amount (provided by PrestaShop): ' . $orderSlip->amount, 1, 0, DemoPay::DEMO_PAY_NAME, $order->id);
+            PrestaShopLogger::addLog('Order (' . $order->id . ') slip shipping cost amount (provided by PrestaShop): ' . $orderSlip->shipping_cost_amount, 1, 0, DemoPay::DEMO_PAY_NAME, $order->id);
             PrestaShopLogger::addLog(var_export($e, true), 3, 0, DemoPay::DEMO_PAY_NAME);
             RefundRequestHandler::writeMessage($order, "Refunding failed: " . $amount);
             $orderSlip->delete();
@@ -311,6 +449,11 @@ class DemoPay extends PaymentModule
             && Configuration::updateValue(DemoPay::DEMO_PAY_API_KEY_KEY, DemoPay::DEMO_PAY_API_KEY)
             && Configuration::updateValue(DemoPay::DEMO_PAY_SECRET_KEY, DemoPay::DEMO_PAY_SECRET)
             && Configuration::updateValue(DemoPay::DEMO_PAY_SANDBOX_KEY, DemoPay::DEMO_PAY_SANDBOX)
+            && Configuration::updateValue(DemoPay::GENERIC_CHECKOUT_ACTIVE_KEY, DemoPay::TRUE)
+            && Configuration::updateValue(DemoPay::DEBIT_CHECKOUT_ACTIVE_KEY, DemoPay::TRUE)
+            && Configuration::updateValue(DemoPay::APPLE_CHECKOUT_ACTIVE_KEY, DemoPay::TRUE)
+            && Configuration::updateValue(DemoPay::GOOGLE_CHECKOUT_ACTIVE_KEY, DemoPay::TRUE)
+            && Configuration::updateValue(DemoPay::BIZUM_CHECKOUT_ACTIVE_KEY, DemoPay::FALSE)
         );
     }
 
@@ -328,6 +471,11 @@ class DemoPay extends PaymentModule
             && Configuration::deleteByName(DemoPay::DEMO_PAY_API_KEY_KEY)
             && Configuration::deleteByName(DemoPay::DEMO_PAY_SECRET_KEY)
             && Configuration::deleteByName(DemoPay::DEMO_PAY_SANDBOX_KEY)
+            && Configuration::deleteByName(DemoPay::GENERIC_CHECKOUT_ACTIVE_KEY)
+            && Configuration::deleteByName(DemoPay::DEBIT_CHECKOUT_ACTIVE_KEY)
+            && Configuration::deleteByName(DemoPay::APPLE_CHECKOUT_ACTIVE_KEY)
+            && Configuration::deleteByName(DemoPay::GOOGLE_CHECKOUT_ACTIVE_KEY)
+            && Configuration::deleteByName(DemoPay::BIZUM_CHECKOUT_ACTIVE_KEY)
         );
     }
 }
