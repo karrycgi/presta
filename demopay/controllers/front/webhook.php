@@ -41,7 +41,7 @@ class DemoPayWebhookModuleFrontController extends ModuleFrontController
                 DB::getInstance()->delete(DemoPay::DEMO_PAY_NAME . '_transactions', 'cart_id = ' . (int) $cart_id);
             }
         } catch (Exception $e) {
-            PrestaShopLogger::addLog($e->getMessage(), 3);
+            PrestaShopLogger::addLog($e->getMessage(), 3, 0, DemoPay::DEMO_PAY_NAME);
         }
         die;
     }
