@@ -22,7 +22,7 @@ class IPGCheckout extends PaymentModule
     public const SANDBOX_KEY = "IPG_CHECKOUT_SANDBOX";
     const SANDBOX = true;
     public const SECRET_KEY = "IPG_CHECKOUT_SECRET";
-    public const PAYMENT_MATHOD_NAME = "IPGCheckout";
+    public const PAYMENT_MATHOD_NAME = "IPG Checkout";
 
     public const GENERIC_CHECKOUT_ACTIVE_KEY = "IPG_CHECKOUT_GENERIC_CHECKOUT_ACTIVE";
     public const DEBIT_CHECKOUT_ACTIVE_KEY = "IPG_CHECKOUT_DEBIT_CHECKOUT_ACTIVE";
@@ -42,8 +42,8 @@ class IPGCheckout extends PaymentModule
 
         parent::__construct();
 
-        $this->displayName = $this->trans('IPGCheckout', [], 'Modules.Ipgcheckout.Admin');
-        $this->description = $this->trans('IPGCheckout by Fiserv', [], 'Modules.Ipgcheckout.Admin');
+        $this->displayName = $this->trans('IPG Checkout', [], 'Modules.Ipgcheckout.Admin');
+        $this->description = $this->trans('IPG Checkout by Fiserv', [], 'Modules.Ipgcheckout.Admin');
     }
 
     public function displayForm()
