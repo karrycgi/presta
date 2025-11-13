@@ -161,7 +161,7 @@ class DemoPay extends PaymentModule
         // create a PaymentOption of type Offline
         $genericOption = new PaymentOption();
         $genericOption->setModuleName($this->name);
-        $genericOption->setCallToActionText($this->trans('Generic option shows all supported methods on redirect page.', [], 'Modules.Demopay.Front'));
+        $genericOption->setCallToActionText($this->trans('Generic Checkout', [], 'Modules.Demopay.Front'));
         $genericOption->setAction($this->context->link->getModuleLink($this->name, 'pay', ['option' => "generic"]));
         $genericOption->setAdditionalInformation($this->additionalInformationGeneric());
         //$genericOption->setLogo(Media::getMediaPath(_PS_MODULE_DIR_ . $this->name . '/views/img/option/fiserv-gateway-generic.svg'));
