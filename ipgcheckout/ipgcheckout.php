@@ -233,11 +233,7 @@ class IPGCheckout extends PaymentModule
 
     public function getContent()
     {
-        $output = '<div>
-            <div style="margin-top: 5px; margin-bottom: 15px"><img src="' . Media::getMediaPath(_PS_MODULE_DIR_ . $this->name . '/views/img/fiserv-logo.svg') . '" /></div>
-            <p>' . $this->trans('Pay securely with Fiserv Checkout. Acquire API credetials on our portal.', [], 'Modules.IpgCheckout.Admin') . '</p>
-            <p>' . $this->trans('Visit', [], 'Modules.IpgCheckout.Admin') . ' <a href="' . $this->trans('https://developer.fiserv.com', [], 'Modules.IpgCheckout.Admin') . '">' . $this->trans('developer.fiserv.com', [], 'Modules.IpgCheckout.Admin') . '</a><p/>
-        </div>';
+        $output = '';
 
         if (Tools::isSubmit('submit' . $this->name)) {
             $storeId = (string) Tools::getValue(IPGCheckout::STORE_ID_KEY);
@@ -275,7 +271,11 @@ class IPGCheckout extends PaymentModule
             }
         }
 
-        return $output . $this->displayForm();
+        return $output . '<div>
+            <div style="margin-top: 5px; margin-bottom: 15px"><img src="' . Media::getMediaPath(_PS_MODULE_DIR_ . $this->name . '/views/img/fiserv-logo.svg') . '" /></div>
+            <p>' . $this->trans('Pay securely with Fiserv Checkout. Acquire API credetials on our portal.', [], 'Modules.IpgCheckout.Admin') . '</p>
+            <p>' . $this->trans('Visit', [], 'Modules.IpgCheckout.Admin') . ' <a href="' . $this->trans('https://developer.fiserv.com', [], 'Modules.IpgCheckout.Admin') . '">' . $this->trans('developer.fiserv.com', [], 'Modules.IpgCheckout.Admin') . '</a><p/>
+        </div>' . $this->displayForm();
     }
 
     private function validateCredentials(string $sandbox, string $storeId, string $apiKey, string $secret): bool

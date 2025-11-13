@@ -4,6 +4,8 @@
 
 ```docker compose up -d``` or ```npm run up``` to start environment.
 
+```npm run rm:install``` or ```docker compose exec prestashop rm -R /var/www/html/install``` to remove install folder (needed from version 9.0.1 of Prestashop)
+
 ```docker compose logs -f``` or ```npm run logs``` to float console output of docker environment.
 
 ```docker compose down``` or ```npm run down``` to stop environment.
