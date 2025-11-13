@@ -43,7 +43,7 @@ class IPGCheckout extends PaymentModule
         parent::__construct();
 
         $this->displayName = $this->trans('IPGCheckout', [], 'Modules.IpgCheckout.Admin');
-        $this->description = $this->trans('IPGCheckout by Martin Karry', [], 'Modules.IpgCheckout.Admin');
+        $this->description = $this->trans('IPGCheckout by Fiserv', [], 'Modules.IpgCheckout.Admin');
     }
 
     public function displayForm()
