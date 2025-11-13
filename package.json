@@ -8,8 +8,7 @@
     "up": "docker compose up -d",
     "down": "docker compose down",
     "logs": "docker compose logs -f prestashop",
-    "rm:pay": "rm -R data/ps/modules/demopay",
-    "copy:pay": "cp -R demopay data/ps/modules"
+    "rm:pay": "rm -R data/ps/modules/ipgcheckout"
   },
   "dependencies": {
     "rimraf": "^6.0.1"
