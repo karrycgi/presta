@@ -414,7 +414,7 @@ class DemoPay extends PaymentModule
     {
         if (isset($_SESSION['hook_order_slip_error'])) {
             unset($_SESSION['hook_order_slip_error']);
-            return $this->displayError($this->trans("Refund failed! Created Credit Slip was removed. Manual treatment mighty be necessary!"));
+            return $this->displayError($this->trans("Refund failed! Created Credit Slip was removed. Manual treatment mighty be necessary!", [], 'Modules.Demopay.Admin'));
         }
     }
 
