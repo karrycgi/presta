@@ -304,7 +304,7 @@ class IPGCheckout extends PaymentModule
         if (Configuration::get(IPGCheckout::DEBIT_CHECKOUT_ACTIVE_KEY) === IPGCheckout::TRUE) {
             $debitOption = new PaymentOption();
             $debitOption->setModuleName($this->name);
-            $debitOption->setCallToActionText($this->trans('Pay with Credit / Debit Card', [], 'Modules.IpgCheckout.Front'));
+            $debitOption->setCallToActionText($this->trans('Credit / Debit Card', [], 'Modules.IpgCheckout.Front'));
             $debitOption->setAction($this->context->link->getModuleLink($this->name, 'pay', ['option' => "cards"]));
             $debitOption->setAdditionalInformation($this->additionalInformation());
             //$debitOption->setLogo(Media::getMediaPath(_PS_MODULE_DIR_ . $this->name . '/views/img/option/fiserv-credit-card.svg'));
@@ -314,7 +314,7 @@ class IPGCheckout extends PaymentModule
         if (Configuration::get(IPGCheckout::APPLE_CHECKOUT_ACTIVE_KEY) === IPGCheckout::TRUE) {
             $appleOption = new PaymentOption();
             $appleOption->setModuleName($this->name);
-            $appleOption->setCallToActionText($this->trans('Pay with Apple Pay', [], 'Modules.IpgCheckout.Front'));
+            $appleOption->setCallToActionText($this->trans('Apple Pay', [], 'Modules.IpgCheckout.Front'));
             $appleOption->setAction($this->context->link->getModuleLink($this->name, 'pay', ['option' => "applepay"]));
             $appleOption->setAdditionalInformation($this->additionalInformation());
             //$appleOption->setLogo(Media::getMediaPath(_PS_MODULE_DIR_ . $this->name . '/views/img/option/fiserv-apple-pay.svg'));
@@ -324,7 +324,7 @@ class IPGCheckout extends PaymentModule
         if (Configuration::get(IPGCheckout::GOOGLE_CHECKOUT_ACTIVE_KEY) === IPGCheckout::TRUE) {
             $googleOption = new PaymentOption();
             $googleOption->setModuleName($this->name);
-            $googleOption->setCallToActionText($this->trans('Pay with Google Pay', [], 'Modules.IpgCheckout.Front'));
+            $googleOption->setCallToActionText($this->trans('Google Pay', [], 'Modules.IpgCheckout.Front'));
             $googleOption->setAction($this->context->link->getModuleLink($this->name, 'pay', ['option' => "googlepay"]));
             $googleOption->setAdditionalInformation($this->additionalInformation());
             //$googleOption->setLogo(Media::getMediaPath(_PS_MODULE_DIR_ . $this->name . '/views/img/option/fiserv-google-pay.svg'));
@@ -334,7 +334,7 @@ class IPGCheckout extends PaymentModule
         if (Configuration::get(IPGCheckout::BIZUM_CHECKOUT_ACTIVE_KEY) === IPGCheckout::TRUE) {
             $bizumOption = new PaymentOption();
             $bizumOption->setModuleName($this->name);
-            $bizumOption->setCallToActionText($this->trans('Pay with Bizum', [], 'Modules.IpgCheckout.Front'));
+            $bizumOption->setCallToActionText($this->trans('Bizum', [], 'Modules.IpgCheckout.Front'));
             $bizumOption->setAction($this->context->link->getModuleLink($this->name, 'pay', ['option' => "bizum"]));
             $bizumOption->setAdditionalInformation($this->additionalInformation());
             //$bizumOption->setLogo(Media::getMediaPath(_PS_MODULE_DIR_ . $this->name . '/views/img/option/fiserv-bizum-pay.png'));
