@@ -36,6 +36,8 @@ class CheckoutRequestHandler extends RequestHandler
         ini_set('serialize_precision', -1); // if not there is a float error at some numbers
 
         $total = $cart->getCartTotalPrice();
+        $total_items = $cart->getOrderTotal(true, Cart::ONLY_PRODUCTS);
+        $shipping_costs = $cart->getTotalShippingCost();
 
         $currency = new Currency((int) $cart->id_currency)->iso_code;
 
@@ -48,7 +50,8 @@ class CheckoutRequestHandler extends RequestHandler
                 "total" => $total,
                 "currency" => $currency,
                 "components" => [
-                    "subtotal" => $total
+                    "subtotal" => $total_items,
+                    "shipping" => $shipping_costs,
                 ]
             ],
             "checkoutSettings" => [
