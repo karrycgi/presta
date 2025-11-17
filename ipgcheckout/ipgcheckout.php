@@ -273,7 +273,7 @@ class IPGCheckout extends PaymentModule
         return $output . '<div>
             <div style="margin-top: 5px; margin-bottom: 15px"><img src="' . Media::getMediaPath(_PS_MODULE_DIR_ . $this->name . '/views/img/fiserv-logo.svg') . '" /></div>
             <p>' . $this->trans('Pay securely with Fiserv Checkout. Acquire API credetials on our portal.', [], 'Modules.Ipgcheckout.Admin') . '</p>
-            <p>' . $this->trans('Visit', [], 'Modules.Ipgcheckout.Admin') . ' <a href="' . $this->trans('https://fiserv.dev', [], 'Modules.Ipgcheckout.Admin') . '">' . $this->trans('fiserv.dev', [], 'Modules.Ipgcheckout.Admin') . '</a><p/>
+            <p>' . $this->trans('Visit', [], 'Modules.Ipgcheckout.Admin') . ' <a href="' . $this->trans('https://docs.fiserv.dev/public/docs/guides', [], 'Modules.Ipgcheckout.Admin') . '">' . $this->trans('docs.fiserv.dev/public/docs/guides', [], 'Modules.Ipgcheckout.Admin') . '</a><p/>
         </div>' . $this->displayForm();
     }
 

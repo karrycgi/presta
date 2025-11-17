@@ -6,8 +6,8 @@ services:
     environment:
       MYSQL_ROOT_PASSWORD: admin
       MYSQL_DATABASE: prestashop
-    volumes:
-      - ./data/db:/var/lib/mysql
+    #volumes:
+    #  - ./data/db:/var/lib/mysql
     networks:
       prestashop_network:
           aliases:
@@ -41,9 +41,9 @@ services:
       PS_FOLDER_ADMIN: admin_xxx
       ADMIN_MAIL:	admin@admin.com
       ADMIN_PASSWD: admin123
-    volumes:
-      - ./data/ps:/var/www/html
-      - ./ipgcheckout:/var/www/html/modules/ipgcheckout
+    #volumes:
+    #  - ./data/ps:/var/www/html
+    #  - ./ipgcheckout:/var/www/html/modules/ipgcheckout
     networks:
       - prestashop_network
 networks:

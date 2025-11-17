@@ -12,9 +12,9 @@
             <p><b>Subtotal</b> <br /> {$status['approvedAmount']['components']['subtotal']} {$status['approvedAmount']['currency']} </p>
             <p><b>Shipping</b> <br /> {$status['approvedAmount']['components']['shipping']} {$status['approvedAmount']['currency']} </p>
             <p><b>Transaction Status</b> <br /> {$status['transactionStatus']} </p>
-            <p><b>Ipg Tranaction ID</b> <br /> {$status['ipgTransactionDetails']['ipgTransactionId']} </p>
+            <p><b>Ipg Transaction ID</b> <br /> {$status['ipgTransactionDetails']['ipgTransactionId']} </p>
             <p><b>Approval Code</b> <br /> {$status['ipgTransactionDetails']['approvalCode']} </p>
-            <p><b>API Trance ID</b> <br /> {$status['ipgTransactionDetails']['apiTraceId']} </p>
+            <p><b>API Trace ID</b> <br /> {$status['ipgTransactionDetails']['apiTraceId']} </p>
         </div>
     </div>
 </div>
