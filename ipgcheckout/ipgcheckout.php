@@ -394,7 +394,7 @@ class IPGCheckout extends PaymentModule
             $refundedResponse = json_decode(RefundRequestHandler::getInstance()->request($order, $transaction_id, $amount), true);
             $refundedAmount = $refundedResponse['transactionAmount']['total'];
             $refundedCurrency = $refundedResponse['transactionAmount']['currency'];
-            RefundRequestHandler::writeMessage($order, "Refunded " . $refundedAmount . ' ' . $refundedCurrency . ' for Credit Slip Number' . $orderSlip->id);
+            RefundRequestHandler::writeMessage($order, "Refunded " . $refundedAmount . ' ' . $refundedCurrency . ' for Credit Slip Number ' . $orderSlip->id .' (Gateway Transaction ID: '.$transaction_id.')');
         } catch (ClientException $e) {
             PrestaShopLogger::addLog('Order (' . $order->id . ') slip total amount (calculated): ' . $amount, 1, 0, IPGCheckout::NAME, $order->id);
             PrestaShopLogger::addLog('Order (' . $order->id . ') slip amount (provided by PrestaShop): ' . $orderSlip->amount, 1, 0, IPGCheckout::NAME, $order->id);

@@ -7,28 +7,34 @@ class CheckoutRequestHandler extends RequestHandler
     public static function getInstance(): CheckoutRequestHandler
     {
         return new CheckoutRequestHandler(
-            Configuration::get(IPGCheckout:: STORE_ID_KEY),
-            Configuration::get(IPGCheckout:: API_KEY_KEY),
-            Configuration::get(IPGCheckout:: SECRET_KEY)
+            Configuration::get(IPGCheckout::STORE_ID_KEY),
+            Configuration::get(IPGCheckout::API_KEY_KEY),
+            Configuration::get(IPGCheckout::SECRET_KEY)
         );
     }
 
     protected function getCheckoutUri()
     {
-        if (Configuration::get(IPGCheckout:: SANDBOX_KEY) === 'FALSE') {
+        if (Configuration::get(IPGCheckout::SANDBOX_KEY) === 'FALSE') {
             return 'https://prod.emea.api.fiservapps.com/exp/v1/checkouts';
         }
 
         return 'https://prod.emea.api.fiservapps.com/sandbox/exp/v1/checkouts';
     }
 
-    private function toPaymentMethode(string $name): string {
-        switch(trim($name)) {
-            case "applepay": return "applepay";
-            case "googlepay": return "googlepay";
-            case "cards": return "cards";
-            case "bizum": return "bizum";
-            default: return "generic";
+    private function toPaymentMethode(string $name): string
+    {
+        switch (trim($name)) {
+            case "applepay":
+                return "applepay";
+            case "googlepay":
+                return "googlepay";
+            case "cards":
+                return "cards";
+            case "bizum":
+                return "bizum";
+            default:
+                return "generic";
         }
     }
     private function prepareCreateCheckoutRequestBody(Cart $cart, string $webHooksUrl, string $successUrl, string $failureUrl, string $paymentMethode): string
@@ -37,25 +43,39 @@ class CheckoutRequestHandler extends RequestHandler
 
         $total = $cart->getCartTotalPrice();
         $total_items = $cart->getOrderTotal(true, Cart::ONLY_PRODUCTS);
+        $vat_amaount = $cart->getOrderTotal(true) - $cart->getOrderTotal(false);
         $shipping_costs = $cart->getTotalShippingCost();
 
         $currency = new Currency((int) $cart->id_currency)->iso_code;
 
         $obj = [
             "storeId" => $this->storeId,
-            "merchantTransactionId" => (string) $cart->id,
             "transactionOrigin" => "ECOM",
             "transactionType" => "SALE",
+            "order" => [
+                "basket" => [
+                    "lineItems" => array_map(function ($product) {
+                        return [
+                            "itemIdentifier" => (string) $product["id_product"],
+                            "name" => $product["name"],
+                            "price" => $product["price"],
+                            "quantity" => $product["quantity"],
+                            "total" => $product["total"]
+                        ];
+                    }, $cart->getProducts())
+                ]
+            ],
             "transactionAmount" => [
                 "total" => $total,
                 "currency" => $currency,
                 "components" => [
                     "subtotal" => $total_items,
                     "shipping" => $shipping_costs,
+                    "vatAmount" => $vat_amaount
                 ]
             ],
             "checkoutSettings" => [
-                "preSelectedPaymentMethod" => $paymentMethode == "generic"?null:$paymentMethode,
+                "preSelectedPaymentMethod" => $paymentMethode == "generic" ? null : $paymentMethode,
                 "webHooksUrl" => $webHooksUrl . "?id=" . $cart->id,
                 "redirectBackUrls" => [
                     "successUrl" => $successUrl . "?id=" . $cart->id,
@@ -120,7 +140,8 @@ class CheckoutRequestHandler extends RequestHandler
         return $response->getBody()->getContents();
     }
 
-    public function getTransactionId($checkoutId) {
+    public function getTransactionId($checkoutId)
+    {
         $status = json_decode(CheckoutRequestHandler::getInstance()->checkoutStatus($checkoutId), true);
         return $status['ipgTransactionDetails']['ipgTransactionId'];
     }
