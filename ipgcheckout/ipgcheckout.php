@@ -33,7 +33,7 @@ class IPGCheckout extends PaymentModule
     public function __construct()
     {
         $this->name = IPGCheckout::NAME;
-        $this->tab = IPGCheckout::NAME;
+        $this->tab = 'payments_gateways';
         $this->version = '1.0.0';
         $this->author = 'Fiserv';
         $this->need_instance = 1;

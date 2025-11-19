@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xliff xmlns="urn:oasis:names:tc:xliff:document:1.2" version="1.2">
+  <file original="ModulesIpgcheckoutFront.xlf" source-language="es-ES" target-language="es-ES" datatype="plaintext">
+    <body>
+      <trans-unit id="8dfb44311ddb51bbb87bc9e3578d8aa2">
+        <source>An error in payment process. Please try later again.</source>
+        <target>Se ha producido un error en el proceso de pago. Inténtelo de nuevo más tarde.</target>
+      </trans-unit>
+      <trans-unit id="697abb9a95cfe2c76cc3b71312ea176a">
+        <source>Apple Pay</source>
+        <target>Apple Pay</target>
+      </trans-unit>
+      <trans-unit id="a1d157577e5d9a5b6db315dd6b000d32">
+        <source>Bizum</source>
+        <target>Bizum</target>
+      </trans-unit>
+      <trans-unit id="b21a9a31c64b45f38079a550660d465c">
+        <source>Credit / Debit Card</source>
+        <target>Credit / Debit Card</target>
+      </trans-unit>
+      <trans-unit id="c23a0dd57f20edda613c322faecb1d88">
+        <source>Error during payment</source>
+        <target>Error durante el pago</target>
+      </trans-unit>
+      <trans-unit id="e1dd426c6e0cf9c5876b84e08c096571">
+        <source>Generic Checkout</source>
+        <target>Pago genérico or Caja genérica</target>
+      </trans-unit>
+      <trans-unit id="a69a8e250d7465b3357efed7e4251deb">
+        <source>Google Pay</source>
+        <target>Google Pay</target>
+      </trans-unit>
+      <trans-unit id="9be63bbe619ecd2373dcc499a3922d36">
+        <source>You will be redirected to an external checkout page where you will be able to select the other payment methods.</source>
+        <target>Serás redirigido a una página de pago externa donde podrá seleccionar un método de pago.</target>
+      </trans-unit>
+      <trans-unit id="33e5c39e0fa9cfe46540f5774a387360">
+        <source>You will be redirected to an external checkout page.</source>
+        <target>Serás redirigido a una página de pago externa.</target>
+      </trans-unit>
+    </body>
+  </file>
+</xliff>

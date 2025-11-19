@@ -1,0 +1,111 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xliff xmlns="urn:oasis:names:tc:xliff:document:1.2" version="1.2">
+  <file original="ModulesIpgcheckoutAdmin.xlf" source-language="es-ES" target-language="es-ES" datatype="plaintext">
+    <body>
+      <trans-unit id="d876ff8da67c3731ae25d8335a4168b4">
+        <source>API Key</source>
+        <target>Clave API</target>
+      </trans-unit>
+      <trans-unit id="1ddec0f92f297e937bdf409977df0c02">
+        <source>API Secret</source>
+        <target>Secreto API</target>
+      </trans-unit>
+      <trans-unit id="4d3d769b812b6faa6b76e1a8abaece2d">
+        <source>Active</source>
+        <target>Activa</target>
+      </trans-unit>
+      <trans-unit id="697abb9a95cfe2c76cc3b71312ea176a">
+        <source>Apple Pay</source>
+        <target>Apple Pay</target>
+      </trans-unit>
+      <trans-unit id="a1d157577e5d9a5b6db315dd6b000d32">
+        <source>Bizum</source>
+        <target>Bizum</target>
+      </trans-unit>
+      <trans-unit id="b21a9a31c64b45f38079a550660d465c">
+        <source>Credit / Debit Card</source>
+        <target>Tarjeta de crédito/débito</target>
+      </trans-unit>
+      <trans-unit id="43c7582c40594c3fe32a6634ef9dcb07">
+        <source>Deactivated</source>
+        <target>Desactivada</target>
+      </trans-unit>
+      <trans-unit id="e1dd426c6e0cf9c5876b84e08c096571">
+        <source>Generic Checkout</source>
+        <target>Pago genérico or Caja genérica</target>
+      </trans-unit>
+      <trans-unit id="a69a8e250d7465b3357efed7e4251deb">
+        <source>Google Pay</source>
+        <target>Google Pay</target>
+      </trans-unit>
+      <trans-unit id="96f77f89cbaff3059a05eef13f10b930">
+        <source>IPG Checkout</source>
+        <target>IPG Checkout</target>
+      </trans-unit>
+      <trans-unit id="3f2e6c63b31db967cedd796ba6a9c54f">
+        <source>IPG Checkout by Fiserv</source>
+        <target>IPG Checkout by Fiserv</target>
+      </trans-unit>
+      <trans-unit id="fe5d926454b6a8144efce13a44d019ba">
+        <source>Invalid Configuration value</source>
+        <target>Valor de configuración no válido</target>
+      </trans-unit>
+      <trans-unit id="955ad3298db330b5ee880c2c9e6f23a0">
+        <source>Live</source>
+        <target>Modo en vivo</target>
+      </trans-unit>
+      <trans-unit id="650be61892bf690026089544abbd9d26">
+        <source>Mode</source>
+        <target>Modo</target>
+      </trans-unit>
+      <trans-unit id="6aeaaa12f579c08560db52292c15f633">
+        <source>Pay securely with Fiserv Checkout. Acquire API credetials on our portal.</source>
+        <target>Paga de forma segura con Fiserv Checkout. Obtén tus credenciales API en nuestro portal.</target>
+      </trans-unit>
+      <trans-unit id="d80df39143cc4565d9d3ccc79b08b78e">
+        <source>Payment method failed. Please check on settings page if API credentials are set correctly.</source>
+        <target>El método de pago falló. Por favor, verifique en la página de configuración que las credenciales de la API estén configuradas correctamente.</target>
+      </trans-unit>
+      <trans-unit id="a11f2437ba3a0a32782d7229f7edddbb">
+        <source>Refund failed! Created Credit Slip was removed. Manual treatment mighty be necessary!</source>
+        <target>¡Error en el reembolso! El comprobante de crédito creado fue eliminado. ¡Podría ser necesario un tratamiento manual!</target>
+      </trans-unit>
+      <trans-unit id="2652eec977dcb2a5aea85f5bec235b05">
+        <source>Sandbox</source>
+        <target>Modo de prueba</target>
+      </trans-unit>
+      <trans-unit id="c9cc8cce247e49bae79f15173ce97354">
+        <source>Save</source>
+        <target>Ahorrar</target>
+      </trans-unit>
+      <trans-unit id="f4f70727dc34561dfde1a3c529b6205c">
+        <source>Settings</source>
+        <target>Configuración</target>
+      </trans-unit>
+      <trans-unit id="c888438d14855d7d96a2724ee9c306bd">
+        <source>Settings updated</source>
+        <target>Configuración actualizada</target>
+      </trans-unit>
+      <trans-unit id="1feafb67c1da8183793afe1f61bce2f4">
+        <source>Store ID</source>
+        <target>ID de tienda</target>
+      </trans-unit>
+      <trans-unit id="5992740fd7945f351beb3447d4f3b436">
+        <source>Use Live (Production) Mode or Test (Sandbox) Mode</source>
+        <target>Usar modo en vivo (producción) o modo de prueba (sandbox)</target>
+      </trans-unit>
+      <trans-unit id="5e706a9b7eb9b142a619e4331d6976e6">
+        <source>Visit</source>
+        <target>Visita</target>
+      </trans-unit>
+      <trans-unit id="4c3c0f04440febdfb235317d6e6117ef">
+        <source>docs.fiserv.dev/public/docs/guides</source>
+        <target>docs.fiserv.dev/public/docs/guides</target>
+      </trans-unit>
+      <trans-unit id="235c4e083dbea2e72b6e115d9200af53">
+        <source>https://docs.fiserv.dev/public/docs/guides</source>
+        <target>https://docs.fiserv.dev/public/docs/guides</target>
+      </trans-unit>
+    </body>
+  </file>
+</xliff>
