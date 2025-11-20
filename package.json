@@ -3,11 +3,15 @@
   "version": "1.0.0",
   "private": true,
   "license": "MIT",
+  "workspaces": [
+    "cypress"
+  ],
   "scripts": {
     "up": "docker compose up -d",
     "down": "docker compose down",
     "logs": "docker compose logs -f prestashop",
     "clean": "rimraf ./data/*",
+    "test": "npm run test --workspaces=cypress",
     "rm:install": "docker compose exec prestashop rm -R /var/www/html/install"
   },
   "dependencies": {

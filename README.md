@@ -12,6 +12,8 @@
 
 ```npm run clean``` delete environment (may need ```sudo``` - depending on Docker configuration)
 
+```npm run test``` will run Cypress (E2E) tests. Make shure prestashop is available on [http://localhost:8080](http://localhost:8080)
+
 ## URLs
 
 Frontend: [http://localhost:8080](http://localhost:8080)
