@@ -11,6 +11,7 @@
     "down": "docker compose down",
     "logs": "docker compose logs -f prestashop",
     "clean": "rimraf ./data/*",
+    "clean:cypress": "rimraf ./e2e-cypress/cypress/videos/* && rimraf ./e2e-cypress/cypress/screenshots/*",
     "test": "npm run test --workspaces=e2e-cypress",
     "cypress:open": "npm run open --workspaces=e2e-cypress",
     "rm:install": "docker compose exec prestashop rm -R /var/www/html/install"
