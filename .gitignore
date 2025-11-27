@@ -2,7 +2,7 @@ data
 node_modules
 vendor
 
-cypress/cypress/videos
-cypress/cypress/screenshots
+e2e-cypress/cypress/videos
+e2e-cypress/cypress/screenshots
 
 package-lock.json
