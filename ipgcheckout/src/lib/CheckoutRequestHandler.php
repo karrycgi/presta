@@ -42,7 +42,7 @@ class CheckoutRequestHandler extends RequestHandler
         ini_set('serialize_precision', -1); // if not there is a float error at some numbers
 
         $total = $cart->getCartTotalPrice();
-        $total_items = $cart->getOrderTotal(true, Cart::ONLY_PRODUCTS);
+        $total_items = $cart->getOrderTotal(true, Cart::ONLY_PRODUCTS) - $cart->getOrderTotal(true, Cart::ONLY_DISCOUNTS);
         $vat_amaount = $cart->getOrderTotal(true) - $cart->getOrderTotal(false);
         $shipping_costs = $cart->getTotalShippingCost();
 
@@ -83,6 +83,11 @@ class CheckoutRequestHandler extends RequestHandler
                 ]
             ]
         ];
+
+        //dump($cart->getOrderTotal(true, CART::ONLY_DISCOUNTS));
+        //dump($cart->getProducts());
+        //dump($obj);
+        //dump($cart);die;
 
         $json = json_encode($obj);
 
