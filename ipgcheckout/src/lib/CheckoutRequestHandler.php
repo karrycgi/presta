@@ -84,11 +84,6 @@ class CheckoutRequestHandler extends RequestHandler
             ]
         ];
 
-        //dump($cart->getOrderTotal(true, CART::ONLY_DISCOUNTS));
-        //dump($cart->getProducts());
-        //dump($obj);
-        //dump($cart);die;
-
         $json = json_encode($obj);
 
         return $json;
