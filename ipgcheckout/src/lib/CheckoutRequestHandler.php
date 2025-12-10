@@ -48,6 +48,9 @@ class CheckoutRequestHandler extends RequestHandler
 
         $currency = new Currency((int) $cart->id_currency)->iso_code;
 
+        $customer = new Customer((int) $cart->id_customer);
+        $address = new Address((int) $cart->id_address_invoice);
+
         $obj = [
             "storeId" => $this->storeId,
             "transactionOrigin" => "ECOM",
@@ -63,6 +66,22 @@ class CheckoutRequestHandler extends RequestHandler
                             "total" => $product["total"]
                         ];
                     }, $cart->getProducts())
+                ],
+                "billing" => [
+                    "person" => [
+                        "firstName" => $customer->firstname,
+                        "lastName" => $customer->lastname
+                    ],
+                    "contact" => [
+                        "email" => $customer->email
+                    ],
+                    "address" => [
+                        "address1" => $address->address1,
+                        "address2" => $address->address2,
+                        "city" => $address->city,
+                        "country" => Country::getIsoById((int) $address->id_country),
+                        "postalCode" => $address->postcode
+                    ]
                 ]
             ],
             "transactionAmount" => [
@@ -84,10 +103,7 @@ class CheckoutRequestHandler extends RequestHandler
             ]
         ];
 
-        //dump($cart->getOrderTotal(true, CART::ONLY_DISCOUNTS));
-        //dump($cart->getProducts());
-        //dump($obj);
-        //dump($cart);die;
+        //dump($obj);die;
 
         $json = json_encode($obj);
 

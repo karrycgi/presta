@@ -1,4 +1,6 @@
 <?php
+
+use GuzzleHttp\Exception\BadResponseException;
 require_once dirname(__FILE__) . '/../../vendor/autoload.php';
 class IPGCheckoutPayModuleFrontController extends ModuleFrontController
 {
@@ -44,6 +46,13 @@ class IPGCheckoutPayModuleFrontController extends ModuleFrontController
                 ]
             );
             Tools::redirect($link['link']);
+        } catch (BadResponseException $e) {
+            if($e->hasResponse()) {
+                PrestaShopLogger::addLog($e->getResponse()->getBody()->getContents(), 3, 0, IPGCheckout:: NAME);
+            } else {
+                PrestaShopLogger::addLog($e->getMessage(), 3, 0, IPGCheckout:: NAME);
+            }
+            Tools::redirect($this->context->link->getModuleLink(IPGCheckout:: NAME, 'payError'));
         } catch(Exception $e) {
             PrestaShopLogger::addLog($e->getMessage(), 3, 0, IPGCheckout:: NAME);
             Tools::redirect($this->context->link->getModuleLink(IPGCheckout:: NAME, 'payError'));
