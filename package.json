@@ -8,7 +8,9 @@
     "down": "docker compose down",
     "logs": "docker compose logs -f prestashop",
     "clean": "rimraf ./data/*",
-    "rm:install": "docker compose exec prestashop rm -R /var/www/html/install"
+    "rm:install": "docker compose exec prestashop rm -R /var/www/html/install",
+    "composer:update": "docker run -v ./ipgcheckout:/app composer update",
+    "composer:install": "docker run -v ./ipgcheckout:/app composer install"
   },
   "dependencies": {
     "rimraf": "^6.0.1"
