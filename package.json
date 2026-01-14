@@ -4,10 +4,13 @@
   "private": true,
   "license": "MIT",
   "scripts": {
-    "up": "docker compose up -d",
+    "up": "docker compose -f docker-compose.dev.yml -f docker-compose.yml up -d",
+    "up:test": "docker compose up -d",
     "down": "docker compose down",
     "logs": "docker compose logs -f prestashop",
-    "clean": "rimraf ./data/*",
+    "clean": "npm run clean:data && npm run clean:vendor",
+    "clean:data": "rimraf ./data/*",
+    "clean:vendor": "rimraf ./ipgcheckout/vendor",
     "rm:install": "docker compose exec prestashop rm -R /var/www/html/install",
     "composer:update": "docker run -v ./ipgcheckout:/app composer update",
     "composer:install": "docker run -v ./ipgcheckout:/app composer install"
