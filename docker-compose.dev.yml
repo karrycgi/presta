@@ -1,0 +1,8 @@
+services:
+  mysql:
+    volumes:
+      - ./data/db:/var/lib/mysql
+  prestashop:
+    volumes:
+      - ./data/ps:/var/www/html
+      - ./ipgcheckout:/var/www/html/modules/ipgcheckout
