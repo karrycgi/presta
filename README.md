@@ -27,6 +27,17 @@ Backend: [http://localhost:8080/admin_xxx](http://localhost:8080/admin_xxx)
 | Username  | admin@admin.com |
 | Password  | admin123        |
 
+## .env
+
+If ```.env``` is present the values of ```PS_COUNTRY``` and ```PS_LANGUAGE``` can be overwirtten. This causes prestashop to pull a different country and language during installation.
+
+An example if ```.env``` is provided as ```default.env```. ```.env``` is placed in ```.gitignore```.
+
+| Field       | Default value |
+| :---------- | ------------: |
+| PS_COUNTRY  | fr            |
+| PS_LANGUAGE | en            |
+
 ## Install with zip file
 
 1. Login into Backend 
