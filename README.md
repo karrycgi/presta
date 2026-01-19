@@ -2,9 +2,11 @@
 
 ## Basic commands
 
-```docker compose up -d``` or ```npm run up``` to start environment.
+```docker compose -f docker-compose.dev.yml -f docker-compose.yml up -d``` or ```npm run up``` to start environment.
 
- ```docker compose exec prestashop rm -R /var/www/html/install``` or ```npm run rm:install``` to remove install folder (needed from version 9.0.1 of Prestashop)
+```docker compose up -d``` or ```npm run up:test``` to start environment in testing mode. No automated integration of module an no storage of data in disk.
+
+ ```docker compose exec prestashop rm -R /var/www/html/install``` or ```npm run rm:install``` to remove install folder (needed since version 9.0.1 of Prestashop after installation is finshed to access admin section)
 
 ```docker compose logs -f``` or ```npm run logs``` to float console output of docker environment.
 
@@ -13,6 +15,7 @@
 ```npm run clean``` delete environment (may need ```sudo``` - depending on Docker configuration)
 
 ```npm run test``` will run Cypress (E2E) tests. Make shure prestashop is available on [http://localhost:8080](http://localhost:8080)
+
 
 ## URLs
 
