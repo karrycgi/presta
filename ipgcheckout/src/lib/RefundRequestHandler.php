@@ -80,7 +80,7 @@ class RefundRequestHandler extends RequestHandler
                 'Client-Request-Id' => $clientRequestId,
                 'Message-Signature' => $messageSignature,
                 'Timestamp' => $time,
-                'User-Agent' => CheckoutRequestHandler::USER_AGENT
+                CheckoutRequestHandler::USER_AGENT_HEADER_FIELD => CheckoutRequestHandler::USER_AGENT
             ],
         ]);
 
