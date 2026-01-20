@@ -103,8 +103,6 @@ class CheckoutRequestHandler extends RequestHandler
             ]
         ];
 
-        //dump($obj);die;
-
         $json = json_encode($obj);
 
         return $json;

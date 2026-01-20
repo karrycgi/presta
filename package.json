@@ -3,11 +3,17 @@
   "version": "1.0.0",
   "private": true,
   "license": "MIT",
+  "workspaces": [
+    "e2e-cypress"
+  ],
   "scripts": {
     "up": "docker compose -f docker-compose.dev.yml -f docker-compose.yml up -d",
     "up:test": "docker compose up -d",
     "down": "docker compose down",
     "logs": "docker compose logs -f prestashop",
+    "clean:cypress": "rimraf ./e2e-cypress/cypress/videos/* && rimraf ./e2e-cypress/cypress/screenshots/*",
+    "test": "npm run test --workspaces=e2e-cypress",
+    "cypress:open": "npm run open --workspaces=e2e-cypress",
     "clean": "npm run clean:data && npm run clean:vendor",
     "clean:data": "rimraf ./data/*",
     "clean:vendor": "rimraf ./ipgcheckout/vendor",

@@ -35,7 +35,10 @@ services:
       DB_USER: root
       DB_PASSWD: admin
       PS_INSTALL_AUTO: 1
+      PS_LANGUAGE: ${LANGUAGE:-en}
+      PS_COUNTRY: ${COUNTRY:-fr}
       PS_DOMAIN: localhost:8080
+      PS_HANDLE_DYNAMIC_DOMAIN: 0
       PS_FOLDER_ADMIN: admin_xxx
       ADMIN_MAIL: admin@admin.com
       ADMIN_PASSWD: admin123
