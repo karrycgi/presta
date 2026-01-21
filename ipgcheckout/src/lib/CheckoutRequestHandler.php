@@ -3,7 +3,7 @@
 require_once dirname(__FILE__) . '/../../vendor/autoload.php';
 class CheckoutRequestHandler extends RequestHandler
 {
-    const USER_AGENT_HEADER_FIELD = 'X-ShopPlugin';
+    const USER_AGENT_HEADER_FIELD = 'x-shopplugin';
     const USER_AGENT = 'IPGCheckout/1.0 Prestashop/'._PS_VERSION_.' PHP/'.PHP_VERSION;
     public static function getInstance(): CheckoutRequestHandler
     {
@@ -120,7 +120,8 @@ class CheckoutRequestHandler extends RequestHandler
         $messageSignature = $this->sign($clientRequestId, $time, $requestBody);
 
         $client = new \GuzzleHttp\Client();
-        $response = $client->request('POST', $this->getCheckoutUri(), [
+
+        $requestOptions = [
             'body' => $requestBody,
             'headers' => [
                 'accept' => 'application/json',
@@ -131,7 +132,11 @@ class CheckoutRequestHandler extends RequestHandler
                 'Timestamp' => $time,
                 CheckoutRequestHandler::USER_AGENT_HEADER_FIELD => CheckoutRequestHandler::USER_AGENT
             ],
-        ]);
+        ];
+
+        $response = $client->request('POST', $this->getCheckoutUri(), $requestOptions);
+
+        PrestaShopLogger::addLog(CheckoutRequestHandler::USER_AGENT_HEADER_FIELD.' - - '.CheckoutRequestHandler::USER_AGENT);
 
         return $response->getBody()->getContents();
     }
