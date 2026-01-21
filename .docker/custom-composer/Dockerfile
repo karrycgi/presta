@@ -1,4 +1,4 @@
 FROM composer:latest
-COPY . .
-RUN pwd
+# COPY . .
+# RUN pwd
 ENTRYPOINT [ "composer" ]
