@@ -19,7 +19,8 @@
     "clean:vendor": "rimraf ./ipgcheckout/vendor",
     "rm:install": "docker compose exec prestashop rm -R /var/www/html/install",
     "composer:update": "docker run -v ./ipgcheckout:/app composer update",
-    "composer:install": "docker run -v ./ipgcheckout:/app composer install"
+    "composer:install": "docker run -v ./ipgcheckout:/app composer install",
+    "image:build:ccomposer": "docker build -t ccomposer .docker/custom-composer"
   },
   "dependencies": {
     "rimraf": "^6.0.1"
