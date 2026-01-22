@@ -82,6 +82,7 @@ An example if ```.env``` is provided as ```default.env```. ```.env``` is placed 
 ## Flows
 
 ![Component overview](./documentation/assets/architecture-flow.drawio.svg)
+![Sequence overview](./documentation/assets/sequence-flow.drawio.svg)
 
 ### 1 Customer selects a IPGCheckout payment option
 
