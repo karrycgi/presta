@@ -3,8 +3,9 @@
 require_once dirname(__FILE__) . '/../../vendor/autoload.php';
 class CheckoutRequestHandler extends RequestHandler
 {
-    const USER_AGENT_HEADER_FIELD = 'x-shopplugin';
-    const USER_AGENT = 'IPGCheckout/1.0 Prestashop/'._PS_VERSION_.' PHP/'.PHP_VERSION;
+    const SHOPPLUGIN_HEADER_FIELD = 'x-shopplugin';
+    const SHOPPLUGIN_VALUE = 'IPGCheckout/1.0 Prestashop/'._PS_VERSION_.' PHP/'.PHP_VERSION;
+    const USER_AGENT = 'fiserv_prestashop_1.0.0';
     public static function getInstance(): CheckoutRequestHandler
     {
         return new CheckoutRequestHandler(
@@ -130,13 +131,13 @@ class CheckoutRequestHandler extends RequestHandler
                 'Client-Request-Id' => $clientRequestId,
                 'Message-Signature' => $messageSignature,
                 'Timestamp' => $time,
-                CheckoutRequestHandler::USER_AGENT_HEADER_FIELD => CheckoutRequestHandler::USER_AGENT
+                'User-Agent' => CheckoutRequestHandler::USER_AGENT,
+                CheckoutRequestHandler::SHOPPLUGIN_HEADER_FIELD => CheckoutRequestHandler::SHOPPLUGIN_VALUE
             ],
         ];
 
         $response = $client->request('POST', $this->getCheckoutUri(), $requestOptions);
 
-        PrestaShopLogger::addLog(CheckoutRequestHandler::USER_AGENT_HEADER_FIELD.' - - '.CheckoutRequestHandler::USER_AGENT);
 
         return $response->getBody()->getContents();
     }
@@ -158,7 +159,8 @@ class CheckoutRequestHandler extends RequestHandler
                 'Client-Request-Id' => $clientRequestId,
                 'Message-Signature' => $messageSignature,
                 'Timestamp' => $time,
-                CheckoutRequestHandler::USER_AGENT_HEADER_FIELD => CheckoutRequestHandler::USER_AGENT
+                'User-Agent' => CheckoutRequestHandler::USER_AGENT,
+                CheckoutRequestHandler::SHOPPLUGIN_HEADER_FIELD => CheckoutRequestHandler::SHOPPLUGIN_VALUE
             ],
         ]);
 

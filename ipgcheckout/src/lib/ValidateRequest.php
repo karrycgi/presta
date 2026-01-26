@@ -55,7 +55,8 @@ class ValidateRequest extends RequestHandler
                 'Client-Request-Id' => $clientRequestId,
                 'Message-Signature' => $messageSignature,
                 'Timestamp' => $time,
-                CheckoutRequestHandler::USER_AGENT_HEADER_FIELD => CheckoutRequestHandler::USER_AGENT
+                'User-Agent' => CheckoutRequestHandler::USER_AGENT,
+                CheckoutRequestHandler::SHOPPLUGIN_HEADER_FIELD => CheckoutRequestHandler::SHOPPLUGIN_VALUE
             ],
         ]);
 
