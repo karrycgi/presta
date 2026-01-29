@@ -44,8 +44,9 @@ class CheckoutRequestHandler extends RequestHandler
 
         $total = $cart->getCartTotalPrice();
         $total_items = $cart->getOrderTotal(true, Cart::ONLY_PRODUCTS) - $cart->getOrderTotal(true, Cart::ONLY_DISCOUNTS);
-        $vat_amaount = $cart->getOrderTotal(true) - $cart->getOrderTotal(false);
+        $vat_amount = $cart->getOrderTotal(true) - $cart->getOrderTotal(false);
         $shipping_costs = $cart->getTotalShippingCost();
+        if($vat_amount > 0){$total_items -= $vat_amount;} // if vat is included in product price we have to subtract it from total items to avoid double counting
 
         $currency = new Currency((int) $cart->id_currency)->iso_code;
 
@@ -89,9 +90,9 @@ class CheckoutRequestHandler extends RequestHandler
                 "total" => $total,
                 "currency" => $currency,
                 "components" => [
-                    "subtotal" => $total_items,
-                    "shipping" => $shipping_costs,
-                    "vatAmount" => $vat_amaount
+                    "subtotal" => round($total_items, 2),
+                    "shipping" => round($shipping_costs, 2),
+                    "vatAmount" => round($vat_amount, 2)
                 ]
             ],
             "checkoutSettings" => [
