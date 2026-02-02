@@ -47,12 +47,12 @@ Backend: [http://localhost:8080/admin_xxx](http://localhost:8080/admin_xxx)
 
 If ```.env``` is present the values of ```PS_COUNTRY``` and ```PS_LANGUAGE``` can be overwirtten. This causes prestashop to pull a different country and language during installation.
 
-An example if ```.env``` is provided as ```default.env```. ```.env``` is placed in ```.gitignore```.
+An example for ```.env``` is provided as ```default.env```. ```.env``` is placed in ```.gitignore```.
 
-| Field       | Default value |
-| :---------- | ------------: |
-| PS_COUNTRY  | fr            |
-| PS_LANGUAGE | en            |
+| Field       | Default value | *Other possible values* |
+| :---------- | ------------- | ----------------------: |
+| PS_COUNTRY  | fr            | GB, DE, IE, ...         |
+| PS_LANGUAGE | en            | de, fr, es, ...         |
 
 ## Install with zip file
 
