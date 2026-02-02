@@ -1,5 +1,18 @@
 # PrestaShop Dev-Environment
 
+## Requirements
+
+***Will not run without:***
+
+ * Docker > 29.2.0
+
+## Recommended
+
+*Without these dependencies you've got to run provided docker commands*
+
+ * Node > Version 22
+ * NPM > Version 11.6.2
+
 ## Quickstart - Development
 
  1. **Run** ```npm install```
