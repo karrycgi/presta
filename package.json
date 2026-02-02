@@ -18,8 +18,9 @@
     "clean:data": "rimraf ./data/*",
     "clean:vendor": "rimraf ./ipgcheckout/vendor",
     "rm:install": "docker compose exec prestashop rm -R /var/www/html/install",
-    "composer:update": "docker run -v ./ipgcheckout:/app composer update",
-    "composer:install": "docker run -v ./ipgcheckout:/app composer install --no-dev"
+    "composer:version": "docker compose run --remove-orphans --build composer --version",
+    "composer:update":  "docker compose run --remove-orphans --build composer update",
+    "composer:install": "docker compose run --remove-orphans --build composer install --no-dev"
   },
   "dependencies": {
     "rimraf": "^6.0.1"
