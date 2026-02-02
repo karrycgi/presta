@@ -22,7 +22,8 @@
     "composer:install": "docker compose run --remove-orphans --build composer install --no-dev",
     "composer:install:dev": "docker compose run --remove-orphans --build composer install",
     "composer:update":  "docker compose run --remove-orphans --build composer update",
-    "composer:version": "docker compose run --remove-orphans --build composer --version"
+    "composer:version": "docker compose run --remove-orphans --build composer --version",
+    "zip": "npm run composer:install && zip -r ipgcheckout.zip ipgcheckout && npm run composer:install:dev"
   },
   "dependencies": {
     "rimraf": "^6.0.1"

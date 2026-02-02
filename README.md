@@ -29,19 +29,17 @@
 
 ## Basic commands
 
-```docker compose -f docker-compose.dev.yml -f docker-compose.yml up -d``` or ```npm run up``` to start environment.
-
-```docker compose up -d``` or ```npm run up:test``` to start environment in testing mode. No automated integration of module an no storage of data in disk.
-
- ```docker compose exec prestashop rm -R /var/www/html/install``` or ```npm run rm:install``` to remove install folder (needed since version 9.0.1 of Prestashop after installation is finshed to access admin section)
-
-```docker compose logs -f``` or ```npm run logs``` to float console output of docker environment.
-
-```docker compose down``` or ```npm run down``` to stop environment.
-
-```npm run clean``` delete environment (may need ```sudo``` - depending on Docker configuration)
-
-```npm run test``` will run Cypress (E2E) tests. Make shure prestashop is available on [http://localhost:8080](http://localhost:8080)
+| NPM command | docker command | Description |
+| :--------- | -------------- | ----------: |
+| ```npm run up``` | ```docker compose -f docker-compose.dev.yml -f docker-compose.yml up -d``` | Starts containers persiting data to /data folder. **Development is mounted directly into this container**. Used for development. |
+| ```npm run up:test``` | ```docker compose up -d``` | Runs containers **without** persitance (no data are put to disk). Used to e2e testing. **Development is not mounted to environment** |
+| ```npm run logs``` | ```docker compose logs -f prestashop``` | Logs output of prestashop container to console. |
+| ```npm run rm:install``` | ```docker compose exec prestashop rm -R /var/www/html/install``` | Removed install folder. Needed to enter backend since Prestashop 9.0.2. Execte after setup. |
+| ```npm run down``` | ```docker compose down``` | Stops and removes containers. **If you're using ```npm run up:test``` all data will be lost.**  |
+| ```npm run clean``` | ***Not available*** | Removes ```/data``` and ```/ipgcheckout/vendor``` causing data loss. An resetting plattform. May need ```sudo``` |
+| ```npm run test``` | ***Not available*** | Runs e2e tests. Needs untouched ```npm run up:test``` to be running|
+| ```npm run cypress:open``` | ***Not available*** | Runs e2e testing tool (Cypress). Needs untouched ```npm run up:test``` to be running|
+| ```npm run zip``` | ***Not available*** | Creates ipgcheckout.zip for production usage **(ONLY on Linux)**|
 
 ## URLs
 
