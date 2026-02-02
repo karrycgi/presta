@@ -1,5 +1,19 @@
 # PrestaShop Dev-Environment
 
+## Quickstart - Development
+
+ 1. **Run** ```npm install```
+ 2. **Run** ```npm run composer:update```
+ 3. ***Optioal*** ```npm env:setup``` *(make changes to ```.env``` file if needed)*
+
+## Quickstart - Build Zip
+
+ 1. **Run** ```npm install```
+ 2. **Run** ```npm run composer:install```
+ 3. ***Optioal*** ```npm env:setup``` *(make changes to ```.env``` file if needed)*
+ 4. Zip folder ```ipgcheckout``` to ```ipgcheckout.zip```
+
+
 ## Basic commands
 
 ```docker compose -f docker-compose.dev.yml -f docker-compose.yml up -d``` or ```npm run up``` to start environment.
@@ -15,7 +29,6 @@
 ```npm run clean``` delete environment (may need ```sudo``` - depending on Docker configuration)
 
 ```npm run test``` will run Cypress (E2E) tests. Make shure prestashop is available on [http://localhost:8080](http://localhost:8080)
-
 
 ## URLs
 
