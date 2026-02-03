@@ -5,5 +5,3 @@ vendor
 
 e2e-cypress/cypress/videos
 e2e-cypress/cypress/screenshots
-
-package-lock.json
