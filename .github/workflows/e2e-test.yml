@@ -32,16 +32,10 @@ jobs:
       run: npm run rm:install
     - name: Start e2e testing
       run: npm run test
-    - name: Upload Video on Failure
-      if: failure()  # Only runs if a previous step failed
+    - name: Upload Screenshots and Video
       uses: actions/upload-artifact@v4
       with:
-        name: Test Video
-        path: e2e-cypress/cypress/videos/prestashop.cy.js.mp4
-    - name: Upload Screenshots and Video on Failure
-      uses: actions/upload-artifact@v4
-      with:
-        name: Test Video
+        name: TestVisuals
         path: |
           e2e-cypress/cypress/screenshots/
           e2e-cypress/cypress/videos/
