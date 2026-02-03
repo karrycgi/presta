@@ -38,3 +38,11 @@ jobs:
       with:
         name: Test Video
         path: e2e-cypress/cypress/videos/prestashop.cy.js.mp4
+    - name: Upload Screenshots and Video on Failure
+      uses: actions/upload-artifact@v4
+      with:
+        name: Test Video
+        path: |
+          e2e-cypress/cypress/screenshots/
+          e2e-cypress/cypress/videos/
+
