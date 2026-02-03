@@ -1,4 +1,4 @@
-name: Docker Image CI
+name: e2e testing
 
 on:
   workflow_dispatch:
@@ -28,5 +28,7 @@ jobs:
       run: npm run up
     - name: Wait 60 seconds for services to be ready
       run: sleep 60
+    - name: Remove install folder in container
+      run: npm run rm:install
     - name: Start e2e testing
       run: npm run test
