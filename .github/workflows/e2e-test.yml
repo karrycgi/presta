@@ -32,6 +32,12 @@ jobs:
       run: npm run rm:install
     - name: Start e2e testing
       run: npm run test
+    - name: Export zip
+      if: always() # Upload artifacts anyway, even if the tests fail
+      uses: actions/upload-artifact@v4
+      with:
+        name: Zip
+        path: ipgcheckout.zip
     - name: Upload Screenshots and Video
       if: always() # Upload artifacts anyway, even if the tests fail
       uses: actions/upload-artifact@v4
