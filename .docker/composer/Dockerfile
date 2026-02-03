@@ -1,1 +1,0 @@
-FROM ${COMPOSER_IMG:-composer:2.9.5}
