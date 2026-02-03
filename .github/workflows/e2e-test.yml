@@ -25,7 +25,7 @@ jobs:
     - name: Install PHP dependencies with Composer
       run: npm run composer:install
     - name: Start containers
-      run: npm run up
+      run: npm run up:test
     - name: Wait 60 seconds for services to be ready
       run: sleep 60
     - name: Remove install folder in container
