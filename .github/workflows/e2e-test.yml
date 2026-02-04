@@ -30,8 +30,11 @@ jobs:
       run: sleep 60
     - name: Remove install folder in container
       run: npm run rm:install
+    - name: Create zip
+      run: npm run zip
     - name: Start e2e testing
       run: npm run test
+
     - name: Export zip
       if: always() # Upload artifacts anyway, even if the tests fail
       uses: actions/upload-artifact@v4
