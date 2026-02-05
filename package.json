@@ -8,8 +8,8 @@
   ],
   "scripts": {
     "env:setup": "cp default.env .env",
-    "up": "docker compose -f docker-compose.dev.yml -f docker-compose.yml up -d",
-    "up:test": "docker compose up -d",
+    "up": "docker compose pull && docker compose -f docker-compose.dev.yml -f docker-compose.yml up -d",
+    "up:test": "docker compose pull && docker compose up -d",
     "down": "docker compose down",
     "logs": "docker compose logs -f prestashop",
     "clean:cypress": "rimraf ./e2e-cypress/cypress/videos/* && rimraf ./e2e-cypress/cypress/screenshots/*",

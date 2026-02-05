@@ -6,7 +6,7 @@ services:
       MYSQL_ROOT_PASSWORD: admin
       MYSQL_DATABASE: prestashop
   prestashop:
-    image: ${PRESTA_IMG:-prestashop/prestashop:9.0.2}
+    image: ${PRESTA_IMG:-prestashop/prestashop:9.0.3}
     restart: unless-stopped
     depends_on:
       - mysql
