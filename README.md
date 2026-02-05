@@ -1,47 +1,89 @@
 # PrestaShop Dev-Environment
 
-## Basic commands
+## 1 Requirements
 
-```docker compose -f docker-compose.dev.yml -f docker-compose.yml up -d``` or ```npm run up``` to start environment.
+***Will not run without:***
 
-```docker compose up -d``` or ```npm run up:test``` to start environment in testing mode. No automated integration of module an no storage of data in disk.
+ * Docker - Version ^29.2.0
 
- ```docker compose exec prestashop rm -R /var/www/html/install``` or ```npm run rm:install``` to remove install folder (needed since version 9.0.1 of Prestashop after installation is finshed to access admin section)
+## 2 Recommended
 
-```docker compose logs -f``` or ```npm run logs``` to float console output of docker environment.
+*Without these dependencies you've got to run provided docker commands*
 
-```docker compose down``` or ```npm run down``` to stop environment.
+ * Node - Version ^22.19.0
+ * NPM - Version ^11.6.2
 
-```npm run clean``` delete environment (may need ```sudo``` - depending on Docker configuration)
+## 3 Setup development environment
 
-```npm run test``` will run Cypress (E2E) tests. Make shure prestashop is available on [http://localhost:8080](http://localhost:8080)
+### 3.1 Quickstart
 
+ 1. **Run** ```npm install```
+ 2. **Run** ```npm run composer:update```
+ 3. ***Optioal*** ```npm env:setup``` *(make changes to ```.env``` file if needed)*
+ 4. **Run** ```npm run up```
+ 5. **Run** ```npm run logs``` and wait for webserver to be running (message in console)
+ 6. **Run** ```npm run rm:install```
+ 7. Development environment is now running. You can access [Frontend](http://localhost:8080) or [Backend](http://localhost:8080/admin_xxx)
 
-## URLs
+### 3.2 Quickstart - Build Zip
+
+ 1. **Run** ```npm install```
+ 2. **Run** ```npm run composer:install```
+ 3. ***Optioal*** ```npm env:setup``` *(make changes to ```.env``` file if needed)*
+ 4. Zip folder ```ipgcheckout``` to ```ipgcheckout.zip``` (for example with ```npm run zip``` on Linux)
+
+## 3.3 Basic commands
+
+| NPM command | docker command | Description |
+| :--------- | -------------- | ----------: |
+| ```npm run up``` | ```docker compose -f docker-compose.dev.yml -f docker-compose.yml up -d``` | Starts containers persiting data to /data folder. **Development is mounted directly into this container**. Used for development. |
+| ```npm run up:test``` | ```docker compose up -d``` | Runs containers **without** persitance (no data are put to disk). Used to e2e testing. **Development is not mounted to environment** |
+| ```npm run logs``` | ```docker compose logs -f prestashop``` | Logs output of prestashop container to console. |
+| ```npm run rm:install``` | ```docker compose exec prestashop rm -R /var/www/html/install``` | Removed install folder. Needed to enter backend since Prestashop 9.0.2. Execte after setup. |
+| ```npm run down``` | ```docker compose down``` | Stops and removes containers. **If you're using ```npm run up:test``` all data will be lost.**  |
+| ```npm run clean``` | ***Not available*** | Removes ```/data``` and ```/ipgcheckout/vendor``` causing data loss. An resetting plattform. May need ```sudo``` |
+| ```npm run test``` | ***Not available*** | Runs e2e tests. Needs untouched ```npm run up:test``` to be running|
+| ```npm run cypress:open``` | ***Not available*** | Runs e2e testing tool (Cypress). Needs untouched ```npm run up:test``` to be running|
+| ```npm run zip``` | ***Not available*** | Creates ipgcheckout.zip for production usage **(ONLY on Linux)**|
+
+## 3.4 URLs
 
 Frontend: [http://localhost:8080](http://localhost:8080)
 
 Backend: [http://localhost:8080/admin_xxx](http://localhost:8080/admin_xxx)
 
-## Credentials and configuration
+## 3.5 Credentials and configuration
 
 | Field     | Value           |
 | :-------- | --------------: |
 | Username  | admin@admin.com |
 | Password  | admin123        |
 
-## .env
+## 3.6 .env
 
 If ```.env``` is present the values of ```PS_COUNTRY``` and ```PS_LANGUAGE``` can be overwirtten. This causes prestashop to pull a different country and language during installation.
 
-An example if ```.env``` is provided as ```default.env```. ```.env``` is placed in ```.gitignore```.
+An example for ```.env``` is provided as ```default.env```. ```.env``` is placed in ```.gitignore```.
 
-| Field       | Default value |
-| :---------- | ------------: |
-| PS_COUNTRY  | fr            |
-| PS_LANGUAGE | en            |
+| Field        | Default value               | *Other possible values*            |
+| :----------- | --------------------------- | ---------------------------------: |
+| PS_COUNTRY   | fr                          | GB, DE, IE, ...                    |
+| PS_LANGUAGE  | en                          | de, fr, es, ...                    |
+| PRESTA_IMG   | prestashop/prestashop:9.0.2 | ***Other available Docker Image*** |
+| MYSQL_IMG    | mysql:5.7                   | ***Other available Docker Image*** |
+| COMPOSER_IMG | composer:2.9.5              | ***Other available Docker Image*** |
 
-## Install with zip file
+## 3.7 Additional documentation
+
+[Architecture](documentation/architecture/README.md)
+
+[Checkout](documentation/checkout/README.md)
+
+[Credetials checking](documentation/credentials/README.md)
+
+[Refund](documentation/refund/README.md)
+
+## 2 Install with zip file
 
 1. Login into Backend 
    1. Go to login page (your provider or admin has provided)
@@ -74,54 +116,3 @@ An example if ```.env``` is provided as ```default.env```. ```.env``` is placed 
    ![Payment preferences country restrictions](./documentation/assets/14-Payment-preferences-country-restrictions.png)
    ![Payment preferences carrier restrictions](./documentation/assets/15-Payment-preferences-carrier-restrictions.png)
 7. __Done__
-
-## Overview
-
-![Component overview](./documentation/assets/overview.drawio.svg)
-
-## Flows
-
-![Component overview](./documentation/assets/architecture-flow.drawio.svg)
-![Sequence overview](./documentation/assets/sequence-flow.drawio.svg)
-
-### 1 Customer selects a IPGCheckout payment option
-
-Customer selecting an IPGCheckout payment methode for payment.
-
-### 2 Frontend Controller: controllers/front/pay.php
-
-Customer is forwarded to ```/modules/ipgcheckout/pay?option={option}``` where ```option``` is limited to ```applepay```, ```googlepay```, ```cards```, ```bizum``` and ```generic```. Any other ```option``` will be interperted as ```generic```.
-
-[IPG Checkout service documentation](https://docs.fiserv.dev/public/reference/postcheckouts) is used to create payment link.
-
-Customer is forwarded to payment link automatically.
-
-TBD: Request example
-
-### 3 IPG Checkout page provided by IPG Checkout in response
-
-__Out of IPGCheckout scope__
-
-Customer is doing his stuff on payment page.
-
-### 4 IPG Checkout specific behavior
-
-__Out of IPGCheckout scope__
-
-IPG is doing some magic.
-
-### 5 Frontend Controller: controllers/front/success.php
-
-On Success IPG is redirecting to this controller. The controller checks with (Checkout Solution)[https://docs.fiserv.dev/public/reference/get-checkouts-id] if payment was completed. If webhook was called before by IPG it's checking anyway.
-
-### 6 Prestashop order completed page
-
-Customer is redirected to ```order completed``` page.
-
-__END__
-
-### 7 Frontend Controller: controllers/front/payError.php
-
-On error IPG is redirecting to this controller. Problems are prompted to Prestashop logs and the customer gets a message than an error occured
-
-__END__

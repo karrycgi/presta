@@ -2,6 +2,8 @@ const { defineConfig } = require("cypress");
 
 module.exports = defineConfig({
   e2e: {
+    requestTimeout: 60 * 1000,
+    defaultCommandTimeout: 60 * 1000,
     setupNodeEvents(on, config) {
       on('before:browser:launch', (browser = {}, launchOptions) => {
         // Set the desired screen resolution for headless mode

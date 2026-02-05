@@ -1,0 +1,59 @@
+name: Create release
+
+on:
+  workflow_dispatch:
+  push:
+    tags:
+      - "v*.*.*"
+
+permissions:
+  contents: write
+  discussions: write
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        node-version: [22.x]
+    steps:
+    - name: Checkout
+      uses: actions/checkout@v6
+    - name: Use Node.js ${{ matrix.node-version }}
+      uses: actions/setup-node@v4
+      with:
+        node-version: ${{ matrix.node-version }}
+        cache: 'npm'
+    - name: Install Node.js dependencies
+      run: npm ci
+    - name: Install PHP dependencies with Composer
+      run: npm run composer:install
+    - name: Build zip
+      run: npm run zip
+    - name: Start containers
+      run: npm run up:test
+    - name: Wait 60 seconds for services to be ready
+      run: sleep 60
+    - name: Remove install folder in container
+      run: npm run rm:install
+    - name: Start e2e testing
+      run: npm run test
+    - name: Export zip
+      if: always() # Upload artifacts anyway, even if the tests fail
+      uses: actions/upload-artifact@v4
+      with:
+        name: Zip
+        path: ipgcheckout.zip
+    - name: Upload Screenshots and Video
+      if: always() # Upload artifacts anyway, even if the tests fail
+      uses: actions/upload-artifact@v4
+      with:
+        name: TestVisuals
+        path: |
+          e2e-cypress/cypress/screenshots/
+          e2e-cypress/cypress/videos/
+    - name: Release
+      uses: softprops/action-gh-release@v2
+      if: github.ref_type == 'tag'
+      with:
+        files: ipgcheckout.zip

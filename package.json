@@ -7,6 +7,7 @@
     "e2e-cypress"
   ],
   "scripts": {
+    "env:setup": "cp default.env .env",
     "up": "docker compose -f docker-compose.dev.yml -f docker-compose.yml up -d",
     "up:test": "docker compose up -d",
     "down": "docker compose down",
@@ -18,8 +19,11 @@
     "clean:data": "rimraf ./data/*",
     "clean:vendor": "rimraf ./ipgcheckout/vendor",
     "rm:install": "docker compose exec prestashop rm -R /var/www/html/install",
-    "composer:update": "docker run -v ./ipgcheckout:/app composer update",
-    "composer:install": "docker run -v ./ipgcheckout:/app composer install --no-dev"
+    "composer:install": "docker compose run --remove-orphans --build composer install --no-dev",
+    "composer:install:dev": "docker compose run --remove-orphans --build composer install",
+    "composer:update":  "docker compose run --remove-orphans --build composer update",
+    "composer:version": "docker compose run --remove-orphans --build composer --version",
+    "zip": "npm run composer:install && zip -r ipgcheckout.zip ipgcheckout && npm run composer:install:dev"
   },
   "dependencies": {
     "rimraf": "^6.0.1"
