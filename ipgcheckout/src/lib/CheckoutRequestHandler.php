@@ -4,7 +4,7 @@ require_once dirname(__FILE__) . '/../../vendor/autoload.php';
 class CheckoutRequestHandler extends RequestHandler
 {
     const SHOPPLUGIN_HEADER_FIELD = 'x-shopplugin';
-    const SHOPPLUGIN_VALUE = 'fiserv_prestashop_1.0.0';
+    const SHOPPLUGIN_VALUE = 'fiserv_prestashop_1.0.1';
     const USER_AGENT = 'IPGCheckout/1.0 Prestashop/'._PS_VERSION_.' PHP/'.PHP_VERSION;
     public static function getInstance(): CheckoutRequestHandler
     {

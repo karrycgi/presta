@@ -2,7 +2,7 @@
 <module>
     <name>ipgcheckout</name>
     <displayName><![CDATA[IPG Checkout]]></displayName>
-    <version><![CDATA[1.0.0]]></version>
+    <version><![CDATA[1.0.1]]></version>
     <description><![CDATA[IPG Checkout]]></description>
     <author><![CDATA[Fiserv]]></author>
     <tab><![CDATA[payments_gateways]]></tab>
