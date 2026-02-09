@@ -93,7 +93,8 @@ class IPGCheckout extends PaymentModule
                         'label' => $this->trans('API Secret', [], 'Modules.Ipgcheckout.Admin'),
                         'name' => IPGCheckout::SECRET_KEY,
                         'size' => 20,
-                        'required' => true
+                        'required' => true,                     
+                        'class' => 'masked'
                     ],
                     [
                         'type' => 'select',
@@ -421,6 +422,13 @@ class IPGCheckout extends PaymentModule
             return $this->displayError($this->trans("Refund failed! Created Credit Slip was removed. Manual treatment mighty be necessary!", [], 'Modules.Ipgcheckout.Admin'));
         }
     }
+    
+    public function hookDisplayBackOfficeHeader($params)
+    {
+        if (Tools::getValue('configure') === $this->name) {
+            $this->context->controller->addCSS($this->_path . 'views/css/admin.css');
+        }
+    }
 
     public function hookDisplayAdminOrderSideBottom($params)
     {
@@ -456,6 +464,7 @@ class IPGCheckout extends PaymentModule
             && $this->registerHook('actionOrderSlipAdd')
             && $this->registerHook('displayAdminOrderSideBottom')
             && $this->registerHook('displayAdminOrderTop')
+            && $this->registerHook('displayBackOfficeHeader')
             && Configuration::updateValue(IPGCheckout::NAME_KEY, IPGCheckout::NAME)
             && Configuration::updateValue(IPGCheckout::STORE_ID_KEY, IPGCheckout::STORE_ID)
             && Configuration::updateValue(IPGCheckout::API_KEY_KEY, IPGCheckout::API_KEY)
@@ -478,6 +487,7 @@ class IPGCheckout extends PaymentModule
             && $this->unregisterHook('actionOrderSlipAdd')
             && $this->unregisterHook('displayAdminOrderSideBottom')
             && $this->unregisterHook('displayAdminOrderTop')
+            && $this->unregisterHook('displayBackOfficeHeader')
             && Configuration::deleteByName(IPGCheckout::NAME_KEY)
             && Configuration::deleteByName(IPGCheckout::STORE_ID_KEY)
             && Configuration::deleteByName(IPGCheckout::API_KEY_KEY)
