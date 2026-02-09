@@ -69,7 +69,7 @@ An example for ```.env``` is provided as ```default.env```. ```.env``` is placed
 | :----------- | --------------------------- | ---------------------------------: |
 | PS_COUNTRY   | fr                          | GB, DE, IE, ...                    |
 | PS_LANGUAGE  | en                          | de, fr, es, ...                    |
-| PRESTA_IMG   | prestashop/prestashop:9.0.2 | ***Other available Docker Image*** |
+| PRESTA_IMG   | prestashop/prestashop:9.0.3 | ***Other available Docker Image*** |
 | MYSQL_IMG    | mysql:5.7                   | ***Other available Docker Image*** |
 | COMPOSER_IMG | composer:2.9.5              | ***Other available Docker Image*** |
 
