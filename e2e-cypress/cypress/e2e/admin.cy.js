@@ -5,7 +5,6 @@ describe('PrestaShop Back Office Login', () => {
     const password = 'admin123'; // !! REPLACE THIS WITH YOUR PASSWORD !!
 
     beforeEach(() => {
-        //cy.viewport(1920, 1080);
         cy.visit(adminUrlPath);
         cy.get('#email').should('be.visible').type(username);
         cy.get('#passwd').should('be.visible').type(password);
@@ -24,24 +23,16 @@ describe('PrestaShop Back Office Login', () => {
         cy.get('#subtab-AdminParentModulesSf').should('be.visible').click();
         cy.get('#subtab-AdminModulesSf').should('be.visible').click();
         cy.get('#page-header-desc-configuration-add_module').should('be.visible').click();
-        cy.wait(1000);
         cy.get('#importDropzone').should('be.visible').selectFile(__dirname + '/../../../ipgcheckout.zip', { action: 'drag-drop' });
-        //cy.wait(9000);
         cy.get('#importDropzone > div.module-import-success > a').should('be.visible').click();
-        cy.wait(1000);
     });
 
     it('Uninstall IPG Checkout', () => {
         cy.get('#subtab-AdminParentModulesSf').should('be.visible').click();
-        cy.wait(1000);
         cy.get('#subtab-AdminModulesSf').should('be.visible').click();
         cy.get('[data-tech-name="ipgcheckout"] .btn-group.module-actions button.dropdown-toggle-split').click();
-        cy.wait(1000);
         cy.get('[data-confirm_modal="module-modal-confirm-ipgcheckout-uninstall"]').click();
-        cy.wait(1000);
         cy.get('#force_deletion[data-tech-name="ipgcheckout"]').click();
-        cy.wait(1000);
         cy.get('#module-modal-confirm-ipgcheckout-uninstall > div > div > div.modal-footer > a').click();
-        cy.wait(10000);
-    })
+    });
 });
