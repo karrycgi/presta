@@ -50,7 +50,6 @@ jobs:
       with:
         name: TestVisuals
         path: |
-          e2e-cypress/cypress/screenshots/
           e2e-cypress/cypress/videos/
     - name: Release
       uses: softprops/action-gh-release@v2

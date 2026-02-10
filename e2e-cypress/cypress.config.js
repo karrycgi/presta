@@ -2,6 +2,7 @@ const { defineConfig } = require("cypress");
 
 module.exports = defineConfig({
   e2e: {
+    baseUrl: 'http://localhost:8080',
     requestTimeout: 60 * 1000,
     defaultCommandTimeout: 60 * 1000,
     setupNodeEvents(on, config) {
