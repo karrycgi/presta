@@ -1,12 +1,20 @@
 services:
   mysql:
-    image: ${MYSQL_IMG:-mysql:5.7}
+    build:
+      context: .
+      dockerfile_inline: |
+        FROM ${MYSQL_IMG:-mysql:5.7}
     restart: unless-stopped
     environment:
       MYSQL_ROOT_PASSWORD: admin
       MYSQL_DATABASE: prestashop
   prestashop:
-    image: ${PRESTA_IMG:-prestashop/prestashop:9.0.3}
+    build:
+      context: .
+      dockerfile_inline: |
+        FROM ${PRESTA_IMG:-prestashop/prestashop:9.0.3}
+        # COPY <TBD>.pem /usr/local/share/ca-certificates/<TBD>.crt
+        # RUN update-ca-certificates
     restart: unless-stopped
     depends_on:
       - mysql
@@ -30,6 +38,8 @@ services:
       context: .
       dockerfile_inline: |
         FROM ${COMPOSER_IMG:-composer:2.9.5}
+        # COPY <TBD>.pem /usr/local/share/ca-certificates/<TBD>.crt
+        # RUN update-ca-certificates
         WORKDIR /app
       args:
         COMPOSER_IMG: ${COMPOSER_IMG:-composer:2.9.5}
