@@ -3,5 +3,9 @@ data
 node_modules
 vendor
 
+# Ignore certs
+*.pem
+*.crt
+
 e2e-cypress/cypress/videos
 e2e-cypress/cypress/screenshots

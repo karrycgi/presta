@@ -13,6 +13,7 @@ use PrestaShop\PrestaShop\Core\Payment\PaymentOption;
 class IPGCheckout extends PaymentModule
 {
     const NAME = "ipgcheckout";
+    const VERSION = "1.0.1";
     public const NAME_KEY = "IPG_CHECKOUT_NAME";
     const STORE_ID = "";
     public const STORE_ID_KEY = "IPG_CHECKOUT_STORE_ID";
@@ -34,7 +35,7 @@ class IPGCheckout extends PaymentModule
     {
         $this->name = IPGCheckout::NAME;
         $this->tab = 'payments_gateways';
-        $this->version = '1.0.0';
+        $this->version = IPGCheckout::VERSION;
         $this->author = 'Fiserv';
         $this->need_instance = 1;
         $this->is_configurable = 1;

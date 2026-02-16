@@ -2,10 +2,8 @@ name: e2e testing
 
 on:
   workflow_dispatch:
-  push:
-    branches: [ "master" ]
   pull_request:
-    branches: [ "master" ]
+    branches: [ "master", "release/*" ]
 
 jobs:
   build:

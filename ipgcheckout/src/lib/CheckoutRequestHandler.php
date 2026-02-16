@@ -4,7 +4,7 @@ require_once dirname(__FILE__) . '/../../vendor/autoload.php';
 class CheckoutRequestHandler extends RequestHandler
 {
     const SHOPPLUGIN_HEADER_FIELD = 'x-shopplugin';
-    const SHOPPLUGIN_VALUE = 'fiserv_prestashop_1.0.0';
+    const SHOPPLUGIN_VALUE = 'fiserv_prestashop_'.IPGCheckout::VERSION;
     const USER_AGENT = 'IPGCheckout/1.0 Prestashop/'._PS_VERSION_.' PHP/'.PHP_VERSION;
     public static function getInstance(): CheckoutRequestHandler
     {
@@ -53,6 +53,8 @@ class CheckoutRequestHandler extends RequestHandler
 
         $customer = new Customer((int) $cart->id_customer);
         $address = new Address((int) $cart->id_address_invoice);
+        $language = new Language((int) $cart->id_lang);
+        $formatted_locale = str_replace('-', '_', $language->locale);
 
         $obj = [
             "storeId" => $this->storeId,
@@ -97,6 +99,7 @@ class CheckoutRequestHandler extends RequestHandler
                 ]
             ],
             "checkoutSettings" => [
+                "locale" => $formatted_locale,
                 "preSelectedPaymentMethod" => $paymentMethode == "generic" ? null : $paymentMethode,
                 "webHooksUrl" => $webHooksUrl . "?id=" . $cart->id,
                 "redirectBackUrls" => [
